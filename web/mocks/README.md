@@ -1,56 +1,46 @@
-# Frontend mocks and thresholds
+# Scenario mocks and thresholds
 
-Dummy data for every use case we know of, so screens can be built and tested before the engine is wired in.
+An add-on to Roh's foundation (FE-01) for testing every use case before the engine is wired. It changes none of Roh's files; it only adds new ones.
 
 | File | What |
 | --- | --- |
-| `lib/contracts.ts` | Zod schemas mirroring `engine/contracts.py` (from the `tyler` branch) |
-| `lib/thresholds.ts` | Every UI threshold: clear/tight/storm, "1 in N", storm lead days, Storm mode, buffer bands, calm offer, 48 h delay |
-| `mocks/scenarios.ts` | Source of truth for all dummy data and the named app scenarios |
-| `lib/mockApi.ts` | In-memory fake engine with the same endpoints; latency and error injection |
-| `mocks/*.json` | Plain JSON exports (`npm run mocks:export`) |
-| `tests/mocks.test.ts` | Threshold edges, spec demo figures, contract validity, mock API behaviour |
+| `mocks/scenarios.ts` | 31 named scenarios. `demo` **is** `forecast.json`, `rewind.json` and `settings.json`; the rest are variations |
+| `lib/thresholds.ts` | Threshold decisions: weather rule, storm warning lead time, Storm mode, buffer band, calm offer. Wording stays in `lib/format.ts` |
+| `lib/mockApi.ts` | Scenario-aware fake engine. `forecast`, `rewind` and `settings` match `api` in `lib/api.ts`; it adds `me`, `pact`, `parsePact`, `explain`, `moveToBuffer`… with latency and error injection |
+| `app/dev/scenarios/page.tsx` | The switcher |
+| `/web-tests` (repo root) | 91 checks. Kept outside `web/` so `web/package.json` stays Roh's |
+
+## Use it
+
+```bash
+cd web && npm install && npm run dev      # http://localhost:3000/dev/scenarios
+cd web-tests && npm install && npm test   # needs web/node_modules for zod
+```
+
+Scenario order: `?scenario=<name>` in any URL, then the one picked on `/dev/scenarios` (saved in your browser), then `NEXT_PUBLIC_MOCK_SCENARIO`, then `demo`.
 
 ## Thresholds (same as the engine)
 
-| p_shortfall | state | UI word |
+| p_shortfall | engine `state` | UI word |
 | --- | --- | --- |
-| < 0.10 | `clear` | fine |
-| 0.10 to `storm_threshold` (default 0.30, inclusive) | `cloudy` | tight |
-| > `storm_threshold` | `storm` | storm |
+| under 0.10 | `clear` | fine |
+| 0.10 to `storm_threshold` (0.30, inclusive) | `cloudy` | tight |
+| over `storm_threshold` | `storm` | storm |
 
-- "1 in N" = `round(1 / p)`, at least 2; 0 → no chance shown; ≥ 0.95 → "almost certain".
-- Storm card / warning: first storm within `storm_lead_days` (14, 7, or 0 = on the day only).
-- Storm mode: the storm is today or tomorrow.
-- Safety buffer tile: 0 days empty, under 7 low, under 14 ok, 14 or more good.
-- Support: mood `worried` and calm mode off → show the calm mode offer.
-- The UI shows the engine's `state`; it never recomputes it (see the `boundaries_sensitive` scenario).
+Still to confirm with the team (see `docs/decisions/0001-data-contract.md`):
+- Storm mode takes over when the storm is today or tomorrow.
+- Buffer band: 0 empty, under 7 low, under 14 ok, 14+ good.
+- Calm offer: shown when mood is `worried` and calm mode is off.
 
-## Pick a scenario
+## Scenarios
 
-Run `npm run dev` and open **http://localhost:3000/dev/scenarios**. Click a scenario to see what every endpoint returns and what each screen should decide (hero state, storm card, Storm mode, buffer band, best action, calm offer), plus all 60 days and the raw JSON. The choice is saved in your browser, so every screen built on `mockApi` uses it.
-
-Order of precedence: `?scenario=<name>` in the URL, then the choice saved on `/dev/scenarios`, then `NEXT_PUBLIC_MOCK_SCENARIO=<name>`, then `demo`. Unknown names fall back to `demo`.
-
-`demo`, `demo_after_buffer`, `all_clear`, `tight_only`, `storm_mode`, `storm_today`, `storm_far_lead14`, `storm_in_7_lead7`, `storm_in_7_lead0`, `two_storms`, `boundaries`, `boundaries_sensitive`, `all_driver_kinds`, `storm_no_drivers`, `short_horizon`, `wealthy`, `new_user`, `drafts`, `pending_change`, `worried`, `calm_mode`, `detailed`, `translated_rtl`, `colour_blind`, `high_contrast`, `bank_disconnected`, `slow`, `offline`, `forecast_500`, `explain_fails`, `parse_rejects`, `logged_out`
-
-Each scenario's one-line note is in `APP_SCENARIOS`, and `listScenarios()` returns them for a `/dev/scenarios` picker.
-
-## Use in a screen
-
-```ts
-import { mockApi } from "@/lib/mockApi";
-const forecast = await mockApi.getForecast(); // Zod-validated Forecast
-```
-
-`web/lib/api.ts` should export the same function names, so `USE_MOCKS=true` can swap between them.
-
-## Run
-
-```bash
-cd web && npm install
-npm run dev     # http://localhost:3000/dev/scenarios
-npm test        # 96 checks
-```
-
-`web/` is a minimal Next.js 15 app (App Router, no Tailwind yet) so the switcher can run. `app/layout.tsx`, `app/page.tsx` and `app/globals.css` are placeholders for the design team to replace; keep the token names in `globals.css`.
+| Group | Names |
+| --- | --- |
+| Demo path | `demo`, `demo_after_buffer`, `storm_mode` |
+| Weather states | `all_clear`, `tight_only`, `storm_today`, `two_storms` |
+| Warning lead time | `storm_far`, `storm_in_7_lead7`, `storm_in_7_lead0` |
+| Threshold edges | `boundaries`, `boundaries_sensitive` |
+| Data edge cases | `all_driver_kinds`, `storm_no_drivers`, `wealthy` |
+| People and settings | `new_user`, `worried`, `calm_mode`, `detailed`, `translated_rtl`, `colour_blind`, `high_contrast`, `bank_disconnected` |
+| Pact rules | `drafts`, `no_rules`, `parse_rejects` |
+| Loading and errors | `slow`, `offline`, `forecast_500`, `explain_fails`, `logged_out` |
