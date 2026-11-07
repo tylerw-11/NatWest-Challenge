@@ -15,6 +15,20 @@ const fmt = (iso: string, o: Intl.DateTimeFormatOptions) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { ...o, timeZone: "UTC" });
 
 /** The same fact at three reading levels, all from the forecast. */
+/**
+ * A new person has no forecast until step 3, so these show the three levels without figures
+ * (every number on screen must come from the engine).
+ */
+const GENERIC: { level: ReadingLevel; label: string; text: string }[] = [
+  { level: "simple", label: "Simple", text: "You're fine this week." },
+  { level: "clear", label: "Clear", text: "You're covered this week. Next week may be tight." },
+  {
+    level: "detailed",
+    label: "Detailed",
+    text: "Your balance is likely to stay above £0 this week. Next week has a higher chance of going short.",
+  },
+];
+
 function examples(f: Forecast): { level: ReadingLevel; label: string; text: string }[] {
   const until = f.covered_until;
   const p = f.days.find((d) => d.date === until)?.p_shortfall ?? 0;
@@ -59,8 +73,7 @@ export default function SignupStep2() {
 
       <fieldset className="flex flex-col gap-3">
         <legend className="mb-3 text-[18px] font-bold">Pick the one that reads best</legend>
-        {forecast.data &&
-          examples(forecast.data).map((e) => {
+        {(forecast.data ? examples(forecast.data) : forecast.isPending ? [] : GENERIC).map((e) => {
             const on = s?.reading_level === e.level;
             return (
               <label

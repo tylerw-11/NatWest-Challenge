@@ -22,7 +22,8 @@ External sources of truth (they override the skills), linked in `docs/LINKS.md`:
 ## Commands
 
 ```bash
-uvicorn engine.main:app --reload   # engine (FastAPI), from repo root (T1 chose this; see engine/main.py)
+uvicorn engine.main:app --reload --env-file .env   # engine, from repo root; live setup in docs/integration.md
+python scripts/dry_run.py --runs 2 # the demo twice + a real person, against a running engine
 cd web && npm run dev              # web (Next.js)
 pip install -r requirements.txt    # engine deps, incl. pytest (repo root)
 python -m pytest engine/tests -q   # engine: demo flow, invariants, contract snapshot, benchmarks
@@ -42,6 +43,8 @@ Two apps sharing one set of JSON contracts:
 - **`/web`**: Next.js App Router, one route per screen, Tailwind plus shadcn/ui, TanStack Query (`lib/hooks.ts`) over typed fetch helpers (`lib/api.ts`) validated with Zod (`lib/contracts.ts`). Screens are composed of typed `UIBlock`s, never chat transcripts. Charts are hand-built SVG.
 - **Mocks and thresholds**: `web/mocks/*.json` hold the exact demo figures. `web/mocks/scenarios.ts` builds 34 test scenarios on top of them, served by `web/lib/mockApi.ts`. With `USE_MOCKS=true` the app runs the staged demo in `lib/mock-store.ts`; when a non-demo scenario is chosen on `/dev/scenarios` or with `?scenario=<name>`, `lib/api.ts` serves the read calls from `mockApi` instead (press "Demo" there before recording the video). Threshold decisions (storm warning lead time, Storm mode, buffer band, calm offer) live in `web/lib/thresholds.ts`; wording ("1 in N", fine/tight/storm) lives in `web/lib/format.ts`. Add a scenario there rather than editing the demo JSON.
 - **Contracts**: `engine/contracts.py` (Pydantic) mirrors `web/lib/contracts.ts` (Zod). A type change updates both files and the affected mock in `web/mocks` in one commit prefixed `contract:`. After 15:00 on demo day, add fields instead of renaming them. `engine/tests/test_demo_contract.py` snapshots real engine responses and `web-tests/engine-contract.test.ts` parses them with the Zod contracts, so a drift fails the tests.
+- **Real users**: email codes (`/auth/code/*`, SMTP or `PACT_DEV_CODES` test mode), passkeys (`/auth/passkey/*`, WebAuthn) and `PUT /profile` give a real person their own forecast from today. Amara (`/auth/demo`) stays the scripted demo. Read-aloud uses an ElevenLabs voice (`POST /speech`, `engine/speech.py`) whose tone follows calm mode, mood and storm state; the key stays in `.env` on the engine, clips are cached, and a character budget falls back to the browser voice. See `docs/integration.md`.
+- **Translation**: 70 languages (`web/lib/languages.ts`, `web/lib/i18n.ts`, written by Claude and needing a native-speaker check); `<Translated>` shows the line beside the English with `lang` and `dir`.
 - **Demo state**: `POST /auth/demo` (the "Continue as Amara" link) resets the demo, and `GET /forecast` remembers a confirmed `POST /actions/move-to-buffer`, so demo step 7 works and the demo can run twice in a row.
 - **Claude's role**: it parses free-text pacts into `PactRule`s (tool use, closed action list) and explains forecasts as `hero`/`tip` blocks. It never computes numbers. A post-check rejects any figure absent from the inputs. Names and account numbers are stripped before every request. Responses are cached by (forecast_id, reading_level, translation).
 

@@ -13,6 +13,7 @@ Pact is a money forecast in which your past self protects your future self. It s
 | Frontend plan (features FE-01 to FE-13) | `docs/plans/frontend-plan.md` |
 | Team decisions (data contract, which engine, merge order) | `docs/decisions/` |
 | Speed budgets and latest timings | `docs/benchmarks.md` |
+| Running live: real login (email code, Face ID), a real person's numbers, the ElevenLabs voice | `docs/integration.md` |
 | Dev pages: tokens, components, mock scenarios | `/dev/tokens`, `/dev/components`, `/dev/scenarios` |
 
 ## Repo layout
@@ -45,7 +46,7 @@ web-tests/        vitest checks for web/: mocks, thresholds, and the engine's re
 
 ```bash
 # backend: http://localhost:8000 (API docs at /docs). Run from the repo root.
-pip install -r requirements.txt && uvicorn engine.main:app --reload
+pip install -r requirements.txt && uvicorn engine.main:app --reload --env-file .env
 
 # frontend: http://localhost:3000, with mock scenarios at /dev/scenarios
 cd web && npm install && npm run dev
@@ -61,6 +62,8 @@ cd web && npm run lint && npx tsc --noEmit && npm run build
 cd web-tests && npm install && npm test   # mocks, thresholds, engine responses vs web contracts
 cd web-tests && npm run bench             # frontend timings (see docs/benchmarks.md)
 ```
+
+`python scripts/dry_run.py --runs 2` runs the seven-step demo twice, plus a new real person, against a running engine (see `docs/integration.md`).
 
 Run `pytest` before `web-tests`: it writes `web-tests/fixtures/engine-responses.json`, the real engine responses that the web tests check against `web/lib/contracts.ts`.
 

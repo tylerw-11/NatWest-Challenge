@@ -34,6 +34,7 @@ def init_db() -> None:
         CREATE TABLE IF NOT EXISTS bank_connections(id TEXT PRIMARY KEY, user_id TEXT NOT NULL, provider TEXT, consent_expires_at TEXT, status TEXT);
         CREATE TABLE IF NOT EXISTS profiles(user_id TEXT PRIMARY KEY REFERENCES users(id), value TEXT NOT NULL, updated_at TEXT NOT NULL);
         CREATE TABLE IF NOT EXISTS webauthn_challenges(challenge TEXT PRIMARY KEY, kind TEXT NOT NULL, user_id TEXT, expires_at TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS speech_usage(day TEXT PRIMARY KEY, chars INTEGER NOT NULL DEFAULT 0);
         """)
         if "duration_s" not in {row["name"] for row in db.execute("PRAGMA table_info(pact_notes)")}:
             db.execute("ALTER TABLE pact_notes ADD COLUMN duration_s REAL DEFAULT 0")

@@ -1,8 +1,11 @@
-from fastapi import APIRouter, Cookie, Depends
+from typing import Any
+
+from fastapi import APIRouter, Body, Cookie, Depends
+from pydantic import ValidationError
 
 from ..contracts import Settings, TextInput
 from ..database import connect
-from ..dependencies import current_user, settings_for
+from ..dependencies import current_user, fail, settings_for
 from datetime import datetime, timezone
 import secrets
 
@@ -37,10 +40,15 @@ def get_settings(user_id: str = Depends(current_user)):
 
 
 @router.put("/settings", response_model=Settings)
-def put_settings(body: Settings, user_id: str = Depends(current_user)):
+def put_settings(patch: dict[str, Any] = Body(...), user_id: str = Depends(current_user)):
+    """Merges the fields sent into the stored settings (the app sends only what changed)."""
+    try:
+        merged = Settings.model_validate({**settings_for(user_id).model_dump(mode="json"), **patch})
+    except ValidationError:
+        fail(422, "invalid_settings", "That setting isn't one Pact knows. Try again.")
     with connect() as db:
-        db.execute("INSERT INTO settings(user_id,value) VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET value=excluded.value", (user_id, body.model_dump_json()))
-    return body
+        db.execute("INSERT INTO settings(user_id,value) VALUES(?,?) ON CONFLICT(user_id) DO UPDATE SET value=excluded.value", (user_id, merged.model_dump_json()))
+    return merged
 
 
 @router.post("/support-needs", status_code=201)

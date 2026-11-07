@@ -21,6 +21,10 @@ Run from the repository root with `uvicorn engine.main:app --reload`. `GET /fore
 
 Run the pytest suite from the repository root with `.venv\Scripts\python.exe -m pytest engine\tests -q`. It also writes `web-tests/fixtures/engine-responses.json`, which the web tests parse with the frontend contracts.
 
+## Real users
+
+See `docs/integration.md`. In short: `POST /auth/code/request` and `/auth/code/verify` (6-digit email code), `/auth/passkey/{register,login}/{options,verify}` (WebAuthn passkeys), and `GET/PUT /profile` (a person's balance, pay and bills, which `GET /forecast` then forecasts from today). Settings come from `.env`: `SMTP_*`, `PACT_DEV_CODES`, `PACT_SECRET`, `PACT_RP_ID`, `FRONTEND_ORIGIN`, and `ELEVENLABS_*` for the read-aloud voice (`POST /speech`, `speech.py`).
+
 ## Demo behaviour (decision 0001)
 
 - `POST /auth/demo` seeds Amara: ally Jade (sister) and settings matching `web/mocks/settings.json`. She starts with no rules, as in `web/mocks/pact.json`: demo step 4 creates them with `POST /pact`. Each demo login also clears earlier buffer moves, so the seven-step demo can run twice in a row.

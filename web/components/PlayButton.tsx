@@ -24,7 +24,7 @@ export function PlayButton({
       type="button"
       aria-label={playing ? `Stop: ${label}` : label}
       aria-pressed={playing}
-      onClick={() => (playing ? stopSpeaking() : speak(text, id))}
+      onClick={() => (playing ? stopSpeaking() : speak(text, id, "en-GB", "note"))}
       className={cn(
         "ix ix-press-sm inline-flex shrink-0 items-center justify-center rounded-full text-on-primary",
         size === "lg" ? "size-14" : "size-12",

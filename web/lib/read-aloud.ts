@@ -1,7 +1,11 @@
 "use client";
 
 /**
- * Read-aloud with the browser speech synthesis API (pact-frontend).
+ * Read-aloud. First choice: the engine's ElevenLabs voice (POST /speech), whose tone follows the
+ * moment on screen (calm mode, mood, storm, rewind...; see engine/speech.py and voice-context.ts).
+ * Fallback: the browser speech synthesis API (pact-frontend), when the engine can't be reached,
+ * the voice isn't set up, the character budget is used up, or the request fails.
+ *
  * One thing speaks at a time; components subscribe with useSpeaking(id) to
  * show their "on" state. Text is chunked (Chrome stops long utterances), a
  * short pause follows cancel() (Chrome can drop an utterance spoken straight
@@ -9,6 +13,52 @@
  */
 import { useSyncExternalStore } from "react";
 import { toast } from "sonner";
+import { voiceContext, voiceLanguage, type VoiceKind } from "./voice-context";
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+/** NEXT_PUBLIC_VOICE=browser turns the ElevenLabs voice off (e.g. offline rehearsal). */
+const EXPRESSIVE = process.env.NEXT_PUBLIC_VOICE !== "browser";
+let audio: HTMLAudioElement | null = null;
+/** After the engine is unreachable or has no voice, stop trying for this page load. */
+let expressiveDown = false;
+
+/** Plays the ElevenLabs clip for this text. Resolves true if it is playing (or was superseded). */
+async function playExpressive(text: string, mine: number, kind: VoiceKind): Promise<boolean> {
+  if (!EXPRESSIVE || expressiveDown || typeof Audio === "undefined") return false;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 10_000);
+  try {
+    const res = await fetch(`${API_URL}/speech`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: text.slice(0, 4000), lang: voiceLanguage(), ...voiceContext(kind) }),
+      signal: controller.signal,
+    });
+    if (!res.ok) {
+      if (res.status === 503) expressiveDown = true; // no key on the engine
+      return false;
+    }
+    const blob = await res.blob();
+    if (mine !== session) return true;
+    const url = URL.createObjectURL(blob);
+    const clip = new Audio(url);
+    audio = clip;
+    const done = () => {
+      URL.revokeObjectURL(url);
+      if (audio === clip) audio = null;
+      if (mine === session) emit(null);
+    };
+    clip.onended = done;
+    clip.onerror = done;
+    await clip.play();
+    return true;
+  } catch (e) {
+    if (e instanceof TypeError) expressiveDown = true; // engine not running (e.g. mock-only demo)
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
 
 let currentId: string | null = null;
 let session = 0;
@@ -73,19 +123,29 @@ function chunks(text: string): string[] {
 
 export function stopSpeaking() {
   session++;
+  if (audio) {
+    audio.pause();
+    audio = null;
+  }
   if (canSpeak()) window.speechSynthesis.cancel();
   emit(null);
 }
 
-/** Speak text; `id` names who is speaking so its button can show "on". */
-export async function speak(text: string, id: string, lang = "en-GB"): Promise<void> {
-  if (!canSpeak()) {
-    toast("Reading aloud isn't available in this browser.");
-    return;
-  }
+/**
+ * Speak text; `id` names who is speaking so its button can show "on". `kind` tells the voice
+ * what it is reading: a screen, the person's own pact note, or a step that just helped.
+ */
+export async function speak(text: string, id: string, lang = "en-GB", kind: VoiceKind = "page"): Promise<void> {
   stopSpeaking();
   const mine = ++session;
   emit(id);
+  if (await playExpressive(text, mine, kind)) return;
+  if (mine !== session) return;
+  if (!canSpeak()) {
+    emit(null);
+    toast("Reading aloud isn't available in this browser.");
+    return;
+  }
   const voices = await voicesReady();
   if (mine !== session) return;
   if (!voices.length) {

@@ -25,6 +25,7 @@ import {
 } from "./contracts";
 import { ApiError } from "./errors";
 import { currentScenario, mockApi } from "./mockApi";
+import { rememberForecast, rememberSettings } from "./voice-context";
 import { getMockState, setMockState } from "./mock-store";
 import forecastMock from "@/mocks/forecast.json";
 import forecastSimulatedMock from "@/mocks/forecast_simulated.json";
@@ -45,6 +46,18 @@ const testScenario = () => USE_MOCKS && currentScenario().name !== "demo";
 
 const FALLBACK_ERROR = new ApiError("network", "We could not load this right now. Please try again.");
 
+/**
+ * Live engine only: a logged-out visitor goes to Log in, and a new person with no money
+ * details yet goes to Sign-up step 3. Pages on those flows never redirect themselves.
+ */
+function redirectFor(status: number, code: string) {
+  if (typeof window === "undefined") return;
+  const path = window.location.pathname;
+  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/dev")) return;
+  if (status === 401) window.location.assign("/login");
+  else if (code === "no_profile") window.location.assign("/signup/3");
+}
+
 async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
@@ -59,6 +72,7 @@ async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit
   const body: unknown = await res.json().catch(() => null);
   if (!res.ok) {
     const err = ApiErrorBody.safeParse(body);
+    if (err.success) redirectFor(res.status, err.data.code);
     throw err.success ? new ApiError(err.data.code, err.data.message_plain) : FALLBACK_ERROR;
   }
   const parsed = schema.safeParse(body);
@@ -99,7 +113,9 @@ export const api = {
   logout: () => (USE_MOCKS ? mock(Ok, null, 150) : request(Ok, "/auth/logout", { method: "POST" }).catch(() => null)),
 
   forecast: () =>
-    testScenario() ? mockApi.forecast() : USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast"),
+    (testScenario() ? mockApi.forecast() : USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast")).then(
+      rememberForecast,
+    ),
 
   /** Demo fast-forward: re-runs the forecast as of a date and fires confirmed rules. */
   simulate: (asOf: string) => {
@@ -119,18 +135,19 @@ export const api = {
   moveToBuffer: (amount_gbp: number) => {
     if (USE_MOCKS) {
       setMockState({ stage: "after_move" });
-      return mock(Forecast, stageForecast(), 400);
+      return mock(Forecast, stageForecast(), 400).then(rememberForecast);
     }
     // The button press is the confirmation (invariant 2); the engine refuses a move without it.
-    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp, confirmed: true }));
+    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp, confirmed: true })).then(rememberForecast);
   },
   rewind: () => (testScenario() ? mockApi.rewind() : USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
   settings: () =>
-    testScenario()
+    (testScenario()
       ? mockApi.settings()
       : USE_MOCKS
         ? mock(Settings, getMockState().settings)
-        : request(Settings, "/settings"),
+        : request(Settings, "/settings")
+    ).then(rememberSettings),
   me: () => (testScenario() ? mockApi.me() : USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),
 
   /** PUT /settings with the fields that changed. */
@@ -138,9 +155,9 @@ export const api = {
     if (USE_MOCKS) {
       const settings = { ...getMockState().settings, ...patch };
       setMockState({ settings });
-      return mock(Settings, settings, 60);
+      return mock(Settings, settings, 60).then(rememberSettings);
     }
-    return request(Settings, "/settings", { method: "PUT", body: JSON.stringify(patch) });
+    return request(Settings, "/settings", { method: "PUT", body: JSON.stringify(patch) }).then(rememberSettings);
   },
   pactRules: () =>
     testScenario()

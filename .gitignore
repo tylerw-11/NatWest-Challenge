@@ -30,3 +30,4 @@ captures/
 *.sqlite3
 .pytest_cache/
 .pytest-tmp/
+engine/.speech_cache/
