@@ -99,7 +99,19 @@
   --chart-base: #4b5650;
 }
 
+/* Illustration colours (drawn weather icons), shared by all colour modes. */
+:root {
+  --cloud: #8a96a0;
+  --cloud-ink: #4b5660;
+  --rain: #4a7fb0;
+  --bolt: #e8900c;
+}
+
 @theme inline {
+  --color-cloud: var(--cloud);
+  --color-cloud-ink: var(--cloud-ink);
+  --color-rain: var(--rain);
+  --color-bolt: var(--bolt);
   --color-bg: var(--bg);
   --color-surface: var(--surface);
   --color-border: var(--border);

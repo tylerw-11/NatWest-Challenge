@@ -65,6 +65,8 @@ export const Forecast = z.object({
   days: z.array(Day),
   drivers: z.array(Driver),
   covered_until: isoDate,
+  /** Days the safety buffer covers (Weather tile). Added FE-03. */
+  buffer_days: z.number(),
   best_action: BestAction,
 });
 export type Forecast = z.infer<typeof Forecast>;
@@ -105,6 +107,17 @@ export const PactRule = z.object({
   confirmed: z.boolean(),
 });
 export type PactRule = z.infer<typeof PactRule>;
+
+/** GET /pact: the user's stored rules. Added FE-03. */
+export const PactRules = z.array(PactRule);
+
+/** GET /me. Shape added FE-03. */
+export const Me = z.object({
+  user: z.object({ name: z.string(), email: z.string() }),
+  bank: z.object({ name: z.string(), connected_until: isoDate }).nullable(),
+  onboarding_complete: z.boolean(),
+});
+export type Me = z.infer<typeof Me>;
 
 export const ReadingLevel = z.enum(["simple", "clear", "detailed"]);
 export type ReadingLevel = z.infer<typeof ReadingLevel>;
