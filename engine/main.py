@@ -3,6 +3,7 @@
 """
 import os
 import time
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +12,13 @@ from fastapi.responses import JSONResponse
 from .database import init_db
 from .routers import account, ally, auth, explain, forecast, pact, rewind, settings
 
-app = FastAPI(title="Pact Engine", version="0.1.0")
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    init_db()
+    yield
+
+
+app = FastAPI(title="Pact Engine", version="0.1.0", lifespan=lifespan)
 origins = [origin.strip() for origin in os.getenv("FRONTEND_ORIGIN", "http://localhost:3000").split(",") if origin.strip()]
 app.add_middleware(
     CORSMiddleware,
@@ -38,11 +45,6 @@ async def security_and_rate_limit(request: Request, call_next):
     recent.append(now)
     _request_times[key] = recent
     return await call_next(request)
-
-
-@app.on_event("startup")
-def startup() -> None:
-    init_db()
 
 
 @app.exception_handler(HTTPException)

@@ -18,3 +18,5 @@ requirements.txt backend dependencies
 ```
 
 Run from the repository root with `uvicorn engine.main:app --reload`. `GET /forecast` returns the scripted demo; authenticated `POST /forecast` forecasts a supplied balance, income/payday schedule, and bill schedule.
+
+Run the pytest suite from the repository root with `.venv\Scripts\python.exe -m pytest engine\tests -q`.

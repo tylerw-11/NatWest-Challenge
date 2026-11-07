@@ -46,6 +46,8 @@ Example request body for `POST /forecast`:
 
 The output includes a shortfall probability and p10/p50/p90 projected balances for each day, plus the dated income and bill drivers. This is a Monte Carlo cash-flow model, not a trained model; forecast quality depends on the schedules and income variability supplied.
 
+Run mock-data tests from the repository root with `\.venv\Scripts\python.exe -m pytest engine\tests -q`.
+
 ## Current implementation notes
 
 The demo forecast and rewind use deterministic planted figures so the scripted March 2026 flow is repeatable. The API currently uses safe template text for explanations and a limited keyword parser for Pact drafts; it does not send requests to Anthropic. Email/text code delivery, passkey verification, bank-provider integration, audio transcription, and scheduled deletion execution need external services or follow-up work. The ally is a stored contact and storm notification event, with no ally login or spending data access.
