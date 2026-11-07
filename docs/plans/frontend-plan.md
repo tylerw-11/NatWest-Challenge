@@ -11,6 +11,8 @@ Branch: `feature/web-frontend` (made from `main`; `main` is left alone). Owner: 
 - **Commit:** `[FE-NN] web: <change>`, for example `[FE-01] web: add colour tokens`. `FE-NN` is this plan's number. Map it to the project doc's F-ID when that tab can be read.
 - **Merge:** after approval, `--no-ff` into `feature/web-frontend`, with the message `[FE-NN] merge: <feature>`.
 - **Every handover to you looks the same:** what was built, the route to check, the design PNG to compare against, known gaps, and the next feature.
+- **Before building, a brief in this fixed shape, then wait for "go":** 1) Goal: one line. 2) Branch. 3) Exactly what I'm doing, step by step, with the files I'll touch. 4) What you should expect to see: the route and a checklist to tick against the design PNG. 5) Out of scope, meaning what this feature deliberately leaves out. 6) Decisions or gaps that need your call.
+- **After building, a handover in this fixed shape:** what was built, how to run it, the checklist again with results, gaps, and the next feature's brief.
 - **Every screen is built the same way:** `app/<route>/page.tsx` composes shared components from `components/` and reads data through `lib/hooks.ts`. No screen-specific styling outside the tokens.
 
 Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. When the engine is ready, switching to it is a one-line change in `lib/api.ts`.
