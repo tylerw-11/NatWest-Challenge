@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { BackIcon, SettingsIcon, SpeakerIcon, StopIcon } from "./icons";
 import { IconButton } from "./Buttons";
 import { mainText, speak, stopSpeaking, useSpeaking } from "@/lib/read-aloud";
+import { currentLanguage } from "@/lib/voice-context";
 import { cn } from "@/lib/utils";
 
 export function ReadAloudButton() {
@@ -14,7 +15,7 @@ export function ReadAloudButton() {
     <IconButton
       label={on ? "Stop reading aloud" : "Read this screen aloud"}
       aria-pressed={on}
-      onClick={() => (on ? stopSpeaking() : speak(mainText(), "page"))}
+      onClick={() => (on ? stopSpeaking() : speak(mainText(), "page", currentLanguage() ?? "en-GB"))}
       className={cn(on && "animate-live border-primary bg-primary text-on-primary hover:bg-primary-hover")}
     >
       {on ? <StopIcon size={18} fill="currentColor" /> : <SpeakerIcon size={24} strokeWidth={2} />}

@@ -116,3 +116,19 @@ def test_note_round_trip(client):
     assert client.get("/pact/note").json()["duration_s"] == 18  # the demo note
     client.post("/pact/note", json={"text": "Future me: you've got this.", "duration_s": 6}, headers=ORIGIN)
     assert client.get("/pact/note").json() == {"text": "Future me: you've got this.", "duration_s": 6}
+
+
+def test_two_people_saving_the_same_rule_keep_their_own(client):
+    """Review fix: rule ids are a global key, so one person's save must never take over another's rule."""
+    client.post("/auth/demo", headers=ORIGIN)
+    starter = "When things get tight, keep takeaways to £20 a week, stop me borrowing for 2 days, tell Jade, and save £15 on payday."
+    drafts = client.post("/pact/parse", json={"text": starter}, headers=ORIGIN).json()
+    client.post("/pact", json={"rules": drafts}, headers=ORIGIN)
+    amara_cookie = client.cookies.get("pact_session")
+    login_with_code(client, "lee@example.com")
+    mine = client.post("/pact", json={"rules": client.post("/pact/parse", json={"text": "keep takeaways to £20 a week"}, headers=ORIGIN).json()}, headers=ORIGIN).json()
+    assert len(mine) == 1 and mine[0]["id"] != "rule_takeaway_cap"
+    client.cookies.set("pact_session", amara_cookie)
+    assert len(client.get("/pact").json()) == 4  # Amara still has all four
+    bad = client.post("/pact", json={"rules": [{"action": {"kind": "show_note"}}]}, headers=ORIGIN)
+    assert bad.status_code == 422 and bad.json()["code"] == "invalid_rules"

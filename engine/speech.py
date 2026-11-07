@@ -43,10 +43,11 @@ def supported_languages() -> set[str] | None:
         try:
             r = httpx.get("https://api.elevenlabs.io/v1/models", headers={"xi-api-key": api_key() or ""}, timeout=10)
             found = next((x for x in r.json() if x.get("model_id") == m), None) if r.status_code == 200 else None
-            _languages[m] = {lang["language_id"] for lang in found.get("languages", [])} if found else None
+            if found:
+                _languages[m] = {lang["language_id"] for lang in found.get("languages", [])}
         except (httpx.HTTPError, ValueError):
-            _languages[m] = None  # unknown: let ElevenLabs decide
-    return _languages[m]
+            pass  # unknown for now: let ElevenLabs decide, and ask again next time
+    return _languages.get(m)
 
 
 def voice() -> str:
@@ -167,10 +168,13 @@ def synthesize_remote(text: str, lang: str | None, d: Delivery) -> bytes:
     }
     if lang:
         body["language_code"] = lang
-    r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_128"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
-    if r.status_code == 422 and lang:  # language not supported by this model: let it auto-detect
-        body.pop("language_code")
+    try:
         r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_128"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
+        if r.status_code == 422 and lang:  # language not supported by this model: let it auto-detect
+            body.pop("language_code")
+            r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_128"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
+    except httpx.HTTPError:
+        raise SpeechUnavailable("speech_failed", "The voice isn't available right now.", 502) from None
     if r.status_code != 200:
         raise SpeechUnavailable("speech_failed", "The voice isn't available right now.", 502)
     return r.content

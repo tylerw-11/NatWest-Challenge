@@ -165,7 +165,10 @@ function restore() {
 }
 
 /** Translate the whole app into `code`, or back to English with null. */
+let request = 0;
+
 export async function setPageLanguage(code: string | null): Promise<void> {
+  const mine = ++request;
   const html = document.documentElement;
   const lang = code ? LANGUAGES.find((l) => l.code === code) : undefined;
   if (!code || !lang) {
@@ -178,7 +181,7 @@ export async function setPageLanguage(code: string | null): Promise<void> {
     return;
   }
   const cat = await load(code);
-  if (!cat) return;
+  if (!cat || mine !== request) return; // missing language, or a newer choice was made meanwhile
   if (active?.code !== code && active) restore();
   active = { code, cat };
   html.lang = code;

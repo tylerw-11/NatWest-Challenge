@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -18,6 +19,7 @@ import { findLanguage } from "@/lib/languages";
 
 export default function LoginPage() {
   const router = useRouter();
+  const qc = useQueryClient();
   const [busy, setBusy] = useState(false);
   // Language before logging in: remembered in this browser, then saved to settings after sign-up.
   const [chooseLanguage, setChooseLanguage] = useState(false);
@@ -45,6 +47,7 @@ export default function LoginPage() {
     setBusy(true);
     try {
       await api.passkeyLogin();
+      qc.clear(); // never show the previous person's cached data
       router.push("/");
     } catch (e) {
       const cancelled = e instanceof Error && (e.name === "NotAllowedError" || e.name === "AbortError");

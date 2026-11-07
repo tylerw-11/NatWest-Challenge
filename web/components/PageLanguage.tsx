@@ -41,13 +41,13 @@ export function PageLanguage() {
     return () => window.removeEventListener(LANGUAGE_EVENT, on);
   }, []);
 
-  // Saved settings win once they load; keep the browser copy in step for the next Log in.
-  const code = data ? (data.translation ?? null) : local;
+  // A language saved in settings wins; otherwise the one picked before logging in.
+  // (Choosing "Off" in Settings clears both, through rememberLanguage(null).)
+  const code = data?.translation ?? local;
   useEffect(() => {
-    if (data) {
+    if (data?.translation) {
       try {
-        if (data.translation) window.localStorage.setItem(LANGUAGE_KEY, data.translation);
-        else window.localStorage.removeItem(LANGUAGE_KEY);
+        window.localStorage.setItem(LANGUAGE_KEY, data.translation);
       } catch {
         /* ignore */
       }

@@ -47,15 +47,14 @@ const testScenario = () => USE_MOCKS && currentScenario().name !== "demo";
 const FALLBACK_ERROR = new ApiError("network", "We could not load this right now. Please try again.");
 
 /**
- * Live engine only: a logged-out visitor goes to Log in, and a new person with no money
- * details yet goes to Sign-up step 3. Pages on those flows never redirect themselves.
+ * Live engine only: a logged-out visitor goes to Log in. (A new person without money details
+ * sees the plain "Add your money details" card instead, so "Skip for now" still works.)
  */
-function redirectFor(status: number, code: string) {
+function redirectFor(status: number) {
   if (typeof window === "undefined") return;
   const path = window.location.pathname;
   if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/dev")) return;
   if (status === 401) window.location.assign("/login");
-  else if (code === "no_profile") window.location.assign("/signup/3");
 }
 
 async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit): Promise<T> {
@@ -72,7 +71,7 @@ async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit
   const body: unknown = await res.json().catch(() => null);
   if (!res.ok) {
     const err = ApiErrorBody.safeParse(body);
-    if (err.success) redirectFor(res.status, err.data.code);
+    if (err.success) redirectFor(res.status);
     throw err.success ? new ApiError(err.data.code, err.data.message_plain) : FALLBACK_ERROR;
   }
   const parsed = schema.safeParse(body);

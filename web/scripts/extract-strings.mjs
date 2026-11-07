@@ -79,6 +79,20 @@ const walkPy = (d) => readdirSync(d).forEach((f) => {
 });
 walkPy(engineDir);
 for (const f of pyFiles) for (const m of readFileSync(f, "utf8").matchAll(/fail\(\s*\d+\s*,\s*"[a-z_]+"\s*,\s*"((?:\\.|[^"\\])*)"/g)) add(m[1].replace(/\\"/g, '"'));
+// Text that arrives as data and is shown as-is: rule wording, bill names, cause notes, the demo
+// note (web/mocks/*.json and the engine's own labels). f-string fields become {0}, {1}...
+const DATA_KEYS = new Set(["label", "source_note", "when_label", "then_label", "text", "headline", "body", "eyebrow"]);
+const walkJson = (v) => {
+  if (Array.isArray(v)) v.forEach(walkJson);
+  else if (v && typeof v === "object") for (const [k, x] of Object.entries(v)) { if (typeof x === "string" && DATA_KEYS.has(k)) add(x); else walkJson(x); }
+};
+for (const f of readdirSync(join(web, "mocks")).filter((f) => f.endsWith(".json"))) walkJson(JSON.parse(readFileSync(join(web, "mocks", f), "utf8")));
+const fstring = (t) => { let i = 0; return t.replace(/\{[^{}]+\}/g, () => `{${i++}}`); };
+for (const f of pyFiles) {
+  const py = readFileSync(f, "utf8");
+  for (const m of py.matchAll(/\b(?:then_label|when_label|label|source_note)\s*=\s*(f?)"((?:\\.|[^"\\])*)"/g)) add(m[1] ? fstring(m[2]) : m[2]);
+  for (const m of py.matchAll(/"(?:label|source_note|when_label|then_label)":\s*(f?)"((?:\\.|[^"\\])*)"/g)) add(m[1] ? fstring(m[2]) : m[2]);
+}
 const sorted = [...out].filter((t) => !notCopy(t)).sort();
 mkdirSync(join(web, "public", "i18n"), { recursive: true });
 writeFileSync(join(web, "public", "i18n", "en.json"), JSON.stringify(sorted, null, 1) + "\n");

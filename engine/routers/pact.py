@@ -5,6 +5,7 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any
 
 from fastapi import APIRouter, Body, Depends
+from pydantic import ValidationError
 
 from ..contracts import MoveInput, NoteInput, PactRule, TextInput
 from ..database import connect
@@ -84,11 +85,19 @@ def create_pact(body: Any = Body(...), user_id: str = Depends(current_user)):
     items = body.get("rules") if isinstance(body, dict) else body
     if not isinstance(items, list):
         fail(422, "invalid_rules", "Something looks wrong with these rules.")
+    try:
+        parsed = [PactRule.model_validate(item) for item in items]
+    except ValidationError:
+        fail(422, "invalid_rules", "Something looks wrong with these rules.")
     saved = []
     with connect() as db:
-        for item in items:
-            rule = new_rule(PactRule.model_validate(item).model_dump(mode="json"), True)
+        for item in parsed:
+            rule = new_rule(item.model_dump(mode="json"), True)
             rule.active_from = date.today()
+            # Rule ids are a global key: never take over another person's rule with the same id.
+            owner = db.execute("SELECT user_id FROM pact_rules WHERE id=?", (rule.id,)).fetchone()
+            if owner and owner["user_id"] != user_id:
+                rule.id = f"{rule.id}-{secrets.token_hex(4)}"
             db.execute("INSERT OR REPLACE INTO pact_rules VALUES(?,?,?,?,?)", (rule.id, user_id, rule.model_dump_json(), datetime.now(timezone.utc).isoformat(), None))
             saved.append(rule)
     return saved
@@ -187,5 +196,7 @@ def simulate(as_of: date, user_id: str = Depends(current_user)):
 def move_to_buffer(body: MoveInput, user_id: str = Depends(current_user)):
     if not body.confirmed:
         fail(400, "confirmation_required", "Tap to confirm before moving money to your buffer.")
+    if user_id != DEMO_USER:
+        fail(403, "demo_only", "Moving money to a buffer isn't connected to your bank yet.")
     write_event(user_id, "buffer_moved", {"amount_gbp": body.amount_gbp, "confirmed": True})
     return forecast_for(user_id)

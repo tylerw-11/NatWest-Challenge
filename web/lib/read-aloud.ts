@@ -156,8 +156,13 @@ export async function speak(text: string, id: string, lang = "en-GB", kind: Voic
   await new Promise((r) => setTimeout(r, 80));
   if (mine !== session) return;
 
+  // Exact match first ("en-GB"), then the same language in any region ("pl" -> "pl-PL"), then English.
+  const base = lang.split("-")[0].toLowerCase();
   const voice =
-    voices.find((v) => v.lang === lang) ?? voices.find((v) => v.lang.startsWith("en")) ?? null;
+    voices.find((v) => v.lang === lang) ??
+    voices.find((v) => v.lang.toLowerCase().split("-")[0] === base) ??
+    voices.find((v) => v.lang.startsWith("en")) ??
+    null;
   const parts = chunks(text);
   window.speechSynthesis.resume();
   parts.forEach((part, i) => {
