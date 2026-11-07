@@ -591,6 +591,7 @@
     }
   ],
   "covered_until": "2026-03-19",
+  "buffer_days": 6,
   "best_action": {
     "action_id": "move_to_buffer",
     "amount_gbp": 15,

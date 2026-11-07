@@ -3,10 +3,12 @@
  * (the default until the engine is up) data comes from web/mocks instead.
  */
 import { z } from "zod";
-import { ApiErrorBody, Forecast, Rewind, Settings } from "./contracts";
+import { ApiErrorBody, Forecast, Me, PactRules, Rewind, Settings } from "./contracts";
 import forecastMock from "@/mocks/forecast.json";
 import rewindMock from "@/mocks/rewind.json";
 import settingsMock from "@/mocks/settings.json";
+import meMock from "@/mocks/me.json";
+import pactMock from "@/mocks/pact.json";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
@@ -67,4 +69,7 @@ export const api = {
     USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind"),
   settings: () =>
     USE_MOCKS ? mock(Settings, settingsMock) : request(Settings, "/settings"),
+  me: () => (USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),
+  pactRules: () =>
+    USE_MOCKS ? mock(PactRules, pactMock) : request(PactRules, "/pact"),
 };

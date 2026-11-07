@@ -138,3 +138,41 @@ export function RewindClockIcon({ size = 72, className }: Props) {
     </svg>
   );
 }
+
+/** Plain grey cloud for "tight" days on the week strip. */
+export function CloudSmallIcon({ size = 24, className }: Props) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden className={className}>
+      <path
+        d="M7 18h10a4 4 0 0 0 0-8 5.5 5.5 0 0 0-10.4-1A4.5 4.5 0 0 0 7 18z"
+        fill="var(--cloud)"
+        stroke="var(--cloud-ink)"
+        strokeWidth={1.6}
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+/** Small storm cloud for the week strip. */
+export function StormSmallIcon({ size = 24, className }: Props) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden className={className}>
+      <path
+        d="M6 15h11a3.5 3.5 0 0 0 0-7 5 5 0 0 0-9.4-1A4 4 0 0 0 6 15z"
+        fill="var(--cloud)"
+        stroke="var(--cloud-ink)"
+        strokeWidth={1.5}
+        strokeLinejoin="round"
+      />
+      <path d="M12.5 14.5l-2 3.5h3l-2 3.5" fill="none" stroke="var(--bolt)" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+/** Weather icon for a day state, small. */
+export function DayStateIcon({ state, size = 24 }: { state: "clear" | "cloudy" | "storm"; size?: number }) {
+  if (state === "storm") return <StormSmallIcon size={size} />;
+  if (state === "cloudy") return <CloudSmallIcon size={size} />;
+  return <SunSmallIcon size={size} />;
+}
