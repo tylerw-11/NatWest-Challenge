@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { PactNote, PactRule } from "./contracts";
+import type { PactNote, PactRule, Settings } from "./contracts";
 
 export const queryKeys = {
   forecast: ["forecast"] as const,
@@ -59,5 +59,19 @@ export function useMoveToBuffer() {
   return useMutation({
     mutationFn: (amount: number) => api.moveToBuffer(amount),
     onSuccess: (forecast) => qc.setQueryData(queryKeys.forecast, forecast),
+  });
+}
+
+export function useUpdateSettings() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (patch: Partial<Settings>) => api.updateSettings(patch),
+    onMutate: (patch) => {
+      const prev = qc.getQueryData<Settings>(queryKeys.settings);
+      if (prev) qc.setQueryData(queryKeys.settings, { ...prev, ...patch });
+      return { prev };
+    },
+    onError: (_e, _p, ctx) => ctx?.prev && qc.setQueryData(queryKeys.settings, ctx.prev),
+    onSuccess: (settings) => qc.setQueryData(queryKeys.settings, settings),
   });
 }

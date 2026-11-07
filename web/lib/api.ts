@@ -14,6 +14,7 @@ import {
   Settings,
   SimulateResult,
   type PactRule,
+  type Settings as SettingsT,
 } from "./contracts";
 import { getMockState, setMockState } from "./mock-store";
 import forecastMock from "@/mocks/forecast.json";
@@ -113,6 +114,16 @@ export const api = {
   rewind: () => (USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
   settings: () => (USE_MOCKS ? mock(Settings, getMockState().settings) : request(Settings, "/settings")),
   me: () => (USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),
+
+  /** PUT /settings with the fields that changed. */
+  updateSettings: (patch: Partial<SettingsT>) => {
+    if (USE_MOCKS) {
+      const settings = { ...getMockState().settings, ...patch };
+      setMockState({ settings });
+      return mock(Settings, settings, 60);
+    }
+    return request(Settings, "/settings", { method: "PUT", body: JSON.stringify(patch) });
+  },
   pactRules: () => (USE_MOCKS ? mock(PactRules, getMockState().rules) : request(PactRules, "/pact")),
   pactNote: () =>
     USE_MOCKS
