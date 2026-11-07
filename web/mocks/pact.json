@@ -1,0 +1,59 @@
+[
+  {
+    "id": "r1",
+    "trigger": {
+      "kind": "storm_probability",
+      "threshold": 0.3,
+      "horizon_days": 14
+    },
+    "action": {
+      "kind": "category_cap",
+      "category": "takeaway",
+      "amount_gbp": 20
+    },
+    "when_label": "When a storm is coming",
+    "then_label": "Keep takeaways under £20 a week",
+    "confirmed": true
+  },
+  {
+    "id": "r2",
+    "trigger": {
+      "kind": "storm_probability",
+      "threshold": 0.3,
+      "horizon_days": 14
+    },
+    "action": {
+      "kind": "credit_pause_hours",
+      "hours": 24
+    },
+    "when_label": "When a storm is coming",
+    "then_label": "Wait 24 hours before pay-later",
+    "confirmed": true
+  },
+  {
+    "id": "r3",
+    "trigger": {
+      "kind": "user_not_okay"
+    },
+    "action": {
+      "kind": "notify_ally"
+    },
+    "when_label": "When I say I'm not okay",
+    "then_label": "Tell my ally",
+    "confirmed": true
+  },
+  {
+    "id": "r4",
+    "trigger": {
+      "kind": "buffer_below_days",
+      "buffer_days": 7
+    },
+    "action": {
+      "kind": "move_to_buffer",
+      "amount_gbp": 15
+    },
+    "when_label": "When my buffer is under a week",
+    "then_label": "Move £15 to my buffer on payday",
+    "confirmed": true
+  }
+]

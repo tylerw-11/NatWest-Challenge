@@ -1,0 +1,289 @@
+{
+  "demo": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Spec demo path, as of 10 March 2026."
+  },
+  "demo_after_buffer": {
+    "forecast": "demo_after_buffer",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "After tapping Move £15 to my buffer."
+  },
+  "all_clear": {
+    "forecast": "all_clear",
+    "settings": "default",
+    "rewind": "zero",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Calm 60 days; no storm card."
+  },
+  "tight_only": {
+    "forecast": "tight_only",
+    "settings": "default",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Tight days but no storm."
+  },
+  "storm_mode": {
+    "forecast": "storm_tomorrow",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Storm tomorrow: Storm mode screen."
+  },
+  "storm_today": {
+    "forecast": "storm_today",
+    "settings": "demo",
+    "rewind": "spike",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Already short today."
+  },
+  "storm_far_lead14": {
+    "forecast": "storm_far",
+    "settings": "default",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Storm in 20 days: no warning yet."
+  },
+  "storm_in_7_lead7": {
+    "forecast": "storm_in_7",
+    "settings": "lead_7",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Storm in exactly 7 days with 7-day lead: warns."
+  },
+  "storm_in_7_lead0": {
+    "forecast": "storm_in_7",
+    "settings": "lead_0",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Same storm, lead 0: no warning."
+  },
+  "two_storms": {
+    "forecast": "two_storms",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Two storms; Time River paging."
+  },
+  "boundaries": {
+    "forecast": "boundaries",
+    "settings": "default",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Exact 0.10 / 0.30 edges in the week strip."
+  },
+  "boundaries_sensitive": {
+    "forecast": "boundaries",
+    "settings": "sensitive_threshold",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Threshold 0.15: UI should trust engine state, not recompute."
+  },
+  "all_driver_kinds": {
+    "forecast": "all_driver_kinds",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Every driver kind and a very long label."
+  },
+  "storm_no_drivers": {
+    "forecast": "storm_no_drivers",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Storm with no causes listed."
+  },
+  "short_horizon": {
+    "forecast": "short_horizon",
+    "settings": "default",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "14-day forecast."
+  },
+  "wealthy": {
+    "forecast": "wealthy",
+    "settings": "default",
+    "rewind": "zero",
+    "rules": "none",
+    "me": "demo",
+    "note": "Big numbers; formatting."
+  },
+  "new_user": {
+    "forecast": "demo",
+    "settings": "default",
+    "rewind": "zero",
+    "rules": "none",
+    "me": "new_user",
+    "note": "Onboarding: Sign-up, no rules, no bank."
+  },
+  "drafts": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "drafts",
+    "me": "demo",
+    "note": "Pact screen with unagreed drafts."
+  },
+  "pending_change": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "pending_change",
+    "me": "demo",
+    "note": "A rule change waiting 48 hours."
+  },
+  "worried": {
+    "forecast": "demo",
+    "settings": "worried",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Support: Worried shows the calm mode offer."
+  },
+  "calm_mode": {
+    "forecast": "demo",
+    "settings": "calm_mode_on",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Calm mode on."
+  },
+  "detailed": {
+    "forecast": "demo",
+    "settings": "detailed_reader",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Detailed reading level."
+  },
+  "translated_rtl": {
+    "forecast": "demo",
+    "settings": "translated_arabic_rtl",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Arabic beside English; dir=rtl."
+  },
+  "colour_blind": {
+    "forecast": "demo",
+    "settings": "colour_blind",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "Colour-blind tokens (due #1B4F9C)."
+  },
+  "high_contrast": {
+    "forecast": "demo",
+    "settings": "high_contrast",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "note": "High contrast tokens."
+  },
+  "bank_disconnected": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "bank_disconnected",
+    "note": "Bank link lost; stale banner."
+  },
+  "slow": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "latencyMs": 2500,
+    "note": "Loading skeletons."
+  },
+  "offline": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "fail": [
+      {
+        "path": "/",
+        "error": "network"
+      }
+    ],
+    "note": "Every call fails: fallback cards."
+  },
+  "forecast_500": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "fail": [
+      {
+        "path": "/forecast",
+        "error": "server"
+      }
+    ],
+    "note": "Only forecast fails."
+  },
+  "explain_fails": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "fail": [
+      {
+        "path": "/explain",
+        "error": "server"
+      }
+    ],
+    "note": "Explain fails: template sentence."
+  },
+  "parse_rejects": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "none",
+    "me": "demo",
+    "fail": [
+      {
+        "path": "/pact/parse",
+        "error": "rephrase"
+      }
+    ],
+    "note": "Pact parser asks to rephrase."
+  },
+  "logged_out": {
+    "forecast": "demo",
+    "settings": "demo",
+    "rewind": "demo",
+    "rules": "demo",
+    "me": "demo",
+    "fail": [
+      {
+        "path": "/me",
+        "error": "unauthorised"
+      }
+    ],
+    "note": "Session expired: Log in screen."
+  }
+}

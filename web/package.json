@@ -1,0 +1,21 @@
+{
+  "name": "pact-web",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "mocks:export": "tsx scripts/export-mocks.ts"
+  },
+  "dependencies": {
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.2",
+    "tsx": "4.19.2",
+    "typescript": "5.6.3",
+    "vitest": "2.1.8"
+  }
+}
