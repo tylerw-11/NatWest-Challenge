@@ -1,0 +1,24 @@
+{
+  "fired": [
+    {
+      "rule_id": "rule_takeaway_cap",
+      "action_kind": "category_cap",
+      "left_gbp": 12
+    },
+    {
+      "rule_id": "rule_credit_pause",
+      "action_kind": "credit_pause_hours",
+      "left_gbp": null
+    },
+    {
+      "rule_id": "rule_notify_ally",
+      "action_kind": "notify_ally",
+      "left_gbp": null
+    },
+    {
+      "rule_id": "rule_payday_buffer",
+      "action_kind": "move_to_buffer",
+      "left_gbp": null
+    }
+  ]
+}
