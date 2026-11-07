@@ -1,6 +1,13 @@
 # Decision 0001: one data contract, one engine, one frontend base
 
-Status: **proposed** (7 Nov, ~16:15, checked against FE-03). Linked from `README.md`, `CLAUDE.md` and `docs/plans/frontend-plan.md`. Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
+Status: **implemented on `main`** (7 Nov, ~16:35). Items 1, 2, 3 (a to h), 5 and 6 are done; item 4's thresholds still need the team's confirmation. Jawad's extras (Could tier) are not ported. Linked from `README.md`, `CLAUDE.md` and `docs/plans/frontend-plan.md`.
+
+### What changed on `main`
+
+- `tyler`, `feature/web-frontend` (FE-01 to FE-03) and `frontend-mocks` merged. The 4 README/.gitignore/skill conflicts were resolved; the committed `engine/__pycache__/` and `engine/pact.sqlite3` were removed and are now ignored.
+- Engine: (a) `YYYY-MM` rewind months; (b) `buffer_days`; (c) `/me` in the web shape, old fields kept; (d) demo seed of Jade and the four rules; `best_action` is `null` after the move; `GET /forecast` remembers a confirmed buffer move (demo step 7); a demo login resets the demo; the Pact parser now reads "Put £15 aside" as `move_to_buffer`.
+- Web: (e) nullable `best_action`; (f) integer `horizon_days` and `paths`; (g) `active_from` and `change_requested_at` on `PactRule`; (h) the quieter-week mock is `+90`, and Weather says "£90 less"; `api.ts` serves mocks through `mockApi.ts` (item 5); "Get ready for it" only shows when there is a storm; the Grammarly hydration warning is silenced.
+- Tests: 14 engine tests (demo flow, invariants, contract snapshot, benchmarks) and 108 web tests, including the engine's real responses parsed with the web contracts. Timings are in `docs/benchmarks.md`. Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
 
 ## Why we need this
 

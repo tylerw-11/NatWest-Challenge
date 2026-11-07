@@ -12,6 +12,7 @@ Pact is a money forecast in which your past self protects your future self. It s
 | Claude Code skills | `.claude/skills/` |
 | Frontend plan (features FE-01 to FE-13) | `docs/plans/frontend-plan.md` |
 | Team decisions (data contract, which engine, merge order) | `docs/decisions/` |
+| Speed budgets and latest timings | `docs/benchmarks.md` |
 | Dev pages: tokens, components, mock scenarios | `/dev/tokens`, `/dev/components`, `/dev/scenarios` |
 
 ## Repo layout
@@ -20,9 +21,9 @@ Pact is a money forecast in which your past self protects your future self. It s
 .claude/skills/   shared Claude Code skills (load automatically from the repo root)
 design/           the 10 approved screen designs (PNG)
 docs/             NatWest brief, links, plans/, decisions/
-engine/           FastAPI backend (built by tasks T1 to T11, T16; Tyler's engine is on the `tyler` branch)
-web/              Next.js frontend (built by tasks F1 to F16; see docs/plans/frontend-plan.md)
-web-tests/        vitest checks for web/ mocks and thresholds (kept outside web/)
+engine/           FastAPI backend (tasks T1 to T11, T16); tests and benchmarks in engine/tests/
+web/              Next.js frontend (tasks F1 to F16; see docs/plans/frontend-plan.md)
+web-tests/        vitest checks for web/: mocks, thresholds, and the engine's real responses against the web contracts
 ```
 
 ## Getting started
@@ -43,15 +44,24 @@ web-tests/        vitest checks for web/ mocks and thresholds (kept outside web/
 ## Run commands
 
 ```bash
-# backend (from the repo root, as engine/main.py on the tyler branch expects)
-pip install -r engine/requirements.txt && uvicorn engine.main:app --reload
+# backend: http://localhost:8000 (API docs at /docs). Run from the repo root.
+pip install -r requirements.txt && uvicorn engine.main:app --reload
 
 # frontend: http://localhost:3000, with mock scenarios at /dev/scenarios
 cd web && npm install && npm run dev
-
-# frontend checks (lint before every merge; web-tests needs web/node_modules)
-cd web && npm run lint
-cd web-tests && npm install && npm test
 ```
+
+## Tests and benchmarks
+
+Run all of these before merging to `main`. All must pass.
+
+```bash
+python -m pytest engine/tests -q          # engine: demo flow, invariants, contract snapshot, speed budgets
+cd web && npm run lint && npx tsc --noEmit && npm run build
+cd web-tests && npm install && npm test   # mocks, thresholds, engine responses vs web contracts
+cd web-tests && npm run bench             # frontend timings (see docs/benchmarks.md)
+```
+
+Run `pytest` before `web-tests`: it writes `web-tests/fixtures/engine-responses.json`, the real engine responses that the web tests check against `web/lib/contracts.ts`.
 
 With `USE_MOCKS=true` (the default) the web app runs without the engine. Pick a scenario (storm tomorrow, threshold edges, offline, colour-blind…) on `/dev/scenarios` or add `?scenario=<name>` to any URL; the list is in `web/mocks/README.md`.
