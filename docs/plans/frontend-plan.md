@@ -1,68 +1,60 @@
-# Frontend plan (owner B, branch `feature/web-frontend`)
+# Frontend plan: build the 10 designs feature by feature
 
-Written 15:20, Saturday 7 November. Gate 1 (15:00) has passed with no code in `web/`, so this plan is built **mocks-first**: every screen renders from `web/mocks/*.json` with `USE_MOCKS=true`. When the engine lands, we swap the source. Feature freeze is **16:45** (about 85 minutes). Cutoff is 17:40.
+Branch: `feature/web-frontend` (made from `main`; `main` is left alone). Owner: B. Sources: the PNGs in `design/` and the pact-frontend skill.
 
-The F-numbers in the project doc's Frontend to-do tab could not be read from this session. Match each phase below to its F-ID before you commit, and use the `[F#] web: change` format.
+**How we work:** I build one feature on its own branch, `feature/web-<name>`, made from `feature/web-frontend`. Then I stop. You check it at `http://localhost:3000/<route>` next to its PNG. Once you approve, I merge it into `feature/web-frontend` and start the next one. Nothing reaches `main` until you say so.
 
-## Branching (gitflow, adapted to the team rule)
+Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. When the engine is ready, switching to it is a one-line change in `lib/api.ts`.
 
-- Work on `feature/web-frontend`, branched from `main`. The team workflow merges to `main` and has no `develop` branch.
-- For each screen, branch `feature/web-<screen>` off `feature/web-frontend`, or commit straight onto it if you are working alone.
-- Merge `feature/web-frontend` into `main` **at least every 30 minutes**: at 15:50, 16:20 and 16:40. Run `npm run lint` first (and `pytest` once the engine exists).
-- Contract changes go in their own `contract:` commit and touch `engine/contracts.py`, `web/lib/contracts.ts` and the mock together.
-- After 16:45, commit only fixes on `hotfix/<thing>` branches off `main`.
+## Tech stack (from pact-frontend)
 
-## Phase 0: scaffold (15:20 to 15:35). Must
+| Concern | Choice |
+| --- | --- |
+| Framework | Next.js App Router with TypeScript; one route per screen |
+| Styling | Tailwind, with every colour as a CSS variable switched by `data-colour-mode` on `<html>` |
+| Primitives | shadcn/ui on Radix (checkbox, radio group, tabs, select) |
+| Data | TanStack Query hooks (`lib/hooks.ts`) over fetch helpers (`lib/api.ts`), with every response parsed by Zod (`lib/contracts.ts`) |
+| Motion and feedback | Motion for transitions, Sonner for toasts (Jade's alert), Vaul for sheets, `@number-flow/react` for the buffer tile |
+| Charts | Hand-built SVG, 356×110; no chart library |
+| Font | Atkinson Hyperlegible 400 and 700, loaded with `next/font` |
+| Speech | Browser `speechSynthesis` for the read-aloud buttons |
 
-1. Run `npx create-next-app@latest web` with TypeScript, App Router and Tailwind, then add shadcn/ui, TanStack Query, Zod, Motion, Sonner, Vaul and `@number-flow/react`.
-2. Put the tokens from pact-frontend into CSS variables in `app/globals.css`, keyed on `data-colour-mode` (standard first; colour-blind and high-contrast values are a Should). Add Atkinson Hyperlegible through `next/font`.
-3. Add `lib/contracts.ts` with Zod for `Day`, `Driver`, `Forecast`, `RewindMonth`, `RewindCategory`, `PactRule`, `Settings`, `UIBlock` and the error shape, copied from pact-contracts.
-4. In `lib/api.ts`, read `NEXT_PUBLIC_API_URL`, or the mocks when `USE_MOCKS=true`. Parse every response with Zod. `lib/hooks.ts` holds the TanStack Query hooks.
-5. Add the mocks `forecast.json`, `rewind.json` and `settings.json` with the exact demo figures: 10 to 18 March clear, 19 to 22 March cloudy, 23 March storm at p about 0.33, `covered_until` 19 March, the three drivers (£118 on 23 Mar, £45 on 22 Mar, about £90 less from 16 to 22 Mar), and best action £15 on 13 March giving 1 in 8. For Rewind: the monthly figures 12, 8, 31, 15, 9, 24, 14, 10, 38, 27, 16, 10, a total of £214, and categories of £118, £61 and £35.
-6. Make a 390 px app frame. `CAPTURE=true` locks it to 390×844.
+## Features, in build order
 
-**Commit, then merge to main.** This merge unblocks the engine team, who need `lib/contracts.ts` to mirror.
+Each row is one checkpoint for you to approve.
 
-## Phase 1: shared components (15:35 to 15:50). Must
+| # | Feature | Route | What you will see (matches the design) | Done when |
+| --- | --- | --- | --- | --- |
+| 1 | Foundation | `/dev/tokens` | Scaffolded app; colour, radius and spacing tokens; font; 390 px phone frame; Zod contracts; mocks; API layer | The swatch page shows every token in Standard, Colour-blind and High contrast |
+| 2 | Component kit | `/dev/components` | TabHeader (title, read-aloud, optional settings button), SubHeader (back arrow and title), BottomNav (4 tabs, active in bold teal), HeroCard (eyebrow, 26 px headline, 72 px icon), ListCard (with `<details>`), TipCard (💡), Tile, Primary, Secondary and Danger buttons, Pill, Chip, drawn icons (sun, storm cloud, shield, rewind clock) | Each piece matches the PNGs, with 44 px targets and a visible focus ring |
+| 3 | Weather (home) | `/` | "Hi Amara 👋", CLEAR hero "You're good until Thu 19 March", "This week" strip of 7 days with week arrows, STORM AHEAD card for Mon 23 March, tiles (buffer 6 days, 4 Pact rules on), "Why the storm? 3 bills, 1 week" See more, "Get ready for it" | Matches `1 Weather (home).png`; the storm card opens Time River |
+| 4 | Time River | `/river` | STORM hero "1 in 3 chance of going short", "Most likely: £35 left"; chart "Your money, next 4 weeks" with a band, a dashed £0 line and a ringed 23 Mar point; pills ‹ Week, Payday, Week ›; "What causes this" with dates in red; tip "Save £15 on payday… drops to 1 in 8"; "Make a pact for this" | Matches `2 Time River.png`; every number comes from the mock |
+| 5 | Rewind | `/rewind` | LAST 12 MONTHS hero "£214 extra, just for being short"; "Extra costs by month" area chart with Dec £38 marked; "Where it went" £118, £61 and £35; tip "kept about £96" | Matches `5 Rewind.png` |
+| 6 | Pact | `/pact` | YOUR PROMISE hero; "In your words" text area with mic; "Your 4 rules" checkbox rows (when-label above, then-label below); note card with play button; "Agree to 4 rules"; 48-hour lock line | Matches `3 Pact.png`; nothing is saved until Agree is pressed |
+| 7 | Storm mode | `/storm` | Peach background; "Storm mode" label and "Full app" link; storm illustration; "Fri 13 March · payday"; "A storm is 10 days away. You planned for this."; note card; "Move £15 to my buffer"; "Already working for you" chips (🍔 £12 left, ⏸️ Borrowing paused, 🤝 Jade knows); red outlined "🫂 I'm not okay" | Matches `4 Storm mode.png`; the move runs, Jade's toast shows, and back on `/` the 23rd reads "tight" (demo steps 5 to 7) |
+| 8 | Support | `/support` | CHECK IN hero with 😊 😐 😟 mood buttons; Worried shows the calm-mode offer; "Talk to someone" tiles; debt-advice row; rows for Settings and Account | Matches `6 Support.png` |
+| 9 | Settings | `/settings` | SubHeader "Make Pact work for you"; segmented tabs (📖 Reading, 🔔 Alerts, 🤝 People, 🎨 Colours); Reading panel with radio buttons, read-aloud checkbox and translation select; other panels kept minimal | Matches `7 Settings.png`; the Colours tab actually switches the tokens |
+| 10 | Log in | `/login` | Language pill and read-aloud; centred shield hero "Your money weather…"; Face ID (primary); "Get a code" (secondary); "Continue as Amara (demo)"; two link rows; lock line at the bottom | Matches `8 Log in.png`; the demo link signs in and opens `/` |
+| 11 | Sign-up step 2 | `/signup/2` | Progress bar 2 of 3; MAKE IT YOURS hero; Simple, Clear and Detailed example cards; options card; Next; "Skip for now" | Matches `9 Sign-up, step 2 of 3.png` (Should) |
+| 12 | Account | `/account` | Profile hero with Edit; Logging in, Your bank, Where you're logged in and Your data cards (Delete in red with the 48-hour note); Log out | Matches `10 Account.png` (Should) |
+| 13 | Polish | all | axe and keyboard pass, `prefers-reduced-motion`, `CAPTURE=true` 390×844 mode for the video | No axe errors on the demo path |
 
-The components are TabHeader, SubHeader, BottomNav (76 px, four tabs), HeroCard (an eyebrow and a 72 px icon slot), ListCard (with a `<details>` "See where these come from"), TipCard, Tile, PrimaryButton and SecondaryButton (56 px and 52 px), a pill button, the drawn WeatherIcon (sun, cloud and storm, each paired with a word), and RiverChart (SVG 356×110, following the chart spec, with `role="img"` and an `aria-label`). Show all of them on `/dev/components`.
+Features 1 to 10 are the Musts. 11 and 12 are Should. 13 runs after the 16:45 feature freeze.
 
-Helper: `oneInN(p)` returns the nearest "1 in N". `cloudy` maps to "tight" here and nowhere else.
+## Rules I will hold each screen to
 
-## Phase 2: demo-path screens, in demo order (15:50 to 16:40). Must
+- Every £ amount, date and "1 in N" comes from a mock or engine field; none is typed into the page by hand. "Tight" is the label for the engine's `cloudy`.
+- Colours come only from tokens. Radii are 24 (hero), 20 (card) or pill. Page padding is 20, with a gap of 16 between sections.
+- Tab screens use TabHeader and BottomNav. Sub-screens use SubHeader and have no nav.
+- Weather states use drawn icons plus a word. Emoji carry feeling only and are `aria-hidden` when a word sits beside them.
+- Real `<button>`, `<a>`, `<details>` and `<label>` elements; no clickable divs.
 
-| Demo step | Route | Blocks (from pact-frontend) | Data |
-| --- | --- | --- | --- |
-| 1 | `/` Weather | clear hero "good until Thu 19 March", 7-day strip with arrows, storm card for Mon 23 March, tiles (buffer 6 days, 4 rules), "Why the storm?", "Get ready for it" | `GET /forecast` |
-| 2 | `/river` Time River | storm hero "1 in 3", chart with Week / Payday / Week pills, causes list with due dates in the due colour, tip | `/forecast`, `/drivers/{day}`, `POST /explain` |
-| 3 | `/rewind` Rewind | rewind hero £214, area chart, "Where it went" list, tip (kept with pact about £96) | `GET /rewind` |
-| 4 | `/pact` Pact | teal hero, text area with mic, four checkbox rule rows, note card, "Agree to 4 rules", 48-hour lock line | `POST /pact/parse`, `POST /pact`, `/pact/note` |
-| 5–6 | `/storm` Storm mode | illustration, note, "Move £15 to my buffer", chips, "🫂 I'm not okay" | `POST /simulate?as_of=2026-03-13`, `POST /actions/move-to-buffer` |
-| 7 | `/` again | 23 March now tight | refetch after the action |
+## Timing
 
-The fast-forward in step 5 is a hidden presenter control, for example a key press or a `?as_of=` query. It calls `/simulate`, then routes to `/storm`. The ally toast "Jade was told" (Sonner) is a Should, but cheap.
+It is now about 15:25. Feature freeze is 16:45. Features 1 to 7 cover the seven-step demo, so they come first. If we fall behind, 8 to 10 become static layouts, and 11 and 12 slip to after the freeze (allowed only if every Must is done).
 
-Merge at 16:20 once Weather, Time River and Rewind work. Merge again at 16:40 with Pact and Storm.
+## Backups if something runs late
 
-## Phase 3: remaining Musts (only if Phase 2 is green by 16:30)
-
-Support (mood check-in with three buttons, Talk to someone, Settings and Account rows), Settings (four segmented tabs, with Reading and Colours wired), Log in ("Continue as Amara (demo)" calls `POST /auth/demo`). Keep each minimal. A static layout counts.
-
-## After 16:45 (fixes only)
-
-Run axe and one keyboard pass per screen, fix copy against the copy rules, and set up `CAPTURE=true` for the video. Should items come next: Sign-up step 2, Account, colour-blind and high-contrast tokens, calm mode. Could items (FX1 to FX8) only if every Must is done.
-
-## Fallbacks (Option B)
-
-- Engine not ready by 16:20: ship on mocks, with `USE_MOCKS=true` for the demo. Add a second mock, `forecast_after.json`, so step 7 still shows 23 March as tight.
-- `/explain` failing: use a fixed template sentence that holds only engine fields.
-- Pact parser failing: show the four pre-written rule rows from a mock `pact_draft.json`, which the user still confirms.
-- RiverChart running long: show a 60-day row of weather icons and keep the "1 in 3" hero.
-
-## Checks before every commit
-
-These come from pact-build-workflow. Every number comes from an engine or mock field. Colours come from tokens, and radii are 24, 20 or pill. Tab screens use TabHeader and BottomNav, and sub-screens use SubHeader. Copy uses fine, tight or storm and "1 in N". Buttons and links are real elements with 44 px targets. Contract changes travel with their mocks.
-
-## Handover
-
-At the end of each session, post the handover note from pact-build-workflow in the team chat.
+- Engine not ready: run the demo on mocks, and add `forecast_after.json` for step 7.
+- Explain or parse failing: use template sentences and a pre-written `pact_draft.json`.
+- Chart running late: show a 60-day row of weather icons and keep the "1 in 3" hero.
