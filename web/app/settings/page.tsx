@@ -46,7 +46,7 @@ function RadioCard<T extends string>({
     <fieldset className="rounded-card border border-border bg-surface px-5 pt-1 pb-3">
       <legend className="px-2 text-[18px] font-bold">{legend}</legend>
       {options.map((o) => (
-        <label key={o.value} className="flex min-h-14 cursor-pointer items-center gap-4">
+        <label key={o.value} className="ix -mx-2 flex min-h-14 cursor-pointer items-center gap-4 rounded-xl px-2 hover:bg-surface-hover">
           <input
             type="radio"
             name={name}
@@ -241,7 +241,8 @@ export default function SettingsPage() {
             onKeyDown={(e) => onKey(e, i)}
             className={cn(
               "flex min-h-16 flex-col items-center justify-center gap-0.5 rounded-2xl text-[15px]",
-              tab === t.id ? "bg-surface font-bold text-primary" : "text-ink-2",
+              "ix ix-press-sm",
+              tab === t.id ? "bg-surface font-bold text-primary" : "text-ink-2 hover:bg-surface/60 hover:text-ink",
             )}
           >
             <span aria-hidden className="text-[22px] leading-none">
@@ -252,7 +253,7 @@ export default function SettingsPage() {
         ))}
       </div>
 
-      <div role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="flex flex-col gap-4">
+      <div key={tab} role="tabpanel" id={`panel-${tab}`} aria-labelledby={`tab-${tab}`} className="enter flex flex-col gap-4">
         {!s ? (
           <Skeleton blocks={2} />
         ) : tab === "reading" ? (

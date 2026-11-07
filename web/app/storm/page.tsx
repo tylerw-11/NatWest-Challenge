@@ -6,11 +6,11 @@ import { useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { Button, Chip, TextLink } from "@/components/Buttons";
 import { StormCloudIcon } from "@/components/illustrations";
-import { PlayIcon } from "@/components/icons";
+import { CheckIcon } from "@/components/icons";
+import { PlayButton } from "@/components/PlayButton";
 import { FallbackCard, Skeleton } from "@/components/Fallback";
 import { useMoveToBuffer, usePactNote, usePactRules, useSettings, useSimulate } from "@/lib/hooks";
 import { dayLong, gbp, stateLabel } from "@/lib/format";
-import { speak } from "@/lib/read-aloud";
 import type { FiredRule } from "@/lib/contracts";
 
 const DEMO_AS_OF = "2026-03-13";
@@ -67,7 +67,7 @@ function Storm() {
   return (
     <>
       <div className="flex flex-col items-center gap-3 text-center">
-        <StormCloudIcon size={132} />
+        <StormCloudIcon size={132} className="animate-drop" />
         <p className="text-[16px] text-storm-label">
           {dayLong(asOf)}
           {isPayday && " · payday"}
@@ -86,14 +86,7 @@ function Storm() {
       {pactOn && note.data && (
         <section className="rounded-card border-2 border-storm-hero bg-surface p-5">
           <div className="flex items-center gap-4">
-            <button
-              type="button"
-              onClick={() => speak(note.data!.text)}
-              aria-label="Play your note"
-              className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-storm-label text-on-primary"
-            >
-              <PlayIcon size={20} fill="currentColor" aria-hidden />
-            </button>
+            <PlayButton id="note-storm" text={note.data.text} label="Play your note" tone="storm" />
             <h2 className="text-[17px] font-bold">
               <span aria-hidden>💌</span> A note from you
             </h2>
@@ -104,17 +97,26 @@ function Storm() {
 
       {storm && (
         <div aria-live="polite" className="flex flex-col gap-3">
-          <Button onClick={() => move.mutate(best.amount_gbp)} disabled={move.isPending || move.isSuccess}>
-            {move.isSuccess
-              ? `${gbp(best.amount_gbp)} moved to your buffer`
-              : move.isPending
-                ? "Moving…"
-                : `Move ${gbp(best.amount_gbp)} to my buffer`}
+          <Button
+            onClick={() => move.mutate(best.amount_gbp)}
+            disabled={move.isPending || move.isSuccess}
+            className={move.isSuccess ? "disabled:opacity-100" : undefined}
+          >
+            {move.isSuccess ? (
+              <>
+                <CheckIcon size={22} strokeWidth={3} aria-hidden className="animate-pop" />
+                {`${gbp(best.amount_gbp)} moved to your buffer`}
+              </>
+            ) : move.isPending ? (
+              "Moving…"
+            ) : (
+              `Move ${gbp(best.amount_gbp)} to my buffer`
+            )}
           </Button>
           {after && (
-            <p className="rounded-card bg-surface p-4 text-center text-[16px]">
+            <p className="animate-week rounded-card bg-surface p-4 text-center text-[16px]">
               Done. {dayLong(storm.date)} now looks <b>{stateLabel(after.state)}</b>.{" "}
-              <Link href="/" className="font-bold text-primary underline">
+              <Link href="/" className="ix font-bold text-primary underline decoration-1 hover:text-primary-hover hover:decoration-2">
                 See your weather
               </Link>
             </p>
@@ -149,7 +151,7 @@ export default function StormPage() {
         <span className="text-[16px] font-bold text-storm-label">Storm mode</span>
         <TextLink href="/">Full app</TextLink>
       </header>
-      <main className="flex flex-col gap-5 px-5 pt-4 pb-10">
+      <main className="enter flex flex-col gap-5 px-5 pt-4 pb-10">
         <Suspense fallback={<Skeleton />}>
           <Storm />
         </Suspense>

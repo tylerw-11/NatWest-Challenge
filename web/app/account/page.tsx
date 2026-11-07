@@ -11,7 +11,7 @@ import { DownloadIcon } from "@/components/icons";
 import { useMe, usePactRules, useSettings } from "@/lib/hooks";
 import { api } from "@/lib/api";
 
-const linkBtn = "inline-flex min-h-11 items-center font-bold text-primary";
+const linkBtn = "ix inline-flex min-h-11 items-center font-bold text-primary hover:text-primary-hover hover:underline";
 
 function Row({ children, last = false }: { children: React.ReactNode; last?: boolean }) {
   return (
@@ -80,7 +80,7 @@ export default function AccountPage() {
         <button
           type="button"
           onClick={() => soon("change your name and email")}
-          className="inline-flex min-h-11 items-center rounded-full border-2 border-primary bg-surface px-5 font-bold text-primary"
+          className="ix ix-press-sm inline-flex min-h-11 items-center rounded-full border-2 border-primary bg-surface px-5 font-bold text-primary hover:bg-tint-teal"
         >
           Edit
         </button>
@@ -149,7 +149,7 @@ export default function AccountPage() {
       <Card className="py-3">
         <h2 className="text-[18px] font-bold">Your data</h2>
         <Row>
-          <button type="button" onClick={download} className="flex min-h-11 flex-1 items-center justify-between text-[17px]">
+          <button type="button" onClick={download} className="ix -mx-2 flex min-h-11 flex-1 items-center justify-between rounded-xl px-2 text-[17px] hover:bg-surface-hover">
             Download my data
             <DownloadIcon size={22} aria-hidden />
           </button>
@@ -158,7 +158,7 @@ export default function AccountPage() {
           <button
             type="button"
             onClick={() => toast("In the full app, deleting starts a 48-hour wait. You can cancel any time.")}
-            className="inline-flex min-h-11 items-center text-[17px] font-bold text-due"
+            className="ix inline-flex min-h-11 items-center text-[17px] font-bold text-due hover:underline"
           >
             Delete my account
           </button>

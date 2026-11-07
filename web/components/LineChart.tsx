@@ -53,14 +53,23 @@ export function LineChart({
   return (
     <figure className="flex flex-col gap-1">
       <svg viewBox={`0 0 ${W} ${H}`} width="100%" role="img" aria-label={ariaLabel} className="overflow-visible">
-        <path d={fill} fill="var(--primary)" fillOpacity={0.12} />
+        <path d={fill} fill="var(--primary)" fillOpacity={0.12} className="chart-fade" />
         <line x1={0} x2={W} y1={y(0)} y2={y(0)} stroke="var(--chart-base)" strokeWidth={1.5} strokeDasharray="5 5" />
         {baseLabel && (
           <text x={W} y={y(0) - 5} textAnchor="end" fontSize={12} fill="var(--ink-2)">
             {baseLabel}
           </text>
         )}
-        <path d={line} fill="none" stroke="var(--primary)" strokeWidth={3} strokeLinejoin="round" strokeLinecap="round" />
+        <path
+          d={line}
+          pathLength={1}
+          fill="none"
+          stroke="var(--primary)"
+          strokeWidth={3}
+          strokeLinejoin="round"
+          strokeLinecap="round"
+          className="chart-draw"
+        />
         {keyIndex !== undefined && points[keyIndex] && (
           <circle
             cx={x(keyIndex)}
@@ -69,6 +78,7 @@ export function LineChart({
             fill="var(--storm-hero)"
             stroke="var(--storm-label)"
             strokeWidth={3}
+            className="chart-dot"
           />
         )}
       </svg>

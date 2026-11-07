@@ -40,11 +40,16 @@ export function BottomNav({
                 href={href}
                 aria-current={isActive ? "page" : undefined}
                 className={cn(
-                  "flex h-full flex-col items-center justify-center gap-1 text-[15px]",
-                  isActive ? "font-bold text-primary" : "text-ink-2",
+                  "ix flex h-full flex-col items-center justify-center gap-1 text-[15px]",
+                  isActive ? "font-bold text-primary" : "text-ink-2 hover:text-ink",
                 )}
               >
-                <Icon size={24} strokeWidth={isActive ? 2.25 : 1.75} aria-hidden />
+                <Icon
+                  size={24}
+                  strokeWidth={isActive ? 2.25 : 1.75}
+                  aria-hidden
+                  className={isActive ? "animate-pop" : undefined}
+                />
                 {label}
               </Link>
             </li>

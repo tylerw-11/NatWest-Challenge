@@ -48,8 +48,8 @@ function CheckIn() {
             aria-pressed={mood === m.id}
             onClick={() => update.mutate({ mood: m.id })}
             className={cn(
-              "flex min-h-24 flex-col items-center justify-center gap-1 rounded-card border-2 text-[17px] font-bold",
-              mood === m.id ? "border-primary bg-surface" : "border-border bg-surface/60",
+              "ix ix-press flex min-h-24 flex-col items-center justify-center gap-1 rounded-card border-2 text-[17px] font-bold",
+              mood === m.id ? "border-primary bg-surface" : "border-border bg-surface/60 hover:border-ink-2 hover:bg-surface",
             )}
           >
             <span aria-hidden className="text-[32px] leading-none">
@@ -61,7 +61,7 @@ function CheckIn() {
       </div>
 
       {mood === "worried" && (
-        <div aria-live="polite" className="mt-4 flex flex-col gap-4 rounded-card bg-surface p-5">
+        <div aria-live="polite" className="animate-week mt-4 flex flex-col gap-4 rounded-card bg-surface p-5">
           <p className="text-[17px]">
             {calm ? "Calm mode is on. You can turn it off any time." : "Thanks for telling us. Want a calmer app for a while?"}
           </p>
@@ -97,7 +97,7 @@ export default function SupportPage() {
             key={t.label}
             type="button"
             onClick={() => demo(t.what)}
-            className="flex min-h-24 flex-col items-center justify-center gap-2 rounded-card border border-border bg-surface text-[17px] font-bold"
+            className="ix ix-lift ix-press flex min-h-24 flex-col items-center justify-center gap-2 rounded-card border border-border bg-surface text-[17px] font-bold hover:border-ink-2"
           >
             <span aria-hidden className="text-[30px] leading-none">
               {t.emoji}

@@ -28,14 +28,14 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={() => toast("More languages are coming soon.")}
-          className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-[17px] font-bold"
+          className="ix ix-press-sm inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-[17px] font-bold hover:border-ink-2 hover:bg-surface-hover"
         >
           <span aria-hidden>🌍</span> English
         </button>
         <ReadAloudButton />
       </header>
 
-      <main className="flex flex-1 flex-col gap-4 px-5 pt-4 pb-6">
+      <main className="enter flex flex-1 flex-col gap-4 px-5 pt-4 pb-6">
         <HeroCard
           tone="teal"
           centred
@@ -57,7 +57,7 @@ export default function LoginPage() {
             type="button"
             onClick={demoLogin}
             disabled={busy}
-            className="inline-flex min-h-11 items-center font-bold text-primary underline underline-offset-2"
+            className="ix inline-flex min-h-11 items-center font-bold text-primary underline decoration-1 underline-offset-2 hover:text-primary-hover hover:decoration-2"
           >
             Continue as Amara (demo)
           </button>
