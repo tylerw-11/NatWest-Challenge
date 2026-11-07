@@ -9,6 +9,7 @@ import { Tile } from "@/components/Cards";
 import { Button } from "@/components/Buttons";
 import { FallbackCard, Skeleton } from "@/components/Fallback";
 import { StormCloudIcon, SunIcon } from "@/components/illustrations";
+import { ChevronDownIcon } from "@/components/icons";
 import { useForecast, useMe, usePactRules } from "@/lib/hooks";
 import { dayLong, dayShort, gbp, stateEyebrow } from "@/lib/format";
 import type { Driver, Forecast } from "@/lib/contracts";
@@ -71,12 +72,15 @@ function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: n
       </div>
 
       {storm && stormDrivers.length > 0 && (
-        <details className="rounded-card border border-border bg-surface px-5">
+        <details className="group ix rounded-card border border-border bg-surface px-5 hover:border-ink-2">
           <summary className="flex min-h-14 cursor-pointer list-none items-center justify-between gap-3 text-[17px] [&::-webkit-details-marker]:hidden">
             <span>
               Why the storm? <b>{causeSummary(stormDrivers)}</b>
             </span>
-            <span className="shrink-0 font-bold text-primary">See more</span>
+            <span className="flex shrink-0 items-center gap-1 font-bold text-primary">
+              See more
+              <ChevronDownIcon size={20} aria-hidden className="ix-nudge group-open:rotate-180" />
+            </span>
           </summary>
           <ul className="border-t border-divider pt-2 pb-4 text-[16px]">
             {stormDrivers.map((d) => (

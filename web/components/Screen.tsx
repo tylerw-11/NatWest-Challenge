@@ -19,7 +19,7 @@ export function TabScreen({
   return (
     <div className="flex min-h-dvh flex-col">
       <TabHeader title={title} emoji={emoji} showSettings={showSettings} />
-      <main className="flex flex-1 flex-col gap-4 px-5 pt-3 pb-6">{children}</main>
+      <main className="enter flex flex-1 flex-col gap-4 px-5 pt-3 pb-6">{children}</main>
       <BottomNav />
     </div>
   );
@@ -37,7 +37,7 @@ export function SubScreen({
   return (
     <div className="flex min-h-dvh flex-col">
       <SubHeader title={title} backHref={backHref} />
-      <main className="flex flex-1 flex-col gap-4 px-5 pt-3 pb-8">{children}</main>
+      <main className="enter flex flex-1 flex-col gap-4 px-5 pt-3 pb-8">{children}</main>
     </div>
   );
 }

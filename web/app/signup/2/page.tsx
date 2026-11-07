@@ -74,7 +74,8 @@ export default function SignupStep2() {
                 key={e.level}
                 className={cn(
                   "flex cursor-pointer flex-col gap-1 rounded-card border-2 bg-surface px-5 py-4 has-[:focus-visible]:outline-3 has-[:focus-visible]:outline-primary",
-                  on ? "border-primary" : "border-border",
+                  "ix ix-press",
+                  on ? "border-primary" : "border-border hover:border-ink-2",
                 )}
               >
                 <input

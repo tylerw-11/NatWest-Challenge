@@ -27,6 +27,11 @@ function longDate(iso: string) {
 export function WeekStrip({ days }: { days: Day[] }) {
   const weeks = Math.ceil(days.length / 7);
   const [week, setWeek] = useState(0);
+  const [dir, setDir] = useState(1);
+  const go = (n: number) => {
+    setDir(n);
+    setWeek((w) => w + n);
+  };
   const shown = days.slice(week * 7, week * 7 + 7);
   const title =
     week === 0 ? "This week" : week === 1 ? "Next week" : `Week of ${longDate(shown[0].date).replace(/^\w+ /, "")}`;
@@ -38,15 +43,19 @@ export function WeekStrip({ days }: { days: Day[] }) {
           {title}
         </h2>
         <div className="flex gap-2">
-          <IconButton label="Previous week" disabled={week === 0} onClick={() => setWeek((w) => w - 1)} className="disabled:opacity-40">
+          <IconButton label="Previous week" disabled={week === 0} onClick={() => go(-1)}>
             <BackIcon size={22} />
           </IconButton>
-          <IconButton label="Next week" disabled={week >= weeks - 1} onClick={() => setWeek((w) => w + 1)} className="disabled:opacity-40">
+          <IconButton label="Next week" disabled={week >= weeks - 1} onClick={() => go(1)} className="disabled:opacity-40">
             <ChevronIcon size={22} />
           </IconButton>
         </div>
       </div>
-      <ol className="grid grid-cols-7 gap-1.5">
+      <ol
+        key={week}
+        className={cn("grid grid-cols-7 gap-1.5", week > 0 || dir < 0 ? "animate-week" : undefined)}
+        style={{ "--dir": dir } as React.CSSProperties}
+      >
         {shown.map((d) => (
           <li
             key={d.date}

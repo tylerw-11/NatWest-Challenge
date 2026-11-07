@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { ChevronDownIcon } from "./icons";
 
 /** Plain white card: radius 20, border. */
 export function Card({
@@ -53,8 +54,9 @@ export function ListCard({
       </ul>
       {details && (
         <details className="group mt-2 border-t border-divider pt-3">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center font-bold text-primary [&::-webkit-details-marker]:hidden">
+          <summary className="ix flex min-h-11 cursor-pointer list-none items-center gap-1 font-bold text-primary hover:text-primary-hover [&::-webkit-details-marker]:hidden">
             {detailsLabel}
+            <ChevronDownIcon size={20} aria-hidden className="ix-nudge group-open:rotate-180" />
           </summary>
           <div className="pt-1 pb-1 text-[15px] text-ink-2">{details}</div>
         </details>
@@ -96,13 +98,13 @@ export function RowCard({
   trailing?: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-16 items-center gap-4 rounded-card border border-border bg-surface px-5 py-4">
+    <div className="ix ix-lift ix-press flex min-h-16 items-center gap-4 rounded-card border border-border bg-surface px-5 py-4 hover:border-ink-2">
       {icon && <span className="shrink-0 text-primary">{icon}</span>}
       <span className="min-w-0 flex-1">
         <span className="block text-[17px] font-bold">{title}</span>
         {subtitle && <span className="block text-[15px] text-ink-2">{subtitle}</span>}
       </span>
-      {trailing}
+      {trailing && <span className="ix-nudge shrink-0">{trailing}</span>}
     </div>
   );
 }

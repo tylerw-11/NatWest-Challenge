@@ -8,11 +8,12 @@ import { HeroCard } from "@/components/HeroCard";
 import { Card } from "@/components/Cards";
 import { Button } from "@/components/Buttons";
 import { ShieldTickIcon } from "@/components/illustrations";
-import { LockIcon, MicIcon, PlayIcon } from "@/components/icons";
+import { LockIcon, MicIcon } from "@/components/icons";
+import { PlayButton } from "@/components/PlayButton";
 import { usePactNote, usePactRules, useParsePact, useSavePact } from "@/lib/hooks";
 import { ApiError } from "@/lib/api";
-import { speak } from "@/lib/read-aloud";
 import type { PactRule } from "@/lib/contracts";
+import { cn } from "@/lib/utils";
 
 const STARTER =
   "When things get tight, keep takeaways to £20 a week, stop me borrowing for 2 days, tell Jade, and save £15 on payday.";
@@ -23,6 +24,7 @@ type SpeechRec = {
   onresult: (e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void;
   onend: () => void;
   start: () => void;
+  stop: () => void;
 };
 
 function getRecognition(): SpeechRec | null {
@@ -48,6 +50,7 @@ export default function PactPage() {
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [listening, setListening] = useState(false);
   const firstRun = useRef(true);
+  const recRef = useRef<SpeechRec | null>(null);
 
   // Parse the words into draft rules: at once on arrival, then 900 ms after typing stops.
   const { mutate } = parse;
@@ -72,7 +75,12 @@ export default function PactPage() {
   const pactOn = (saved.data?.length ?? 0) > 0;
 
   const listen = () => {
+    if (listening) {
+      recRef.current?.stop();
+      return;
+    }
     const rec = getRecognition();
+    recRef.current = rec;
     if (!rec) {
       toast("Speaking isn't available in this browser. You can type instead.");
       return;
@@ -117,14 +125,17 @@ export default function PactPage() {
             rows={4}
             value={text}
             onChange={(e) => setText(e.target.value)}
-            className="min-h-28 flex-1 resize-none rounded-2xl border border-ink-2 bg-surface px-4 py-3 text-[17px] leading-relaxed"
+            className="ix min-h-28 flex-1 resize-none rounded-2xl border border-ink-2 bg-surface px-4 py-3 text-[17px] leading-relaxed hover:border-ink"
           />
           <button
             type="button"
             onClick={listen}
-            aria-label={listening ? "Listening" : "Say it out loud"}
+            aria-label={listening ? "Listening. Tap to stop" : "Say it out loud"}
             aria-pressed={listening}
-            className="inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary"
+            className={cn(
+              "ix ix-press-sm inline-flex size-12 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary hover:bg-primary-hover",
+              listening && "animate-live ring-2 ring-primary ring-offset-2 ring-offset-bg",
+            )}
           >
             <MicIcon size={24} aria-hidden />
           </button>
@@ -150,7 +161,7 @@ export default function PactPage() {
           <ul className={parse.isPending ? "opacity-60" : undefined}>
             {drafts.map((r) => (
               <li key={r.id} className="border-b border-divider last:border-b-0">
-                <label className="flex min-h-16 cursor-pointer items-center gap-4 py-3">
+                <label className="ix -mx-2 flex min-h-16 cursor-pointer items-center gap-4 rounded-xl px-2 py-3 hover:bg-surface-hover">
                   <input
                     type="checkbox"
                     checked={!!checked[r.id]}
@@ -170,14 +181,7 @@ export default function PactPage() {
 
       {note.data && (
         <Card className="flex items-center gap-4 py-4">
-          <button
-            type="button"
-            onClick={() => speak(note.data!.text)}
-            aria-label="Play your note to future you"
-            className="inline-flex size-14 shrink-0 items-center justify-center rounded-full bg-primary text-on-primary"
-          >
-            <PlayIcon size={22} fill="currentColor" aria-hidden />
-          </button>
+          <PlayButton id="note-pact" text={note.data.text} label="Play your note to future you" size="lg" />
           <span>
             <span className="block text-[17px] font-bold">
               <span aria-hidden>💌</span> A note to future you
