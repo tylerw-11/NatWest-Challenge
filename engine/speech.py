@@ -1,4 +1,4 @@
-"""Read-aloud with ElevenLabs (eleven_v3): the voice's delivery follows the moment on screen.
+"""Read-aloud with ElevenLabs (eleven_v4, 90+ languages, audio tags): the voice's delivery follows the moment on screen.
 
 How the key is used (and nothing else):
 - Only server-side: ELEVENLABS_API_KEY lives in .env and is never sent to the browser or logged.
@@ -29,7 +29,24 @@ def api_key() -> str | None:
 
 
 def model() -> str:
-    return os.getenv("ELEVENLABS_MODEL", "eleven_v3")  # 74 languages, expressive audio tags
+    # Eleven v4: ElevenLabs' most expressive model (audio tags, 90+ languages), clearer than v3.
+    return os.getenv("ELEVENLABS_MODEL", "eleven_v4")
+
+
+_languages: dict[str, set[str] | None] = {}
+
+
+def supported_languages() -> set[str] | None:
+    """The model's languages, from ElevenLabs' free /v1/models list (fetched once per engine run)."""
+    m = model()
+    if m not in _languages:
+        try:
+            r = httpx.get("https://api.elevenlabs.io/v1/models", headers={"xi-api-key": api_key() or ""}, timeout=10)
+            found = next((x for x in r.json() if x.get("model_id") == m), None) if r.status_code == 200 else None
+            _languages[m] = {lang["language_id"] for lang in found.get("languages", [])} if found else None
+        except (httpx.HTTPError, ValueError):
+            _languages[m] = None  # unknown: let ElevenLabs decide
+    return _languages[m]
 
 
 def voice() -> str:
@@ -111,11 +128,11 @@ def scrub(text: str) -> str:
 
 
 def iso_language(lang: str | None) -> str | None:
-    """BCP-47 (e.g. 'pt-BR', 'zh-Hans') to the ISO 639-1 code ElevenLabs takes; None means auto-detect."""
+    """The app's BCP-47 code (e.g. 'pt-BR', 'zh-Hans', 'fa-AF', 'ckb') to ElevenLabs' language id."""
     if not lang:
         return None
     base = lang.split("-")[0].lower()
-    return base if len(base) == 2 else None
+    return base if 2 <= len(base) <= 3 and base.isalpha() else None
 
 
 def cache_key(text: str, lang: str | None, d: Delivery) -> str:
@@ -150,10 +167,10 @@ def synthesize_remote(text: str, lang: str | None, d: Delivery) -> bytes:
     }
     if lang:
         body["language_code"] = lang
-    r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_64"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
+    r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_128"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
     if r.status_code == 422 and lang:  # language not supported by this model: let it auto-detect
         body.pop("language_code")
-        r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_64"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
+        r = httpx.post(f"{API}/{voice()}", params={"output_format": "mp3_44100_128"}, headers={"xi-api-key": api_key() or ""}, json=body, timeout=30)
     if r.status_code != 200:
         raise SpeechUnavailable("speech_failed", "The voice isn't available right now.", 502)
     return r.content
@@ -170,6 +187,10 @@ def speak(text: str, lang: str | None, ctx: Context) -> tuple[bytes, bool, Deliv
         raise SpeechUnavailable("too_long", "That's too long for the voice.", 413)
     d = delivery(ctx)
     code = iso_language(lang)
+    supported = supported_languages()
+    if code and supported is not None and code not in supported:
+        # Better the browser's voice in the right language than ElevenLabs in the wrong one.
+        raise SpeechUnavailable("language_not_supported", "The voice doesn't speak this language yet.", 422)
     # Audio tags go in front of the text; eleven_v3 reads them as directions, not words.
     payload = (" ".join(f"[{t}]" for t in d.tags) + " " + clean).strip()
     path = CACHE_DIR / f"{cache_key(payload, code, d)}.mp3"

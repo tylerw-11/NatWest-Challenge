@@ -66,7 +66,17 @@ export function voiceContext(kind: VoiceKind = "page"): VoiceContext {
   };
 }
 
-/** The language the voice should use: auto-detect when a translation sits beside the English. */
-export function voiceLanguage(): string | null {
-  return lastSettings?.translation ? null : "en";
+/** The language on screen (the whole app is translated when one is chosen), for the voice. */
+export function voiceLanguage(): string {
+  return currentLanguage() ?? "en";
+}
+
+/** The chosen language: settings first, then the one picked before logging in (localStorage). */
+export function currentLanguage(): string | null {
+  if (lastSettings) return lastSettings.translation ?? null;
+  try {
+    return typeof window === "undefined" ? null : window.localStorage.getItem("pact.language");
+  } catch {
+    return null;
+  }
 }

@@ -175,11 +175,32 @@ export async function speak(text: string, id: string, lang = "en-GB", kind: Voic
   });
 }
 
-/** Visible text of the page's <main>, skipping aria-hidden parts. */
+/** Elements whose text is its own sentence or line when read aloud. */
+const BLOCKS = "h1,h2,h3,h4,h5,h6,p,li,dt,dd,label,legend,summary,button,a,td,th,figcaption,blockquote,[role='status'],[role='alert']";
+
+/**
+ * Visible text of the page's <main>, as sentences: each heading, paragraph, row and button
+ * becomes its own sentence, so the voice pauses between them instead of running words
+ * together ("Safety buffer. 6 days." not "Safety buffer6 days"). Skips aria-hidden parts,
+ * [data-no-read], hidden text, and repeated lines.
+ */
 export function mainText(): string {
   const main = document.querySelector("main");
   if (!main) return "";
   const clone = main.cloneNode(true) as HTMLElement;
-  clone.querySelectorAll("[aria-hidden='true'], [data-no-read], .sr-only").forEach((n) => n.remove());
-  return clone.textContent ?? "";
+  clone.querySelectorAll("[aria-hidden='true'], [data-no-read], .sr-only, [hidden], script, style, svg").forEach((n) => n.remove());
+  const BREAK = "\n";
+  clone.querySelectorAll(BLOCKS).forEach((el) => {
+    el.prepend(document.createTextNode(BREAK));
+    el.append(document.createTextNode(BREAK));
+  });
+  // Separate inline siblings that sit side by side as separate facts (label and value in a tile).
+  clone.querySelectorAll("div > span, div > b, div > strong").forEach((el) => el.append(document.createTextNode(BREAK)));
+  const seen = new Set<string>();
+  return (clone.textContent ?? "")
+    .split(BREAK)
+    .map((line) => line.replace(/\s+/g, " ").trim())
+    .filter((line) => line && /[\p{L}\p{N}]/u.test(line) && !seen.has(line) && seen.add(line))
+    .map((line) => (/[.!?…:。！？؟।]$/.test(line) ? line : `${line}.`))
+    .join(" ");
 }

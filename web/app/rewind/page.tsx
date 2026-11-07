@@ -1,6 +1,5 @@
 "use client";
 
-import { Translated } from "@/components/Translated";
 import { TabScreen } from "@/components/Screen";
 import { HeroCard } from "@/components/HeroCard";
 import { Card, ListCard, TipCard } from "@/components/Cards";
@@ -34,7 +33,6 @@ function RewindBody({ rewind }: { rewind: Rewind }) {
         }
         icon={<RewindClockIcon />}
       >
-        <Translated k="rewind_extra" vars={{ amount: rewind.total_gbp }} className="mt-3" />
       </HeroCard>
 
       <Card className="flex flex-col gap-4 px-5">

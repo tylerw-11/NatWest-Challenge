@@ -1,6 +1,7 @@
 "use client";
 
 import { LanguagePicker } from "@/components/LanguagePicker";
+import { rememberLanguage } from "@/components/PageLanguage";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { SubScreen } from "@/components/Screen";
@@ -96,7 +97,10 @@ function ReadingPanel({ s, update }: { s: Settings; update: Update }) {
             id="translation"
             label="Translation"
             value={s.translation}
-            onChange={(code) => update({ translation: code })}
+            onChange={(code) => {
+              rememberLanguage(code);
+              update({ translation: code });
+            }}
           />
         </div>
       </Card>

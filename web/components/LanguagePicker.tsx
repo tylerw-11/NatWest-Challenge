@@ -134,6 +134,7 @@ export function LanguagePicker({
         ref={listRef}
         id={listId}
         role="listbox"
+        data-no-translate
         aria-label={`${label}: ${LANGUAGES.length} languages`}
         hidden={!open}
         className="absolute right-0 left-0 z-20 mt-2 max-h-[300px] overflow-y-auto overscroll-contain rounded-2xl border border-ink-2 bg-surface py-1 shadow-lg"

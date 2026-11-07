@@ -86,6 +86,19 @@ Sign-up step 3 ("Your money") saves `PUT /profile`: the money in the account tod
 
 A logged-out visitor is sent to Log in, and a person with no numbers yet is sent to Sign-up step 3 (`web/lib/api.ts`, `redirectFor`).
 
+## Translation (whole app)
+
+Choosing a language (on Log in before signing in, or in Settings and Sign-up step 2) translates every screen: buttons, labels, messages, errors and dates. Arabic, Urdu, Persian, Dari, Pashto, Sorani Kurdish and Hebrew switch the page to right-to-left. The choice is remembered in the browser and saved to the person's settings, and the read-aloud voice speaks the chosen language.
+
+- `web/scripts/extract-strings.mjs` collects every English string into `web/public/i18n/en.json`.
+- `web/public/i18n/<code>.json` holds the translations for each language. `web/scripts/check-translations.mjs` checks them.
+- `web/lib/auto-translate.ts` swaps the text on screen and re-writes dates with `Intl`. It skips any entry whose `{0}` placeholders don't match, so a bad entry shows English rather than wrong text, and a missing language stays in English.
+- The translations were written by Claude: they need a native-speaker check before launch. After adding UI text, run the extractor and translate the new strings.
+
+## Not done yet: letter scanning
+
+Photographing a bill to make it a dated event on the forecast needs an OCR or vision service (for example Claude with an `ANTHROPIC_API_KEY`). Until then, bills are added by hand in Sign-up step 3.
+
 ## Not done yet
 
 - Text-message codes (Cut in the spec) and a real bank link (Open Banking needs a provider account and consent screens).

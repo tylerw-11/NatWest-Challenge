@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BackIcon, SettingsIcon, SpeakerIcon, StopIcon } from "./icons";
@@ -29,14 +30,18 @@ export function TabHeader({
   title,
   emoji,
   showSettings = false,
+  logo = false,
 }: {
   title: string;
   emoji?: string;
   showSettings?: boolean;
+  /** The Pact app icon in the top-left corner (Weather, the home screen). */
+  logo?: boolean;
 }) {
   return (
     <header className="flex items-center justify-between px-5 pt-5 pb-2">
       <h1 className="flex items-center gap-2 text-[22px] font-bold">
+        {logo && <Image src="/brand/pact-icon.png" alt="Pact" width={40} height={40} priority className="size-10 rounded-xl" />}
         {title}
         {emoji && <span aria-hidden>{emoji}</span>}
       </h1>

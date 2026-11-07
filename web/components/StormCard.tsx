@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Translated } from "@/components/Translated";
 import { dayLong } from "@/lib/format";
 import { StormCloudIcon } from "./illustrations";
 import { ChevronIcon } from "./icons";
@@ -15,7 +14,6 @@ export function StormCard({ date }: { date: string }) {
       <span className="flex-1">
         <span className="block text-[13px] font-bold tracking-wide text-storm-label uppercase">Storm ahead</span>
         <span className="block text-[18px] font-bold">{dayLong(date)}</span>
-        <Translated as="span" k="storm_ahead" vars={{ date }} />
       </span>
       <ChevronIcon size={26} className="ix-nudge text-storm-label" aria-hidden />
     </Link>

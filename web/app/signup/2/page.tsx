@@ -1,6 +1,7 @@
 "use client";
 
 import { LanguagePicker } from "@/components/LanguagePicker";
+import { rememberLanguage } from "@/components/PageLanguage";
 import { useRouter } from "next/navigation";
 import { SubScreen } from "@/components/Screen";
 import { HeroCard } from "@/components/HeroCard";
@@ -134,7 +135,10 @@ export default function SignupStep2() {
               id="translation"
               label="Translation"
               value={s.translation}
-              onChange={(code) => update.mutate({ translation: code })}
+              onChange={(code) => {
+                rememberLanguage(code);
+                update.mutate({ translation: code });
+              }}
             />
           </div>
         </Card>

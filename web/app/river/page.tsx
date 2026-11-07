@@ -1,6 +1,5 @@
 "use client";
 
-import { Translated } from "@/components/Translated";
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { SubScreen } from "@/components/Screen";
@@ -54,12 +53,7 @@ function River({ forecast, initialDay }: { forecast: Forecast; initialDay?: stri
         headline={day.state === "clear" ? "Looks fine" : `${oneInN(day.p_shortfall)} chance of going short`}
         body={`Most likely: ${gbp(day.p50)} left`}
         icon={day.state === "clear" ? <SunIcon /> : <StormCloudIcon />}
-      >
-        {day.state !== "clear" && (
-          <Translated k="storm_hero" vars={{ chance: day.p_shortfall, date: day.date }} className="mt-3" />
-        )}
-        <Translated k="most_likely" vars={{ amount: day.p50 }} className={day.state === "clear" ? "mt-3" : "mt-1"} />
-      </HeroCard>
+      />
 
       <Card className="flex flex-col gap-4 px-5">
         <h2 className="text-[15px] font-bold">Your money, next 4 weeks</h2>
@@ -115,7 +109,6 @@ function River({ forecast, initialDay }: { forecast: Forecast; initialDay?: stri
         <TipCard>
           Save {gbp(best.amount_gbp)} on payday ({weekdayDay(best.date)}).{" "}
           <b>The storm drops to {oneInN(best.p_after)}.</b>
-          <Translated as="span" k="tip_save" vars={{ amount: best.amount_gbp, chance: best.p_after }} className="mt-2" />
         </TipCard>
       )}
 

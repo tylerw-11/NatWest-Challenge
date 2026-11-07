@@ -23,6 +23,7 @@ def calls(tmp_path, monkeypatch):
         return b"ID3-fake-mp3"
 
     monkeypatch.setattr(speech, "synthesize_remote", fake)
+    monkeypatch.setattr(speech, "supported_languages", lambda: {"en", "pl", "pt", "ar", "ckb", "yue", "zh"})
     return sent
 
 
@@ -80,11 +81,18 @@ def test_speech_returns_audio_with_tone_and_caches(client, calls):
     assert again.headers["x-pact-voice-cache"] == "hit" and len(calls) == 1  # replaying costs nothing
 
 
-def test_language_is_passed_as_iso_code(client, calls):
+def test_language_is_passed_as_elevenlabs_code(client, calls):
     client.post("/speech", json={"text": "Wszystko w porządku", "lang": "pl"}, headers=ORIGIN)
     client.post("/speech", json={"text": "Tudo bem", "lang": "pt-BR"}, headers=ORIGIN)
-    client.post("/speech", json={"text": "Mixed English and translation"}, headers=ORIGIN)
-    assert [c["lang"] for c in calls] == ["pl", "pt", None]
+    client.post("/speech", json={"text": "باشه", "lang": "ckb"}, headers=ORIGIN)
+    client.post("/speech", json={"text": "你好", "lang": "zh-Hans"}, headers=ORIGIN)
+    client.post("/speech", json={"text": "Hello"}, headers=ORIGIN)
+    assert [c["lang"] for c in calls] == ["pl", "pt", "ckb", "zh", None]
+
+
+def test_unsupported_language_uses_the_browser_voice(client, calls):
+    r = client.post("/speech", json={"text": "Selam", "lang": "ti"}, headers=ORIGIN)
+    assert r.status_code == 422 and r.json()["code"] == "language_not_supported" and calls == []
 
 
 def test_budget_and_limits_fall_back_politely(client, calls):

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Toaster } from "sonner";
 import { PresenterKeys } from "@/components/PresenterKeys";
 import { SettingsSync } from "@/components/SettingsSync";
+import { PageLanguage } from "@/components/PageLanguage";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const [client] = useState(
@@ -18,6 +19,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       {children}
       <PresenterKeys />
       <SettingsSync />
+      <PageLanguage />
       <Toaster position="top-center" />
     </QueryClientProvider>
   );

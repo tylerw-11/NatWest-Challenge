@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -11,10 +12,26 @@ import { ReadAloudButton } from "@/components/Header";
 import { ShieldSunIcon } from "@/components/illustrations";
 import { ChevronIcon, FaceIdIcon, LockIcon } from "@/components/icons";
 import { ApiError, api, USE_MOCKS } from "@/lib/api";
+import { LanguagePicker } from "@/components/LanguagePicker";
+import { LANGUAGE_EVENT, LANGUAGE_KEY, rememberLanguage } from "@/components/PageLanguage";
+import { findLanguage } from "@/lib/languages";
 
 export default function LoginPage() {
   const router = useRouter();
   const [busy, setBusy] = useState(false);
+  // Language before logging in: remembered in this browser, then saved to settings after sign-up.
+  const [chooseLanguage, setChooseLanguage] = useState(false);
+  const [language, setLanguage] = useState<string | null>(null);
+  useEffect(() => {
+    try {
+      setLanguage(window.localStorage.getItem(LANGUAGE_KEY));
+    } catch {
+      /* storage blocked */
+    }
+    const on = (e: Event) => setLanguage((e as CustomEvent<string | null>).detail);
+    window.addEventListener(LANGUAGE_EVENT, on);
+    return () => window.removeEventListener(LANGUAGE_EVENT, on);
+  }, []);
 
   const demoLogin = async () => {
     setBusy(true);
@@ -49,15 +66,39 @@ export default function LoginPage() {
       <header className="flex items-center justify-between px-5 pt-5">
         <button
           type="button"
-          onClick={() => toast("More languages are coming soon.")}
+          aria-expanded={chooseLanguage}
+          aria-controls="login-language"
+          onClick={() => setChooseLanguage((v) => !v)}
           className="ix ix-press-sm inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-surface px-4 text-[17px] font-bold hover:border-ink-2 hover:bg-surface-hover"
         >
-          <span aria-hidden>🌍</span> English
+          <span aria-hidden>🌍</span> <span data-no-translate>{findLanguage(language)?.native ?? "English"}</span>
         </button>
         <ReadAloudButton />
       </header>
+      {chooseLanguage && (
+        <div id="login-language" className="mx-5 mt-3 rounded-card border border-border bg-surface p-4">
+          <LanguagePicker
+            id="login-translation"
+            label="Language"
+            value={language}
+            onChange={(code) => {
+              rememberLanguage(code);
+              setChooseLanguage(false);
+            }}
+          />
+        </div>
+      )}
 
       <main className="enter flex flex-1 flex-col gap-4 px-5 pt-4 pb-6">
+        <Image
+          src="/brand/pact-logo.png"
+          alt="Pact. Your money weather, with a plan."
+          width={2400}
+          height={880}
+          priority
+          sizes="350px"
+          className="h-auto w-full rounded-card"
+        />
         <HeroCard
           tone="teal"
           centred

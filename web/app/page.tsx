@@ -1,6 +1,5 @@
 "use client";
 
-import { Translated, useTranslation } from "@/components/Translated";
 import NumberFlow from "@number-flow/react";
 import { TabScreen } from "@/components/Screen";
 import { HeroCard } from "@/components/HeroCard";
@@ -51,7 +50,6 @@ function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: n
     ? forecast.drivers.filter((d) => storm.driver_ids.includes(d.id))
     : [];
   const calmWeek = forecast.days.slice(0, 7).every((d) => d.state === "clear");
-  const { code: translation } = useTranslation();
 
   return (
     <>
@@ -61,9 +59,7 @@ function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: n
         headline={`You're good until ${dayLong(forecast.covered_until)}`}
         body={calmWeek ? "Enjoy a calm week." : "Some days ahead are tight."}
         icon={today.state === "clear" ? <SunIcon /> : <StormCloudIcon />}
-      >
-        <Translated k="clear_hero" vars={{ date: forecast.covered_until }} className="mt-3" />
-      </HeroCard>
+      />
 
       <WeekStrip days={forecast.days} />
 
@@ -76,12 +72,6 @@ function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: n
         />
         <Tile label="Pact rules on" value={ruleCount} />
       </div>
-      {translation && (
-        <div className="-mt-2 flex flex-col gap-1 px-1">
-          <Translated k="buffer_days" vars={{ days: forecast.buffer_days }} />
-          <Translated k="rules_on" vars={{ n: ruleCount }} />
-        </div>
-      )}
 
       {storm && stormDrivers.length > 0 && (
         <details className="group ix rounded-card border border-border bg-surface px-5 hover:border-ink-2">
@@ -117,7 +107,7 @@ export default function WeatherPage() {
   const ruleCount = rules.data?.filter((r) => r.confirmed).length ?? 0;
 
   return (
-    <TabScreen title={me.data ? `Hi ${me.data.user.name}` : "Hi"} emoji="👋" showSettings>
+    <TabScreen title={me.data ? `Hi ${me.data.user.name}` : "Hi"} emoji="👋" showSettings logo>
       {forecast.isPending ? (
         <Skeleton />
       ) : forecast.isError ? (
