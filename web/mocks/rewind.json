@@ -1,0 +1,74 @@
+{
+  "months": [
+    {
+      "month": "2025-04",
+      "extra_gbp": 12
+    },
+    {
+      "month": "2025-05",
+      "extra_gbp": 8
+    },
+    {
+      "month": "2025-06",
+      "extra_gbp": 31
+    },
+    {
+      "month": "2025-07",
+      "extra_gbp": 15
+    },
+    {
+      "month": "2025-08",
+      "extra_gbp": 9
+    },
+    {
+      "month": "2025-09",
+      "extra_gbp": 24
+    },
+    {
+      "month": "2025-10",
+      "extra_gbp": 14
+    },
+    {
+      "month": "2025-11",
+      "extra_gbp": 10
+    },
+    {
+      "month": "2025-12",
+      "extra_gbp": 38
+    },
+    {
+      "month": "2026-01",
+      "extra_gbp": 27
+    },
+    {
+      "month": "2026-02",
+      "extra_gbp": 16
+    },
+    {
+      "month": "2026-03",
+      "extra_gbp": 10
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_insurance_monthly",
+      "label": "Paying insurance monthly",
+      "total_gbp": 118,
+      "source_note": "Your car insurance costs \u00a3118 more a year paid monthly than paid once."
+    },
+    {
+      "id": "cat_overdraft",
+      "label": "Overdraft interest",
+      "total_gbp": 61,
+      "source_note": "Interest charged on 22 days you were overdrawn."
+    },
+    {
+      "id": "cat_paylater_fees",
+      "label": "Pay-later late fees",
+      "total_gbp": 35,
+      "source_note": "7 late fees of \u00a35 each."
+    }
+  ],
+  "total_gbp": 214,
+  "kept_with_pact_gbp": 96
+}
