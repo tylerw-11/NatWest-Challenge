@@ -10,14 +10,19 @@ Pact is a money forecast in which your past self protects your future self. It s
 | All 10 screen designs | [Design canvas: Pact: all screens](https://claude.ai/artifact/GGKCEgUqdVmutbaiQvgGPo) |
 | NatWest brief | `docs/NatWest-brief.pdf` |
 | Claude Code skills | `.claude/skills/` |
+| Frontend plan (features FE-01 to FE-13) | `docs/plans/frontend-plan.md` |
+| Team decisions (data contract, which engine, merge order) | `docs/decisions/` |
+| Dev pages: tokens, components, mock scenarios | `/dev/tokens`, `/dev/components`, `/dev/scenarios` |
 
 ## Repo layout
 
 ```
 .claude/skills/   shared Claude Code skills (load automatically from the repo root)
-docs/             NatWest brief and links
-engine/           FastAPI backend (built by tasks T1 to T11, T16)
-web/              Next.js frontend (built by tasks F1 to F16)
+design/           the 10 approved screen designs (PNG)
+docs/             NatWest brief, links, plans/, decisions/
+engine/           FastAPI backend (built by tasks T1 to T11, T16; Tyler's engine is on the `tyler` branch)
+web/              Next.js frontend (built by tasks F1 to F16; see docs/plans/frontend-plan.md)
+web-tests/        vitest checks for web/ mocks and thresholds (kept outside web/)
 ```
 
 ## Getting started
@@ -37,12 +42,16 @@ web/              Next.js frontend (built by tasks F1 to F16)
 
 ## Run commands
 
-These work once task T1 has scaffolded the apps.
-
 ```bash
-# backend
-cd engine && pip install -r requirements.txt && uvicorn main:app --reload
+# backend (from the repo root, as engine/main.py on the tyler branch expects)
+pip install -r engine/requirements.txt && uvicorn engine.main:app --reload
 
-# frontend
+# frontend: http://localhost:3000, with mock scenarios at /dev/scenarios
 cd web && npm install && npm run dev
+
+# frontend checks (lint before every merge; web-tests needs web/node_modules)
+cd web && npm run lint
+cd web-tests && npm install && npm test
 ```
+
+With `USE_MOCKS=true` (the default) the web app runs without the engine. Pick a scenario (storm tomorrow, threshold edges, offline, colour-blind…) on `/dev/scenarios` or add `?scenario=<name>` to any URL; the list is in `web/mocks/README.md`.
