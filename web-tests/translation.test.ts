@@ -31,8 +31,7 @@ describe("whole-app translation", () => {
       const t = JSON.parse(readFileSync(new URL(f, dir), "utf8"));
       expect(LANGUAGES.some((l) => `${l.code}.json` === f), f).toBe(true);
       const covered = en.filter((s) => typeof t[s] === "string" && t[s].trim()).length;
-      // 85%: the 36 data strings (rules, bills, notes) are still arriving for some languages; missing ones show English.
-      expect(covered / en.length, f).toBeGreaterThan(0.85);
+      expect(covered / en.length, f).toBeGreaterThan(0.95);
     }
   });
 });
