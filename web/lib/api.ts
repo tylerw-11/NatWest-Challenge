@@ -86,7 +86,13 @@ function stageForecast(): unknown {
   return stage === "after_move" ? forecastAfterMock : stage === "simulated" ? forecastSimulatedMock : forecastMock;
 }
 
+const Ok = z.null();
+
 export const api = {
+  /** Demo login: sets the session cookie for Amara. */
+  authDemo: () => (USE_MOCKS ? mock(Ok, null, 300) : request(Ok, "/auth/demo", { method: "POST" }).catch(() => null)),
+  logout: () => (USE_MOCKS ? mock(Ok, null, 150) : request(Ok, "/auth/logout", { method: "POST" }).catch(() => null)),
+
   forecast: () => (USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast")),
 
   /** Demo fast-forward: re-runs the forecast as of a date and fires confirmed rules. */
