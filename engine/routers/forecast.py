@@ -3,6 +3,7 @@ from datetime import date
 from fastapi import APIRouter, Depends
 
 from ..contracts import CustomerForecastRequest, Forecast
+from ..database import connect
 from ..dependencies import current_user, settings_for
 from ..forecast import DRIVERS, forecast_from_customer_data, make_forecast
 
@@ -11,7 +12,10 @@ router = APIRouter(tags=["forecast"])
 
 @router.get("/forecast", response_model=Forecast)
 def get_forecast(user_id: str = Depends(current_user)):
-    return make_forecast(threshold=settings_for(user_id).storm_threshold)
+    # Demo step 7: after a confirmed move, Weather re-runs with the money in the buffer.
+    with connect() as db:
+        moved = db.execute("SELECT COALESCE(SUM(json_extract(payload,'$.amount_gbp')),0) FROM events WHERE user_id=? AND kind='buffer_moved'", (user_id,)).fetchone()[0]
+    return make_forecast(threshold=settings_for(user_id).storm_threshold, buffer_move=moved)
 
 
 @router.post("/forecast", response_model=Forecast)

@@ -1,26 +1,18 @@
 /**
  * Typed fetch helpers. Every response is parsed with Zod. With USE_MOCKS=true
- * (the default until the engine is up) data comes from web/mocks instead.
+ * (the default until the engine is up) data comes from lib/mockApi.ts: the demo
+ * figures in web/mocks/*.json, or the scenario picked on /dev/scenarios or with
+ * ?scenario=<name> (decision 0001, item 5).
  */
 import { z } from "zod";
 import { ApiErrorBody, Forecast, Me, PactRules, Rewind, Settings } from "./contracts";
-import forecastMock from "@/mocks/forecast.json";
-import rewindMock from "@/mocks/rewind.json";
-import settingsMock from "@/mocks/settings.json";
-import meMock from "@/mocks/me.json";
-import pactMock from "@/mocks/pact.json";
+import { ApiError } from "./errors";
+import { mockApi } from "./mockApi";
+
+export { ApiError };
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
-
-export class ApiError extends Error {
-  constructor(
-    public code: string,
-    public message_plain: string,
-  ) {
-    super(message_plain);
-  }
-}
 
 const FALLBACK_ERROR = new ApiError(
   "network",
@@ -57,19 +49,11 @@ async function request<T>(
   return parsed.data;
 }
 
-/** Mocks are parsed too, so a bad mock fails the same way a bad engine would. */
-function mock<T>(schema: z.ZodType<T>, data: unknown): Promise<T> {
-  return Promise.resolve(schema.parse(data));
-}
-
+/** Mocks are parsed with the same schemas, so a bad mock fails the same way a bad engine would. */
 export const api = {
-  forecast: () =>
-    USE_MOCKS ? mock(Forecast, forecastMock) : request(Forecast, "/forecast"),
-  rewind: () =>
-    USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind"),
-  settings: () =>
-    USE_MOCKS ? mock(Settings, settingsMock) : request(Settings, "/settings"),
-  me: () => (USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),
-  pactRules: () =>
-    USE_MOCKS ? mock(PactRules, pactMock) : request(PactRules, "/pact"),
+  forecast: () => (USE_MOCKS ? mockApi.forecast() : request(Forecast, "/forecast")),
+  rewind: () => (USE_MOCKS ? mockApi.rewind() : request(Rewind, "/rewind")),
+  settings: () => (USE_MOCKS ? mockApi.settings() : request(Settings, "/settings")),
+  me: () => (USE_MOCKS ? mockApi.me() : request(Me, "/me")),
+  pactRules: () => (USE_MOCKS ? mockApi.pactRules() : request(PactRules, "/pact")),
 };

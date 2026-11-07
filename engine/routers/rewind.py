@@ -8,7 +8,7 @@ router = APIRouter(prefix="/rewind", tags=["rewind"])
 
 @router.get("")
 def rewind(_user_id: str = Depends(current_user)):
-    labels = ["April 2025", "May 2025", "June 2025", "July 2025", "August 2025", "September 2025", "October 2025", "November 2025", "December 2025", "January 2026", "February 2026", "March 2026"]
+    labels = [f"{2025 + (3 + i) // 12}-{(3 + i) % 12 + 1:02d}" for i in range(12)]  # 2025-04 .. 2026-03 (decision 0001 a)
     return {"months": [{"month": month, "extra_gbp": amount} for month, amount in zip(labels, REWIND_MONTHS)], "categories": [
         {"id": "insurance", "label": "Monthly insurance premium", "total_gbp": 118, "source_note": "Monthly payments cost more than paying yearly."},
         {"id": "overdraft", "label": "Overdraft interest", "total_gbp": 61, "source_note": "Interest across 22 days in the overdraft."},

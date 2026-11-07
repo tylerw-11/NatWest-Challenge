@@ -104,7 +104,7 @@ export default function TokensPage() {
               most likely <b>{storm ? gbp(storm.p50) : "…"}</b> left
             </li>
             <li>
-              Best action: <b>{forecast.data ? `${gbp(forecast.data.best_action.amount_gbp)} → ${oneInN(forecast.data.best_action.p_after)}` : "…"}</b>
+              Best action: <b>{forecast.data ? (forecast.data.best_action ? `${gbp(forecast.data.best_action.amount_gbp)} → ${oneInN(forecast.data.best_action.p_after)}` : "none") : "…"}</b>
             </li>
             <li>Rewind total: <b>{rewind.data ? gbp(rewind.data.total_gbp) : "…"}</b></li>
             <li>Reading level: <b>{settings.data?.reading_level ?? "…"}</b></li>

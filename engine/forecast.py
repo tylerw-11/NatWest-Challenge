@@ -25,7 +25,10 @@ def make_forecast(as_of: date = date(2026, 3, 10), threshold: float = .30, buffe
         state = "clear" if p < .10 else "cloudy" if p <= threshold else "storm"
         drivers = [x.id for x in DRIVERS] if d == storm_date else []
         days.append(Day(date=d, p_shortfall=p, state=state, p10=-18 if d == storm_date else 14, p50=35 if d == storm_date else 180, p90=92 if d == storm_date else 340, driver_ids=drivers))
-    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), best_action={"action_id": "move_to_buffer", "amount_gbp": 15, "date": date(2026, 3, 13), "p_after": 0.125})
+    moved = buffer_move >= 15
+    # Demo figures: buffer covers 6 days (7 after the £15 move); once moved, there is nothing left to suggest.
+    best_action = None if moved else {"action_id": "move_to_buffer", "amount_gbp": 15, "date": date(2026, 3, 13), "p_after": 0.125}
+    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), buffer_days=7 if moved else 6, best_action=best_action)
 
 
 def _add_months(day: date, months: int, anchor_day: int) -> date:
@@ -145,4 +148,4 @@ def forecast_from_customer_data(
             covered_until = item.date - timedelta(days=1)
             break
     input_fingerprint = hashlib.sha256(json.dumps({"as_of": as_of.isoformat(), "balance": current_balance_gbp, "incomes": incomes, "bills": bills, "days": horizon_days, "paths": paths, "seed": seed}, sort_keys=True, default=str).encode()).hexdigest()[:16]
-    return Forecast(id=f"customer-{input_fingerprint}", as_of=as_of, starting_balance_gbp=current_balance_gbp, horizon_days=horizon_days, paths=paths, days=forecast_days, drivers=drivers, covered_until=covered_until, best_action=None)
+    return Forecast(id=f"customer-{input_fingerprint}", as_of=as_of, starting_balance_gbp=current_balance_gbp, horizon_days=horizon_days, paths=paths, days=forecast_days, drivers=drivers, covered_until=covered_until, buffer_days=max(0, (covered_until - as_of).days), best_action=None)

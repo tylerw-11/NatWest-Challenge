@@ -295,7 +295,7 @@ function Decisions({ forecast, settings }: { forecast: Forecast; settings: Setti
     ["Storm mode takes over", inStormMode(forecast) ? "yes" : "no"],
     ["Covered until", `${dayShort(forecast.covered_until)} (${plural(covered, "day")})`],
     ["Safety buffer tile", `${plural(forecast.buffer_days, "day")} (${bufferBand(forecast.buffer_days)})`],
-    ["Best action", `${ba.action_id} ${gbp(ba.amount_gbp)} on ${dayShort(ba.date)} → ${oneInN(ba.p_after)}`],
+    ["Best action", ba ? `${ba.action_id} ${gbp(ba.amount_gbp)} on ${dayShort(ba.date)} → ${oneInN(ba.p_after)}` : "none (hide the button)"],
     ["Storm threshold", `${settings.storm_threshold} (show the engine's state)`],
     ["Reading level", settings.reading_level],
     ["Colour mode", settings.colour_mode],
@@ -377,6 +377,7 @@ function Rules({ rules }: { rules: PactRule[] }) {
               <span>
                 <span className="block text-[13px] text-ink-2">{r.when_label}</span>
                 {r.then_label}
+                {r.change_requested_at ? <span className="block text-[13px] text-due">Change waits 48 hours</span> : null}
               </span>
               <b>{r.confirmed ? "agreed" : "draft"}</b>
             </li>

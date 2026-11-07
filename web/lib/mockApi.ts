@@ -1,12 +1,11 @@
-// Scenario-aware fake engine. forecast/rewind/settings/me/pactRules match lib/api.ts's `api`
-// one for one, so a screen can switch to it with a one-line change in api.ts
-// (see docs/decisions/0001-data-contract.md, decision 5). Every response is parsed
+// Scenario-aware fake engine. lib/api.ts calls it when USE_MOCKS=true, so every screen
+// follows the chosen scenario (docs/decisions/0001-data-contract.md, item 5). Every response is parsed
 // with the same Zod contracts, so a bad mock fails the same way a bad engine would.
 //
 // Scenario order: ?scenario=<name> in the URL, then the one picked on /dev/scenarios
 // (saved in this browser), then NEXT_PUBLIC_MOCK_SCENARIO, then "demo".
 import { Forecast, Me, PactRule, PactRules, Rewind, Settings, UIBlock, type ActionKind } from "./contracts";
-import { ApiError } from "./api";
+import { ApiError } from "./errors";
 import {
   APP_SCENARIOS,
   DEMO_RULES,

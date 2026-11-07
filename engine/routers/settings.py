@@ -16,6 +16,9 @@ def me(user_id: str = Depends(current_user)):
         bank = db.execute("SELECT provider,consent_expires_at,status FROM bank_connections WHERE user_id=?", (user_id,)).fetchone()
     user["bank_connection"] = dict(bank) if bank else None
     user["onboarding_complete"] = True
+    # Web contract `Me` (FE-03, decision 0001 c). Old fields above are kept so nothing breaks.
+    user["user"] = {"name": user["display_name"], "email": user["contact"] or ""}
+    user["bank"] = {"name": bank["provider"], "connected_until": bank["consent_expires_at"]} if bank and bank["status"] == "connected" else None
     return user
 
 

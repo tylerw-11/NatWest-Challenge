@@ -27,7 +27,7 @@ def parse_pact(body: TextInput, _user_id: str = Depends(current_user)):
     text = body.text.lower()
     if any(term in text for term in ("transfer money", "invest", "pay someone", "buy crypto")):
         return {"rules": [], "rephrase_request": "Please say that another way. I can only use the actions in Pact."}
-    kind, label = ("move_to_buffer", "Move money to my buffer") if any(x in text for x in ("save", "buffer", "put aside")) else ("show_note", "Show my note")
+    kind, label = ("move_to_buffer", "Move money to my buffer") if re.search(r"\b(save|saving|buffer|aside|set by)\b", text) else ("show_note", "Show my note")
     match = re.search(r"£\s*(\d+(?:\.\d{1,2})?)", body.text)
     amount = float(match.group(1)) if match else 15.0
     rule = new_rule({"action": {"kind": kind, **({"amount_gbp": amount} if kind == "move_to_buffer" else {})}, "trigger": {"kind": "storm_probability", "threshold": .3}, "when_label": "When a storm is coming", "then_label": label}, False)

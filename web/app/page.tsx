@@ -37,7 +37,9 @@ function driverLine(d: Driver) {
     : d.window
       ? `${dayShort(d.window.start)} to ${dayShort(d.window.end)}`
       : "";
-  return `${d.label} · ${gbp(d.amount_gbp)}${when ? `, ${when}` : ""}`;
+  // Income dips are a positive size of dip (decision 0001 h), so say "less".
+  const amount = d.kind === "income_dip" ? `${gbp(Math.abs(d.amount_gbp))} less` : gbp(d.amount_gbp);
+  return `${d.label} · ${amount}${when ? `, ${when}` : ""}`;
 }
 
 function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: number }) {
@@ -88,7 +90,8 @@ function WeatherBody({ forecast, ruleCount }: { forecast: Forecast; ruleCount: n
         </details>
       )}
 
-      <Button href="/pact">Get ready for it</Button>
+      {/* "It" is the storm: with no storm there is nothing to get ready for. */}
+      {storm ? <Button href="/pact">Get ready for it</Button> : null}
     </>
   );
 }

@@ -60,14 +60,16 @@ export const BestAction = z.object({
 export const Forecast = z.object({
   id: z.string(),
   as_of: isoDate,
-  horizon_days: z.literal(60),
-  paths: z.literal(1000),
+  /** 60 and 1000 in the demo; POST /forecast allows 1 to 60 days (decision 0001 f). */
+  horizon_days: z.number().int(),
+  paths: z.number().int(),
   days: z.array(Day),
   drivers: z.array(Driver),
   covered_until: isoDate,
   /** Days the safety buffer covers (Weather tile). Added FE-03. */
   buffer_days: z.number(),
-  best_action: BestAction,
+  /** null when there is nothing useful to suggest, e.g. no storm (decision 0001 e). */
+  best_action: BestAction.nullable(),
 });
 export type Forecast = z.infer<typeof Forecast>;
 
@@ -105,6 +107,9 @@ export const PactRule = z.object({
   when_label: z.string(),
   then_label: z.string(),
   confirmed: z.boolean(),
+  /** Set by the engine: when a rule starts, and a change waiting out the 48 hours (decision 0001 g). */
+  active_from: isoDate.nullable().optional(),
+  change_requested_at: z.string().nullable().optional(),
 });
 export type PactRule = z.infer<typeof PactRule>;
 

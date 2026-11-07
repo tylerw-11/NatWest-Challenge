@@ -14,6 +14,8 @@ def demo_login(response: Response):
     now = datetime.now(timezone.utc)
     with connect() as db:
         db.execute("INSERT INTO sessions VALUES(?,?,?,?,?,?)", (session, "amara", "Demo device", now.isoformat(), now.isoformat(), (now + timedelta(days=30)).isoformat()))
+        # Each demo login starts the scripted demo fresh, so it can be run twice in a row (Gate 2).
+        db.execute("DELETE FROM events WHERE user_id='amara' AND kind='buffer_moved'")
     response.set_cookie("pact_session", session, httponly=True, secure=True, samesite="lax", max_age=30 * 86400, path="/")
 
 

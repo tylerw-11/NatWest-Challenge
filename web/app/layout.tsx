@@ -27,7 +27,8 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" data-colour-mode="standard" className={atkinson.variable}>
-      <body>
+      {/* Extensions such as Grammarly add attributes to <body>; don't report that as a hydration error. */}
+      <body suppressHydrationWarning>
         <Providers>
           <PhoneFrame>{children}</PhoneFrame>
         </Providers>

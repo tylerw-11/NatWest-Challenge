@@ -67,14 +67,9 @@ const LETTER: Driver = { id: "drv_uc_letter", label: "Letter about Universal Cre
 const ONE_OFF: Driver = { id: "drv_birthday", label: "Birthday present", amount_gbp: 60, due_date: "2026-04-05", window: null, kind: "one_off", source_note: "You added this yourself." };
 const LONG_LABEL: Driver = { id: "drv_long", label: "Contents and buildings insurance premium (annual renewal)", amount_gbp: 1234.56, due_date: "2026-03-23", window: null, kind: "bill", source_note: "A very long label to test wrapping in list rows on a 390 px screen." };
 
-/**
- * best_action is required by the contract, so no-storm scenarios still carry one.
- * Decision 3 in docs/decisions/0001-data-contract.md proposes making it nullable.
- */
-const NO_STORM_ACTION = { action_id: "move_to_buffer" as const, amount_gbp: 15, date: "2026-03-13", p_after: 0.02 };
 
 function forecast(id: string, days: ReturnType<typeof buildDays>, extra: Partial<Forecast> = {}): Forecast {
-  return { id, as_of: AS_OF, horizon_days: 60, paths: 1000, days, drivers: [], covered_until: coveredUntil(days), buffer_days: 6, best_action: NO_STORM_ACTION, ...extra };
+  return { id, as_of: AS_OF, horizon_days: 60, paths: 1000, days, drivers: [], covered_until: coveredUntil(days), buffer_days: 6, best_action: null, ...extra };
 }
 
 export const FORECASTS = {
@@ -85,6 +80,7 @@ export const FORECASTS = {
     ...demoForecast,
     id: `${demoForecast.id}_after_buffer`,
     buffer_days: demoForecast.buffer_days + 1,
+    best_action: null, // same as the engine: nothing left to suggest
     days: demoForecast.days.map((d) =>
       d.date === "2026-03-23" ? { ...d, p_shortfall: 0.125, state: "cloudy" as const, p10: -42, p50: 50, p90: 142 } : d,
     ),
@@ -175,6 +171,8 @@ export const PACT_RULES = {
   /** Drafts from /pact/parse, not yet agreed. */
   drafts: DEMO_RULES.map((r) => ({ ...r, confirmed: false })),
   one: [DEMO_RULES[0]],
+  /** A change waiting out the 48 hours (the lock line on the Pact screen). */
+  pending_change: [{ ...DEMO_RULES[0], active_from: "2026-03-08", change_requested_at: "2026-03-09T18:00:00Z" }, ...DEMO_RULES.slice(1)],
 } satisfies Record<string, PactRule[]>;
 
 /** What to type into the Pact text area, and what should come back. */
@@ -262,6 +260,7 @@ export const APP_SCENARIOS: Record<string, AppScenario> = {
 
   drafts: { ...d, rules: "drafts", group: "Pact rules", note: "Four unagreed drafts on the Pact screen." },
   no_rules: { ...d, rules: "none", group: "Pact rules", note: "No rules yet: empty Pact screen." },
+  pending_change: { ...d, rules: "pending_change", group: "Pact rules", note: "A rule change waiting out the 48 hours." },
   parse_rejects: { ...d, rules: "none", fail: [{ path: "/pact/parse", error: "rephrase" }], group: "Pact rules", note: "The parser asks to rephrase." },
 
   slow: { ...d, latencyMs: 2500, group: "Loading and errors", note: "2.5 s delay: loading states." },

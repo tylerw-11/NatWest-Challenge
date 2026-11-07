@@ -1,10 +1,11 @@
+import json
 import os
 import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
 
 from .contracts import Settings
-from .generator import generate_transactions
+from .generator import DEMO_RULES, generate_transactions
 
 DB_PATH = Path(os.getenv("PACT_DB", Path(__file__).with_name("pact.sqlite3")))
 
@@ -33,8 +34,14 @@ def init_db() -> None:
         CREATE TABLE IF NOT EXISTS passkeys(id TEXT PRIMARY KEY, user_id TEXT NOT NULL, credential_id TEXT NOT NULL, public_key TEXT NOT NULL, sign_count INTEGER DEFAULT 0, label TEXT);
         CREATE TABLE IF NOT EXISTS bank_connections(id TEXT PRIMARY KEY, user_id TEXT NOT NULL, provider TEXT, consent_expires_at TEXT, status TEXT);
         """)
-        db.execute("INSERT OR IGNORE INTO users(id,display_name,created_at) VALUES('amara','Amara',?)", (datetime.now(timezone.utc).isoformat(),))
-        db.execute("INSERT OR IGNORE INTO settings(user_id,value) VALUES('amara',?)", (Settings().model_dump_json(),))
+        now = datetime.now(timezone.utc).isoformat()
+        db.execute("INSERT OR IGNORE INTO users(id,display_name,contact,created_at) VALUES('amara','Amara','amara@example.com',?)", (now,))
+        # Demo seed (decision 0001 d): matches web/mocks/settings.json and pact.json.
+        demo_settings = Settings(read_aloud=True, ally={"name": "Jade", "relation": "sister"})
+        db.execute("INSERT OR IGNORE INTO settings(user_id,value) VALUES('amara',?)", (demo_settings.model_dump_json(),))
+        db.execute("INSERT OR IGNORE INTO allies(id,user_id,name,relation,status,created_at) VALUES('ally-jade','amara','Jade','sister','active',?)", (now,))
+        if db.execute("SELECT COUNT(*) FROM pact_rules WHERE user_id='amara'").fetchone()[0] == 0:
+            db.executemany("INSERT INTO pact_rules VALUES(?,?,?,?,?)", [(rule["id"], "amara", json.dumps(rule), now, None) for rule in DEMO_RULES])
         db.execute("INSERT OR IGNORE INTO bank_connections(id,user_id,provider,consent_expires_at,status) VALUES('demo-bank','amara','Demo bank','2027-03-10','connected')")
         if db.execute("SELECT COUNT(*) FROM transactions WHERE user_id='amara'").fetchone()[0] == 0:
             db.executemany("INSERT INTO transactions(user_id,date,amount_gbp,merchant_label,category) VALUES('amara',?,?,?,?)", [(t['date'], t['amount_gbp'], t['merchant_label'], t['category']) for t in generate_transactions()])

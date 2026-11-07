@@ -33,6 +33,9 @@ class Forecast(BaseModel):
     days: list[Day]
     drivers: list[Driver]
     covered_until: date
+    # Days the safety buffer covers (Weather tile). Decision 0001 (b); web contract FE-03.
+    buffer_days: int = 0
+    # None when there is nothing useful to suggest. Decision 0001 (e).
     best_action: dict[str, Any] | None = None
 
 

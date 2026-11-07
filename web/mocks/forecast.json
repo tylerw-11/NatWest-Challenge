@@ -580,7 +580,7 @@
     {
       "id": "drv_quiet_week",
       "label": "Quieter week",
-      "amount_gbp": -90,
+      "amount_gbp": 90,
       "due_date": null,
       "window": {
         "start": "2026-03-16",

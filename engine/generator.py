@@ -30,3 +30,12 @@ def generate_transactions(seed: int = 23032026) -> list[dict]:
 
 
 REWIND_MONTHS = [12, 8, 31, 15, 9, 24, 14, 10, 38, 27, 16, 10]
+
+
+# The four demo rules (same as web/mocks/pact.json). Seeded as already agreed, so Weather shows "4 Pact rules on".
+DEMO_RULES = [
+    {"id": "rule_takeaway_cap", "trigger": {"kind": "storm_probability", "threshold": 0.3, "horizon_days": 14}, "action": {"kind": "category_cap", "category": "takeaways", "cap_gbp": 20, "period": "week"}, "when_label": "Storm 14 days away", "then_label": "Takeaways capped at £20 a week", "confirmed": True},
+    {"id": "rule_credit_pause", "trigger": {"kind": "storm_probability", "threshold": 0.3, "horizon_days": 14}, "action": {"kind": "credit_pause_hours", "hours": 48}, "when_label": "Storm 14 days away", "then_label": "No new credit or pay-later for 48 hours", "confirmed": True},
+    {"id": "rule_notify_ally", "trigger": {"kind": "storm_probability", "threshold": 0.3}, "action": {"kind": "notify_ally"}, "when_label": "Storm starts", "then_label": "Let Jade know (she can't see your spending)", "confirmed": True},
+    {"id": "rule_payday_buffer", "trigger": {"kind": "storm_probability", "threshold": 0.3}, "action": {"kind": "move_to_buffer", "amount_gbp": 15, "on": "payday"}, "when_label": "Payday in a storm", "then_label": "Move £15 to your buffer", "confirmed": True},
+]
