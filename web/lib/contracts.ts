@@ -119,6 +119,10 @@ export const Me = z.object({
 });
 export type Me = z.infer<typeof Me>;
 
+/** POST /pact/note and the stored note. Added FE-06. */
+export const PactNote = z.object({ text: z.string(), duration_s: z.number() });
+export type PactNote = z.infer<typeof PactNote>;
+
 export const ReadingLevel = z.enum(["simple", "clear", "detailed"]);
 export type ReadingLevel = z.infer<typeof ReadingLevel>;
 
