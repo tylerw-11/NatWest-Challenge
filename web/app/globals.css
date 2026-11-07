@@ -1,0 +1,296 @@
+@import "tailwindcss";
+
+/*
+ * Pact design tokens (pact-frontend skill). Every colour in the app comes
+ * from these variables. Three sets, chosen by data-colour-mode on <html>:
+ * standard (default), colour_blind, high_contrast.
+ */
+:root,
+:root[data-colour-mode="standard"] {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --border: #daddd6;
+  --divider: #e6e8e3;
+  --ink: #17201b;
+  --ink-2: #4b5650;
+  --primary: #0e5e52;
+  --on-primary: #ffffff;
+  --tint-teal: #e1efec;
+
+  --clear-hero: #ddebf6;
+  --clear-label: #1b5e8a;
+  --sun: #f6c453;
+  --sun-ring: #c78a12;
+
+  --tight-hero: #eceef0;
+  --tight-label: #48535c;
+
+  --storm-hero: #fce7d6;
+  --storm-label: #9a3a00;
+  --storm-bg: #fbf3ec;
+
+  --rewind-hero: #ece8f5;
+  --rewind-label: #5b4b8a;
+
+  --due: #b3261e;
+  --chart-base: #b9beb6;
+  --primary-hover: #0a4a40;
+  --surface-hover: #f0f5f3;
+}
+
+/* Colour-blind friendly: alert/due moves from red to blue; storm label
+ * darkens so it is not read against clear by hue alone. */
+:root[data-colour-mode="colour_blind"] {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --border: #daddd6;
+  --divider: #e6e8e3;
+  --ink: #17201b;
+  --ink-2: #4b5650;
+  --primary: #0e5e52;
+  --on-primary: #ffffff;
+  --tint-teal: #e1efec;
+
+  --clear-hero: #ddebf6;
+  --clear-label: #1b5e8a;
+  --sun: #f6c453;
+  --sun-ring: #c78a12;
+
+  --tight-hero: #eceef0;
+  --tight-label: #48535c;
+
+  --storm-hero: #fce7d6;
+  --storm-label: #7a3000;
+  --storm-bg: #fbf3ec;
+
+  --rewind-hero: #ece8f5;
+  --rewind-label: #5b4b8a;
+
+  --due: #1b4f9c;
+  --chart-base: #b9beb6;
+  --primary-hover: #0a4a40;
+  --surface-hover: #f0f5f3;
+}
+
+/* High contrast: pure ink, darker borders and labels, stronger tints. */
+:root[data-colour-mode="high_contrast"] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: #17201b;
+  --divider: #4b5650;
+  --ink: #000000;
+  --ink-2: #1f2723;
+  --primary: #07463d;
+  --on-primary: #ffffff;
+  --tint-teal: #cfe6e1;
+
+  --clear-hero: #c9def0;
+  --clear-label: #0b3f63;
+  --sun: #f6c453;
+  --sun-ring: #8a5d00;
+
+  --tight-hero: #dde0e3;
+  --tight-label: #262e34;
+
+  --storm-hero: #f8d4b6;
+  --storm-label: #6b2700;
+  --storm-bg: #fbf3ec;
+
+  --rewind-hero: #ddd6ef;
+  --rewind-label: #3b2d6b;
+
+  --due: #8c1a14;
+  --chart-base: #4b5650;
+  --primary-hover: #04302a;
+  --surface-hover: #e6efec;
+}
+
+/* Illustration colours (drawn weather icons), shared by all colour modes. */
+:root {
+  --cloud: #8a96a0;
+  --cloud-ink: #4b5660;
+  --rain: #4a7fb0;
+  --bolt: #e8900c;
+}
+
+@theme inline {
+  --color-cloud: var(--cloud);
+  --color-cloud-ink: var(--cloud-ink);
+  --color-rain: var(--rain);
+  --color-bolt: var(--bolt);
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-tint-teal: var(--tint-teal);
+  --color-clear-hero: var(--clear-hero);
+  --color-clear-label: var(--clear-label);
+  --color-sun: var(--sun);
+  --color-sun-ring: var(--sun-ring);
+  --color-tight-hero: var(--tight-hero);
+  --color-tight-label: var(--tight-label);
+  --color-storm-hero: var(--storm-hero);
+  --color-storm-label: var(--storm-label);
+  --color-storm-bg: var(--storm-bg);
+  --color-rewind-hero: var(--rewind-hero);
+  --color-rewind-label: var(--rewind-label);
+  --color-due: var(--due);
+  --color-chart-base: var(--chart-base);
+  --color-primary-hover: var(--primary-hover);
+  --color-surface-hover: var(--surface-hover);
+
+  --radius-hero: 24px;
+  --radius-card: 20px;
+
+  --font-sans: var(--font-atkinson), system-ui, sans-serif;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Visible 3 px primary focus ring on every interactive element. */
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------
+ * Interaction polish (FE-13). One timing for everything; transforms and
+ * animations only (no layout shift). Hover only on devices that hover
+ * (Tailwind's hover: variant and the media query below). All movement is
+ * switched off by prefers-reduced-motion and by calm mode; colour changes
+ * stay, instantly.
+ * ------------------------------------------------------------------ */
+:root {
+  --dur: 150ms;
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.ix {
+  transition:
+    color var(--dur) var(--ease),
+    background-color var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    text-decoration-thickness var(--dur) var(--ease),
+    transform var(--dur) var(--ease);
+}
+.ix-nudge {
+  transition: transform var(--dur) var(--ease);
+}
+@media (hover: hover) {
+  .ix-lift:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgb(23 32 27 / 0.08);
+  }
+  .ix-lift:hover .ix-nudge {
+    transform: translateX(2px);
+  }
+  .ix-raise:hover {
+    box-shadow: 0 4px 14px rgb(14 94 82 / 0.25);
+  }
+}
+.ix-press:active {
+  transform: scale(0.98);
+}
+.ix-press-sm:active {
+  transform: scale(0.95);
+}
+
+@keyframes enter {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+.enter > * {
+  /* backwards, not both: once played, hover/press transforms work again */
+  animation: enter 320ms var(--ease) backwards;
+}
+.enter > *:nth-child(2) { animation-delay: 40ms; }
+.enter > *:nth-child(3) { animation-delay: 80ms; }
+.enter > *:nth-child(4) { animation-delay: 120ms; }
+.enter > *:nth-child(5) { animation-delay: 160ms; }
+.enter > *:nth-child(6) { animation-delay: 200ms; }
+.enter > *:nth-child(n + 7) { animation-delay: 240ms; }
+
+@keyframes pop {
+  0% { transform: scale(0.85); }
+  60% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+.animate-pop { animation: pop 220ms var(--ease); }
+
+@keyframes week-in {
+  from { opacity: 0; transform: translateX(calc(var(--dir, 1) * 14px)); }
+  to { opacity: 1; transform: none; }
+}
+.animate-week { animation: week-in 220ms var(--ease); }
+
+@keyframes drop {
+  from { opacity: 0; transform: translateY(-14px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-drop { animation: drop 420ms var(--ease) both; }
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.chart-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 600ms var(--ease) 80ms forwards;
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+.chart-fade { animation: fade-in 500ms var(--ease) both; }
+.chart-dot { animation: fade-in 200ms var(--ease) 600ms both; }
+
+/* Live "speaking / listening" ring: only while the user has it switched on. */
+@keyframes live-ring {
+  0% { box-shadow: 0 0 0 0 rgb(14 94 82 / 0.35); }
+  100% { box-shadow: 0 0 0 10px rgb(14 94 82 / 0); }
+}
+.animate-live { animation: live-ring 1.2s ease-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ix-lift:hover,
+  .ix-lift:hover .ix-nudge,
+  .ix-press:active,
+  .ix-press-sm:active {
+    transform: none;
+  }
+}
+:root[data-calm="true"] *,
+:root[data-calm="true"] *::before,
+:root[data-calm="true"] *::after {
+  animation-duration: 0.01ms !important;
+  animation-delay: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}
+:root[data-calm="true"] .ix-lift:hover,
+:root[data-calm="true"] .ix-lift:hover .ix-nudge,
+:root[data-calm="true"] .ix-press:active,
+:root[data-calm="true"] .ix-press-sm:active {
+  transform: none;
+}

@@ -1,0 +1,26 @@
+{
+  "user": {
+    "name": "Amara",
+    "email": "amara@example.com"
+  },
+  "bank": {
+    "name": "Demo bank",
+    "connected_until": "2026-06-08"
+  },
+  "onboarding_complete": true,
+  "phone_masked": "07•••••123",
+  "devices": [
+    {
+      "id": "dev_phone",
+      "label": "This phone",
+      "last_seen": "Now",
+      "current": true
+    },
+    {
+      "id": "dev_laptop",
+      "label": "Laptop",
+      "last_seen": "2 days ago",
+      "current": false
+    }
+  ]
+}
