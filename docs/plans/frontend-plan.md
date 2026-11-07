@@ -16,7 +16,7 @@ Branch: `feature/web-frontend` (made from `main`; `main` is left alone). Owner: 
 - **After building, a handover in this fixed shape:** what was built, how to run it, the checklist again with results, gaps, and the next feature's brief.
 - **Every screen is built the same way:** `app/<route>/page.tsx` composes shared components from `components/` and reads data through `lib/hooks.ts`. No screen-specific styling outside the tokens.
 
-Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. When the engine is ready, switching to it is a one-line change in `lib/api.ts`.
+Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. When the engine is ready, switching to it is a one-line change in `lib/api.ts`. To check a screen beyond the demo (storm tomorrow, threshold edges, errors, colour modes), open `/dev/scenarios`; pointing the mock branch of `api.ts` at `lib/mockApi.ts` makes `?scenario=` drive every screen (decision 5 in `docs/decisions/0001-data-contract.md`).
 
 ## Tech stack (from pact-frontend)
 
@@ -67,6 +67,6 @@ It is now about 15:25. Feature freeze is 16:45. Features 1 to 7 cover the seven-
 
 ## Backups if something runs late
 
-- Engine not ready: run the demo on mocks, and add `forecast_after.json` for step 7.
+- Engine not ready: run the demo on mocks. Step 7 already exists as the `demo_after_buffer` scenario (`mockApi.moveToBuffer(15)` switches to it).
 - Explain or parse failing: use template sentences and a pre-written `pact_draft.json`.
 - Chart running late: show a 60-day row of weather icons and keep the "1 in 3" hero.

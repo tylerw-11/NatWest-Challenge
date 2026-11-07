@@ -1,6 +1,6 @@
 # Decision 0001: one data contract, one engine, one frontend base
 
-Status: **proposed** (7 Nov, ~16:10, checked against FE-03). Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
+Status: **proposed** (7 Nov, ~16:15, checked against FE-03). Linked from `README.md`, `CLAUDE.md` and `docs/plans/frontend-plan.md`. Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
 
 ## Why we need this
 
