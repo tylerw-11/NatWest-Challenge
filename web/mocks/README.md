@@ -28,7 +28,9 @@ Dummy data for every use case we know of, so screens can be built and tested bef
 
 ## Pick a scenario
 
-Add `?scenario=<name>` to any URL, or set `NEXT_PUBLIC_MOCK_SCENARIO=<name>`. Unknown names fall back to `demo`.
+Run `npm run dev` and open **http://localhost:3000/dev/scenarios**. Click a scenario to see what every endpoint returns and what each screen should decide (hero state, storm card, Storm mode, buffer band, best action, calm offer), plus all 60 days and the raw JSON. The choice is saved in your browser, so every screen built on `mockApi` uses it.
+
+Order of precedence: `?scenario=<name>` in the URL, then the choice saved on `/dev/scenarios`, then `NEXT_PUBLIC_MOCK_SCENARIO=<name>`, then `demo`. Unknown names fall back to `demo`.
 
 `demo`, `demo_after_buffer`, `all_clear`, `tight_only`, `storm_mode`, `storm_today`, `storm_far_lead14`, `storm_in_7_lead7`, `storm_in_7_lead0`, `two_storms`, `boundaries`, `boundaries_sensitive`, `all_driver_kinds`, `storm_no_drivers`, `short_horizon`, `wealthy`, `new_user`, `drafts`, `pending_change`, `worried`, `calm_mode`, `detailed`, `translated_rtl`, `colour_blind`, `high_contrast`, `bank_disconnected`, `slow`, `offline`, `forecast_500`, `explain_fails`, `parse_rejects`, `logged_out`
 
@@ -46,7 +48,9 @@ const forecast = await mockApi.getForecast(); // Zod-validated Forecast
 ## Run
 
 ```bash
-cd web && npm install && npm test
+cd web && npm install
+npm run dev     # http://localhost:3000/dev/scenarios
+npm test        # 96 checks
 ```
 
-When the Next.js app is scaffolded into `web/`, merge this `package.json` into it (zod, vitest, tsx, @types/node).
+`web/` is a minimal Next.js 15 app (App Router, no Tailwind yet) so the switcher can run. `app/layout.tsx`, `app/page.tsx` and `app/globals.css` are placeholders for the design team to replace; keep the token names in `globals.css`.

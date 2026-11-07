@@ -5,7 +5,7 @@
   "horizon_days": 60,
   "paths": 1000,
   "drivers": [],
-  "covered_until": "2026-05-08",
+  "covered_until": "2026-03-11",
   "best_action": null,
   "days": [
     {

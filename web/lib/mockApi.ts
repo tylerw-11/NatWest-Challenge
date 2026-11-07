@@ -35,12 +35,42 @@ export class ApiError extends Error {
 
 const clone = <T>(x: T): T => JSON.parse(JSON.stringify(x));
 
-function scenarioName(): string {
+export const SCENARIO_STORAGE_KEY = "pact.mockScenario";
+
+function envScenario(): string | undefined {
+  try {
+    // Written out in full so Next.js can inline it at build time.
+    return process.env.NEXT_PUBLIC_MOCK_SCENARIO;
+  } catch {
+    return undefined;
+  }
+}
+
+/** Order: ?scenario= in the URL, then the one picked on /dev/scenarios, then the env var, then demo. */
+export function scenarioName(): string {
   if (typeof window !== "undefined") {
     const q = new URLSearchParams(window.location.search).get("scenario");
     if (q) return q;
+    try {
+      const saved = window.localStorage.getItem(SCENARIO_STORAGE_KEY);
+      if (saved) return saved;
+    } catch {
+      /* storage blocked: fall through */
+    }
   }
-  return (typeof process !== "undefined" && process.env?.NEXT_PUBLIC_MOCK_SCENARIO) || "demo";
+  return envScenario() || "demo";
+}
+
+/** Remember a scenario for every screen in this browser (used by /dev/scenarios). */
+export function chooseScenario(name: string): State {
+  if (typeof window !== "undefined") {
+    try {
+      window.localStorage.setItem(SCENARIO_STORAGE_KEY, name);
+    } catch {
+      /* storage blocked: still switch for this page */
+    }
+  }
+  return resetMocks(name);
 }
 
 type State = {
@@ -73,7 +103,12 @@ function s(): State {
 }
 
 export function listScenarios() {
-  return Object.entries(APP_SCENARIOS).map(([name, sc]) => ({ name, note: sc.note }));
+  return Object.entries(APP_SCENARIOS).map(([name, sc]) => ({ name, ...sc }));
+}
+
+export function currentScenario(): { name: string; scenario: AppScenario } {
+  const st = s();
+  return { name: st.name, scenario: st.scenario };
 }
 
 async function respond<T>(path: string, make: () => T): Promise<T> {

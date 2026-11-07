@@ -78,6 +78,12 @@ function demoForecast(bufferMove = 0): Forecast {
   };
 }
 
+/** Same rule as the engine: the day before the first day at or above 10%, else the last day. */
+function coveredUntilFrom(days: Day[]): string {
+  const first = days.find((d) => d.p_shortfall >= 0.1);
+  return first ? addDays(first.date, -1) : days[days.length - 1].date;
+}
+
 const f = (id: string, over: Partial<Forecast> & Pick<Forecast, "days">): Forecast => ({
   id,
   as_of: AS_OF,
@@ -85,7 +91,7 @@ const f = (id: string, over: Partial<Forecast> & Pick<Forecast, "days">): Foreca
   horizon_days: over.days.length,
   paths: 1000,
   drivers: [],
-  covered_until: addDays(AS_OF, over.days.length - 1),
+  covered_until: coveredUntilFrom(over.days),
   best_action: null,
   ...over,
 });

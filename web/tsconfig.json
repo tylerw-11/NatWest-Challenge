@@ -8,8 +8,15 @@
     "noEmit": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "incremental": true,
+    "jsx": "preserve",
     "types": ["node"],
-    "lib": ["ES2022", "DOM"]
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "plugins": [{ "name": "next" }],
+    "paths": { "@/*": ["./*"] }
   },
-  "include": ["lib", "mocks", "tests", "scripts"]
+  "include": ["next-env.d.ts", "app", "lib", "mocks", "tests", "scripts", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
 }

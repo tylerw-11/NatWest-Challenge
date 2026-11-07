@@ -24,3 +24,7 @@ out/
 *.mp4
 *.mov
 captures/
+
+# Next.js
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+
+/* Tokens from the pact-frontend skill. Three sets, chosen by data-colour-mode. */
+:root,
+[data-colour-mode="standard"] {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --border: #daddd6;
+  --divider: #e6e8e3;
+  --ink: #17201b;
+  --ink-2: #4b5650;
+  --primary: #0e5e52;
+  --tint-teal: #e1efec;
+  --clear-hero: #ddebf6;
+  --clear-label: #1b5e8a;
+  --sun: #f6c453;
+  --tight-hero: #eceef0;
+  --tight-label: #48535c;
+  --storm-hero: #fce7d6;
+  --storm-label: #9a3a00;
+  --storm-bg: #fbf3ec;
+  --rewind-hero: #ece8f5;
+  --rewind-label: #5b4b8a;
+  --due: #b3261e;
+}
+
+[data-colour-mode="colour_blind"] {
+  --clear-hero: #dbe9f7;
+  --clear-label: #1b4f9c;
+  --storm-hero: #fde8c8;
+  --storm-label: #8a4b00;
+  --due: #1b4f9c;
+}
+
+[data-colour-mode="high_contrast"] {
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --border: #000000;
+  --divider: #000000;
+  --ink: #000000;
+  --ink-2: #000000;
+  --primary: #003d33;
+  --tint-teal: #ffffff;
+  --clear-hero: #ffffff;
+  --clear-label: #00305a;
+  --tight-hero: #ffffff;
+  --tight-label: #000000;
+  --storm-hero: #ffffff;
+  --storm-label: #6b2500;
+  --rewind-hero: #ffffff;
+  --rewind-label: #2d1f5c;
+  --due: #8c0000;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+:focus-visible {
+  outline: 3px solid var(--primary);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
