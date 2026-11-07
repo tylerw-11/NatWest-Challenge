@@ -2,7 +2,16 @@
 
 Branch: `feature/web-frontend` (made from `main`; `main` is left alone). Owner: B. Sources: the PNGs in `design/` and the pact-frontend skill.
 
-**How we work:** I build one feature on its own branch, `feature/web-<name>`, made from `feature/web-frontend`. Then I stop. You check it at `http://localhost:3000/<route>` next to its PNG. Once you approve, I merge it into `feature/web-frontend` and start the next one. Nothing reaches `main` until you say so.
+**How we work:** see Consistency rules below.
+
+## Consistency rules (the same for every feature)
+
+- **One feature, one branch, one checkpoint.** Features are never batched; each is approved on its own before the next one starts.
+- **Branch:** `feature/web-NN-<name>` made from `feature/web-frontend`, for example `feature/web-01-foundation`.
+- **Commit:** `[FE-NN] web: <change>`, for example `[FE-01] web: add colour tokens`. `FE-NN` is this plan's number. Map it to the project doc's F-ID when that tab can be read.
+- **Merge:** after approval, `--no-ff` into `feature/web-frontend`, with the message `[FE-NN] merge: <feature>`.
+- **Every handover to you looks the same:** what was built, the route to check, the design PNG to compare against, known gaps, and the next feature.
+- **Every screen is built the same way:** `app/<route>/page.tsx` composes shared components from `components/` and reads data through `lib/hooks.ts`. No screen-specific styling outside the tokens.
 
 Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. When the engine is ready, switching to it is a one-line change in `lib/api.ts`.
 
