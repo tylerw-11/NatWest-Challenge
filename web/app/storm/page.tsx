@@ -1,5 +1,6 @@
 "use client";
 
+import { Translated } from "@/components/Translated";
 import { Suspense, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -82,6 +83,7 @@ function Storm() {
             </>
           )}
         </h1>
+        {storm && pactOn && <Translated k="storm_mode" vars={{ days: daysBetween(asOf, storm.date) }} className="text-center" />}
       </div>
 
       {pactOn && note.data && (
@@ -121,6 +123,13 @@ function Storm() {
                 See your weather
               </Link>
             </p>
+          )}
+          {after && (
+            <Translated
+              k="moved"
+              vars={{ amount: best.amount_gbp, date: storm.date, state: after.state }}
+              className="text-center"
+            />
           )}
         </div>
       )}

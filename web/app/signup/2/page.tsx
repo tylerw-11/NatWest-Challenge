@@ -1,5 +1,6 @@
 "use client";
 
+import { LanguagePicker } from "@/components/LanguagePicker";
 import { useRouter } from "next/navigation";
 import { SubScreen } from "@/components/Screen";
 import { HeroCard } from "@/components/HeroCard";
@@ -9,14 +10,6 @@ import { useForecast, useSettings, useUpdateSettings } from "@/lib/hooks";
 import type { ColourMode, Forecast, ReadingLevel } from "@/lib/contracts";
 import { cn } from "@/lib/utils";
 
-const LANGUAGES = [
-  { value: "", label: "Off" },
-  { value: "pl", label: "Polski" },
-  { value: "ro", label: "Română" },
-  { value: "ur", label: "اردو" },
-  { value: "ar", label: "العربية" },
-  { value: "es", label: "Español" },
-];
 
 const fmt = (iso: string, o: Intl.DateTimeFormatOptions) =>
   new Date(`${iso}T12:00:00Z`).toLocaleDateString("en-GB", { ...o, timeZone: "UTC" });
@@ -122,23 +115,14 @@ export default function SignupStep2() {
               <option value="high_contrast">High contrast</option>
             </select>
           </div>
-          <div className="flex min-h-16 items-center gap-3">
-            <span aria-hidden>🌍</span>
-            <label htmlFor="translation" className="flex-1 text-[18px]">
-              Translation
-            </label>
-            <select
+          <div className="flex min-h-16 items-start gap-3 py-2">
+            <span aria-hidden className="pt-1 text-[18px]">🌍</span>
+            <LanguagePicker
               id="translation"
-              value={s.translation ?? ""}
-              onChange={(e) => update.mutate({ translation: e.target.value || null })}
-              className="min-h-12 rounded-2xl border border-ink-2 bg-surface px-4 text-[17px]"
-            >
-              {LANGUAGES.map((l) => (
-                <option key={l.value} value={l.value}>
-                  {l.label}
-                </option>
-              ))}
-            </select>
+              label="Translation"
+              value={s.translation}
+              onChange={(code) => update.mutate({ translation: code })}
+            />
           </div>
         </Card>
       )}

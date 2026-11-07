@@ -1,5 +1,6 @@
 "use client";
 
+import { LanguagePicker } from "@/components/LanguagePicker";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { SubScreen } from "@/components/Screen";
@@ -18,14 +19,6 @@ const TABS = [
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
-const LANGUAGES = [
-  { value: "", label: "Off" },
-  { value: "pl", label: "Polski" },
-  { value: "ro", label: "Română" },
-  { value: "ur", label: "اردو" },
-  { value: "ar", label: "العربية" },
-  { value: "es", label: "Español" },
-];
 
 type Update = (patch: Partial<Settings>) => void;
 
@@ -97,23 +90,14 @@ function ReadingPanel({ s, update }: { s: Settings; update: Update }) {
             className="size-7 accent-primary"
           />
         </label>
-        <div className="flex min-h-16 items-center gap-3">
-          <span aria-hidden>🌍</span>
-          <label htmlFor="translation" className="flex-1 text-[18px]">
-            Translation
-          </label>
-          <select
+        <div className="flex min-h-16 items-start gap-3 py-2">
+          <span aria-hidden className="pt-1 text-[18px]">🌍</span>
+          <LanguagePicker
             id="translation"
-            value={s.translation ?? ""}
-            onChange={(e) => update({ translation: e.target.value || null })}
-            className="min-h-12 rounded-2xl border border-ink-2 bg-surface px-4 text-[17px]"
-          >
-            {LANGUAGES.map((l) => (
-              <option key={l.value} value={l.value}>
-                {l.label}
-              </option>
-            ))}
-          </select>
+            label="Translation"
+            value={s.translation}
+            onChange={(code) => update({ translation: code })}
+          />
         </div>
       </Card>
     </>
