@@ -5,9 +5,22 @@ Status: **implemented on `main`** (7 Nov, ~16:35). Items 1, 2, 3 (a to h), 5 and
 ### What changed on `main`
 
 - `tyler`, `feature/web-frontend` (FE-01 to FE-03) and `frontend-mocks` merged. The 4 README/.gitignore/skill conflicts were resolved; the committed `engine/__pycache__/` and `engine/pact.sqlite3` were removed and are now ignored.
-- Engine: (a) `YYYY-MM` rewind months; (b) `buffer_days`; (c) `/me` in the web shape, old fields kept; (d) demo seed of Jade and the four rules; `best_action` is `null` after the move; `GET /forecast` remembers a confirmed buffer move (demo step 7); a demo login resets the demo; the Pact parser now reads "Put £15 aside" as `move_to_buffer`.
+- Engine: (a) `YYYY-MM` rewind months; (b) `buffer_days`; (c) `/me` in the web shape, old fields kept; (d) demo seed of Jade (no rules: since FE-06 the demo creates them in step 4); `best_action` is `null` after the move; `GET /forecast` remembers a confirmed buffer move (demo step 7); a demo login resets the demo; the Pact parser now reads "Put £15 aside" as `move_to_buffer`.
 - Web: (e) nullable `best_action`; (f) integer `horizon_days` and `paths`; (g) `active_from` and `change_requested_at` on `PactRule`; (h) the quieter-week mock is `+90`, and Weather says "£90 less"; `api.ts` serves mocks through `mockApi.ts` (item 5); "Get ready for it" only shows when there is a storm; the Grammarly hydration warning is silenced.
-- Tests: 14 engine tests (demo flow, invariants, contract snapshot, benchmarks) and 108 web tests, including the engine's real responses parsed with the web contracts. Timings are in `docs/benchmarks.md`. Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
+- Tests: 14 engine tests (demo flow, invariants, contract snapshot, benchmarks) and 112 web tests, including the engine's real responses parsed with the web contracts. Timings are in `docs/benchmarks.md`.
+- Roh's FE-04 to FE-13 (all 10 screens, staged mock demo) merged on top. `api.ts` keeps Roh's staged demo and switches the read calls to `mockApi` only for a non-demo test scenario. Time River and Storm mode handle `best_action: null`.
+
+### Next: backend integration (engine vs the app's calls)
+
+| Call | App sends / expects | Engine today |
+| --- | --- | --- |
+| `POST /pact/parse` | returns `PactRule[]` (the 4 drafts) | returns `{ rules, rephrase_request }`, one rule |
+| `POST /pact` | body `{ rules }` | body is a bare list |
+| `POST /simulate` | `{ forecast, fired: [{ rule_id, action_kind, left_gbp }] }` | `{ forecast, fired_rules: [rule] }` |
+| `POST /actions/move-to-buffer` | body `{ amount_gbp }` | also requires `confirmed: true` |
+| `GET/POST /pact/note` | `{ text, duration_s }` | `{ transcript, audio_blob_ref }`, no GET |
+| After the move | as of 13 March, `buffer_days` 8 | as of 10 March, `buffer_days` 7 |
+| `GET /me` | optional `phone_masked`, `devices` | not sent | Needs a yes from A (engine), B (frontend) and C/D before Gate 2 (16:45).
 
 ## Why we need this
 

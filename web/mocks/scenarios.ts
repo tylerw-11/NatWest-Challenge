@@ -11,12 +11,16 @@ import rewindJson from "./rewind.json";
 import settingsJson from "./settings.json";
 import meJson from "./me.json";
 import pactJson from "./pact.json";
+import pactDraftJson from "./pact_draft.json";
+import forecastSimulatedJson from "./forecast_simulated.json";
+import forecastAfterJson from "./forecast_after.json";
 
 const demoForecast = forecastJson as Forecast;
 const demoRewind = rewindJson as Rewind;
 const demoSettings = settingsJson as Settings;
 const demoMe = meJson as Me;
-const demoRules = pactJson as PactRule[];
+const demoRules = pactJson as PactRule[]; // [] : the demo starts with no rules
+const demoDrafts = pactDraftJson as PactRule[]; // what the parser proposes in step 4
 const AS_OF = demoForecast.as_of; // 2026-03-10
 
 function addDays(iso: string, n: number): string {
@@ -75,16 +79,10 @@ function forecast(id: string, days: ReturnType<typeof buildDays>, extra: Partial
 export const FORECASTS = {
   /** The spec demo: fine 10-18, tight 19-22, storm 23 Mar at 1 in 3, £15 move -> 1 in 8. */
   demo: demoForecast,
-  /** Demo step 7, after "Move £15 to my buffer": 23 March drops to 0.125, so it reads tight. */
-  demo_after_buffer: {
-    ...demoForecast,
-    id: `${demoForecast.id}_after_buffer`,
-    buffer_days: demoForecast.buffer_days + 1,
-    best_action: null, // same as the engine: nothing left to suggest
-    days: demoForecast.days.map((d) =>
-      d.date === "2026-03-23" ? { ...d, p_shortfall: 0.125, state: "cloudy" as const, p10: -42, p50: 50, p90: 142 } : d,
-    ),
-  },
+  /** Demo step 5, fast-forward to Fri 13 March (web/mocks/forecast_simulated.json). */
+  demo_simulated: forecastSimulatedJson as Forecast,
+  /** Demo step 7, after "Move £15 to my buffer": 23 March reads tight (web/mocks/forecast_after.json). */
+  demo_after_buffer: forecastAfterJson as Forecast,
   all_clear: forecast("fc_all_clear", buildDays({}, 0.02, 420), { buffer_days: 21 }),
   tight_only: forecast("fc_tight_only", buildDays(range("2026-03-16", "2026-03-24", { p: 0.22, p50: 60, driver_ids: [PHONE.id] })), { drivers: [PHONE], buffer_days: 4 }),
   storm_tomorrow: forecast("fc_storm_tomorrow", buildDays({ "2026-03-11": { p: 0.55, p10: -80, p50: -12, p90: 40, driver_ids: DEMO_IDS } }), {
@@ -162,17 +160,21 @@ export const SETTINGS = {
   calm_mode_on: { ...demoSettings, mood: "worried", calm_mode: true },
 } satisfies Record<string, Settings>;
 
-// ---------- Pact rules (demo = Roh's web/mocks/pact.json) ----------
-export const DEMO_RULES: PactRule[] = demoRules;
+// ---------- Pact rules (demo = web/mocks/pact.json, drafts = web/mocks/pact_draft.json) ----------
+/** The four rules from demo step 4, as the parser proposes them (unconfirmed). */
+export const DEMO_RULES: PactRule[] = demoDrafts;
+const AGREED = demoDrafts.map((r) => ({ ...r, confirmed: true }));
 
 export const PACT_RULES = {
-  demo: DEMO_RULES,
+  demo: demoRules,
   none: [] as PactRule[],
   /** Drafts from /pact/parse, not yet agreed. */
-  drafts: DEMO_RULES.map((r) => ({ ...r, confirmed: false })),
-  one: [DEMO_RULES[0]],
+  drafts: DEMO_RULES,
+  /** After step 4: the four rules agreed. */
+  agreed: AGREED,
+  one: [AGREED[0]],
   /** A change waiting out the 48 hours (the lock line on the Pact screen). */
-  pending_change: [{ ...DEMO_RULES[0], active_from: "2026-03-08", change_requested_at: "2026-03-09T18:00:00Z" }, ...DEMO_RULES.slice(1)],
+  pending_change: [{ ...AGREED[0], active_from: "2026-03-08", change_requested_at: "2026-03-09T18:00:00Z" }, ...AGREED.slice(1)],
 } satisfies Record<string, PactRule[]>;
 
 /** What to type into the Pact text area, and what should come back. */
@@ -229,8 +231,10 @@ export type AppScenario = {
 const d = { forecast: "demo", settings: "demo", rewind: "demo", rules: "demo", me: "demo" } as const;
 
 export const APP_SCENARIOS: Record<string, AppScenario> = {
-  demo: { ...d, group: "Demo path", note: "Spec demo, as of Tue 10 March 2026 (Roh's web/mocks/*.json)." },
-  demo_after_buffer: { ...d, forecast: "demo_after_buffer", group: "Demo path", note: "After Move £15 to my buffer: 23 March reads tight." },
+  demo: { ...d, group: "Demo path", note: "Roh's staged demo (web/mocks/*.json), as of Tue 10 March 2026." },
+  rules_agreed: { ...d, rules: "agreed", group: "Demo path", note: "After step 4: the four rules agreed." },
+  demo_fast_forward: { ...d, forecast: "demo_simulated", rules: "agreed", group: "Demo path", note: "Step 5: fast-forward to payday, Fri 13 March." },
+  demo_after_buffer: { ...d, forecast: "demo_after_buffer", rules: "agreed", group: "Demo path", note: "Step 7: after Move £15 to my buffer, 23 March reads tight." },
   storm_mode: { ...d, forecast: "storm_tomorrow", group: "Demo path", note: "Storm tomorrow: Storm mode takes over." },
 
   all_clear: { ...d, forecast: "all_clear", rewind: "zero", group: "Weather states", note: "60 fine days: no storm card." },

@@ -1209,68 +1209,7 @@
   "paths": 1000,
   "starting_balance_gbp": null
  },
- "pactRules": [
-  {
-   "action": {
-    "cap_gbp": 20,
-    "category": "takeaways",
-    "kind": "category_cap",
-    "period": "week"
-   },
-   "confirmed": true,
-   "id": "rule_takeaway_cap",
-   "then_label": "Takeaways capped at \u00a320 a week",
-   "trigger": {
-    "horizon_days": 14,
-    "kind": "storm_probability",
-    "threshold": 0.3
-   },
-   "when_label": "Storm 14 days away"
-  },
-  {
-   "action": {
-    "hours": 48,
-    "kind": "credit_pause_hours"
-   },
-   "confirmed": true,
-   "id": "rule_credit_pause",
-   "then_label": "No new credit or pay-later for 48 hours",
-   "trigger": {
-    "horizon_days": 14,
-    "kind": "storm_probability",
-    "threshold": 0.3
-   },
-   "when_label": "Storm 14 days away"
-  },
-  {
-   "action": {
-    "kind": "notify_ally"
-   },
-   "confirmed": true,
-   "id": "rule_notify_ally",
-   "then_label": "Let Jade know (she can't see your spending)",
-   "trigger": {
-    "kind": "storm_probability",
-    "threshold": 0.3
-   },
-   "when_label": "Storm starts"
-  },
-  {
-   "action": {
-    "amount_gbp": 15,
-    "kind": "move_to_buffer",
-    "on": "payday"
-   },
-   "confirmed": true,
-   "id": "rule_payday_buffer",
-   "then_label": "Move \u00a315 to your buffer",
-   "trigger": {
-    "kind": "storm_probability",
-    "threshold": 0.3
-   },
-   "when_label": "Payday in a storm"
-  }
- ],
+ "pactRules": [],
  "rewind": {
   "categories": [
    {

@@ -11,6 +11,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from engine import database
+from engine.generator import DEMO_RULES
 from engine.main import app
 
 ORIGIN = {"Origin": "http://localhost:3000"}
@@ -58,9 +59,11 @@ def test_step_3_rewind(client):
 
 
 def test_step_4_pact_rules_and_closed_action_list(client):
-    rules = client.get("/pact").json()
-    assert len(rules) == 4 and all(r["confirmed"] for r in rules)
-    assert {r["action"]["kind"] for r in rules} <= ALLOWED_ACTIONS
+    assert client.get("/pact").json() == []  # the demo starts with no rules
+    drafts = [{**r, "confirmed": False} for r in DEMO_RULES]
+    saved = client.post("/pact", json=drafts, headers=ORIGIN).json()
+    assert len(saved) == 4 and all(r["confirmed"] for r in saved)  # stored only once the user agrees
+    assert {r["action"]["kind"] for r in client.get("/pact").json()} <= ALLOWED_ACTIONS
     rejected = client.post("/pact/parse", json={"text": "Invest everything in crypto"}, headers=ORIGIN).json()
     assert rejected["rules"] == [] and rejected["rephrase_request"]
     draft = client.post("/pact/parse", json={"text": "Put £15 aside on payday"}, headers=ORIGIN).json()["rules"][0]
@@ -68,6 +71,7 @@ def test_step_4_pact_rules_and_closed_action_list(client):
 
 
 def test_steps_5_to_7_storm_mode_move_and_rerun(client):
+    client.post("/pact", json=[{**r, "confirmed": False} for r in DEMO_RULES], headers=ORIGIN)  # step 4
     sim = client.post("/simulate?as_of=2026-03-13", headers=ORIGIN).json()
     assert any(r["action"]["kind"] == "notify_ally" for r in sim["fired_rules"])  # Jade's alert
     # Invariant 2: nothing moves without a confirmed button press.
@@ -105,4 +109,4 @@ def test_write_contract_fixture(client):
     responses["me"].pop("created_at", None)  # changes every run; keep the snapshot stable
     FIXTURE.parent.mkdir(parents=True, exist_ok=True)
     FIXTURE.write_text(json.dumps(responses, indent=1, sort_keys=True) + "\n", encoding="utf-8")
-    assert all(responses.values())
+    assert all(v is not None for v in responses.values())

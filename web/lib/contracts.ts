@@ -121,8 +121,30 @@ export const Me = z.object({
   user: z.object({ name: z.string(), email: z.string() }),
   bank: z.object({ name: z.string(), connected_until: isoDate }).nullable(),
   onboarding_complete: z.boolean(),
+  /** Added FE-12 (Account screen). */
+  phone_masked: z.string().optional(),
+  devices: z
+    .array(z.object({ id: z.string(), label: z.string(), last_seen: z.string(), current: z.boolean() }))
+    .optional(),
 });
 export type Me = z.infer<typeof Me>;
+
+/** POST /pact/note and the stored note. Added FE-06. */
+export const PactNote = z.object({ text: z.string(), duration_s: z.number() });
+export type PactNote = z.infer<typeof PactNote>;
+
+/** A confirmed rule that fired on a forecast. Added FE-07. */
+export const FiredRule = z.object({
+  rule_id: z.string(),
+  action_kind: ActionKind,
+  /** category_cap: money left in that category this week. */
+  left_gbp: z.number().nullable(),
+});
+export type FiredRule = z.infer<typeof FiredRule>;
+
+/** POST /simulate?as_of=YYYY-MM-DD (demo fast-forward). Added FE-07. */
+export const SimulateResult = z.object({ forecast: Forecast, fired: z.array(FiredRule) });
+export type SimulateResult = z.infer<typeof SimulateResult>;
 
 export const ReadingLevel = z.enum(["simple", "clear", "detailed"]);
 export type ReadingLevel = z.infer<typeof ReadingLevel>;

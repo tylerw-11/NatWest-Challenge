@@ -23,7 +23,7 @@ Run the pytest suite from the repository root with `.venv\Scripts\python.exe -m 
 
 ## Demo behaviour (decision 0001)
 
-- `POST /auth/demo` seeds Amara: ally Jade (sister), the four agreed rules from `web/mocks/pact.json`, and settings matching `web/mocks/settings.json`. Each demo login also clears earlier buffer moves, so the seven-step demo can run twice in a row.
+- `POST /auth/demo` seeds Amara: ally Jade (sister) and settings matching `web/mocks/settings.json`. She starts with no rules, as in `web/mocks/pact.json`: demo step 4 creates them with `POST /pact`. Each demo login also clears earlier buffer moves, so the seven-step demo can run twice in a row.
 - `GET /forecast` includes `buffer_days` (6 in the demo) and applies any confirmed `POST /actions/move-to-buffer`: after £15, 23 March drops from storm (1 in 3) to tight (1 in 8), `buffer_days` becomes 7 and `best_action` becomes `null`.
 - `GET /rewind` months are `YYYY-MM`. `GET /me` adds `user` and `bank` in the web contract's shape and keeps the older fields.
 - Income-dip drivers have a positive `amount_gbp` (the size of the dip).

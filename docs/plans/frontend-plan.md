@@ -16,7 +16,7 @@ Branch: `feature/web-frontend` (made from `main`; `main` is left alone). Owner: 
 - **After building, a handover in this fixed shape:** what was built, how to run it, the checklist again with results, gaps, and the next feature's brief.
 - **Every screen is built the same way:** `app/<route>/page.tsx` composes shared components from `components/` and reads data through `lib/hooks.ts`. No screen-specific styling outside the tokens.
 
-Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. Switching to the engine is `USE_MOCKS=false`. In mock mode, `lib/api.ts` serves through `lib/mockApi.ts`, so `/dev/scenarios` or `?scenario=<name>` drives every screen: use it to check each screen beyond the demo (storm tomorrow, threshold edges, errors, colour modes).
+Every screen first renders from `web/mocks/*.json` (`USE_MOCKS=true`), holding the exact demo figures. Switching to the engine is `USE_MOCKS=false`. In mock mode the staged demo runs from `lib/mock-store.ts`; picking a non-demo scenario on `/dev/scenarios` (or `?scenario=<name>`) makes `lib/api.ts` serve the read calls from `lib/mockApi.ts`, to check each screen beyond the demo (storm tomorrow, threshold edges, errors, colour modes).
 
 ## Tech stack (from pact-frontend)
 

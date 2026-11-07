@@ -1,29 +1,46 @@
 /**
  * Typed fetch helpers. Every response is parsed with Zod. With USE_MOCKS=true
- * (the default until the engine is up) data comes from lib/mockApi.ts: the demo
- * figures in web/mocks/*.json, or the scenario picked on /dev/scenarios or with
- * ?scenario=<name> (decision 0001, item 5).
+ * (the default until the engine is up) data comes from web/mocks and the
+ * in-browser mock store instead. If a test scenario other than "demo" is picked
+ * on /dev/scenarios (or with ?scenario=), the read calls come from lib/mockApi.ts
+ * instead, so every screen can be checked against it (decision 0001, item 5).
  */
 import { z } from "zod";
-import { ApiErrorBody, Forecast, Me, PactRules, Rewind, Settings } from "./contracts";
+import {
+  ApiErrorBody,
+  Forecast,
+  Me,
+  PactNote,
+  PactRules,
+  Rewind,
+  Settings,
+  SimulateResult,
+  type PactRule,
+  type Settings as SettingsT,
+} from "./contracts";
 import { ApiError } from "./errors";
-import { mockApi } from "./mockApi";
-
-export { ApiError };
+import { currentScenario, mockApi } from "./mockApi";
+import { getMockState, setMockState } from "./mock-store";
+import forecastMock from "@/mocks/forecast.json";
+import forecastSimulatedMock from "@/mocks/forecast_simulated.json";
+import forecastAfterMock from "@/mocks/forecast_after.json";
+import simulateMock from "@/mocks/simulate.json";
+import rewindMock from "@/mocks/rewind.json";
+import meMock from "@/mocks/me.json";
+import pactDraftMock from "@/mocks/pact_draft.json";
+import pactNoteMock from "@/mocks/pact_note.json";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
-const FALLBACK_ERROR = new ApiError(
-  "network",
-  "We could not load this right now. Please try again.",
-);
+export { ApiError };
 
-async function request<T>(
-  schema: z.ZodType<T>,
-  path: string,
-  init?: RequestInit,
-): Promise<T> {
+/** True when a test scenario (not the demo) is chosen; the demo keeps Roh's staged mock flow. */
+const testScenario = () => USE_MOCKS && currentScenario().name !== "demo";
+
+const FALLBACK_ERROR = new ApiError("network", "We could not load this right now. Please try again.");
+
+async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
     res = await fetch(`${API_URL}${path}`, {
@@ -37,9 +54,7 @@ async function request<T>(
   const body: unknown = await res.json().catch(() => null);
   if (!res.ok) {
     const err = ApiErrorBody.safeParse(body);
-    throw err.success
-      ? new ApiError(err.data.code, err.data.message_plain)
-      : FALLBACK_ERROR;
+    throw err.success ? new ApiError(err.data.code, err.data.message_plain) : FALLBACK_ERROR;
   }
   const parsed = schema.safeParse(body);
   if (!parsed.success) {
@@ -49,11 +64,108 @@ async function request<T>(
   return parsed.data;
 }
 
-/** Mocks are parsed with the same schemas, so a bad mock fails the same way a bad engine would. */
+const post = (body: unknown): RequestInit => ({ method: "POST", body: JSON.stringify(body) });
+
+/** Mocks are parsed too, so a bad mock fails the same way a bad engine would. */
+function mock<T>(schema: z.ZodType<T>, data: unknown, delay = 120): Promise<T> {
+  return new Promise((resolve, reject) =>
+    setTimeout(() => {
+      const r = schema.safeParse(data);
+      if (r.success) resolve(r.data);
+      else {
+        console.error("Mock does not match contract", r.error.issues);
+        reject(new ApiError("contract", "Something looks wrong with this data."));
+      }
+    }, delay),
+  );
+}
+
+/** The forecast the mock engine would return at the current demo stage. */
+function stageForecast(): unknown {
+  const { stage } = getMockState();
+  return stage === "after_move" ? forecastAfterMock : stage === "simulated" ? forecastSimulatedMock : forecastMock;
+}
+
+const Ok = z.null();
+
 export const api = {
-  forecast: () => (USE_MOCKS ? mockApi.forecast() : request(Forecast, "/forecast")),
-  rewind: () => (USE_MOCKS ? mockApi.rewind() : request(Rewind, "/rewind")),
-  settings: () => (USE_MOCKS ? mockApi.settings() : request(Settings, "/settings")),
-  me: () => (USE_MOCKS ? mockApi.me() : request(Me, "/me")),
-  pactRules: () => (USE_MOCKS ? mockApi.pactRules() : request(PactRules, "/pact")),
+  /** Demo login: sets the session cookie for Amara. */
+  authDemo: () => (USE_MOCKS ? mock(Ok, null, 300) : request(Ok, "/auth/demo", { method: "POST" }).catch(() => null)),
+  logout: () => (USE_MOCKS ? mock(Ok, null, 150) : request(Ok, "/auth/logout", { method: "POST" }).catch(() => null)),
+
+  forecast: () =>
+    testScenario() ? mockApi.forecast() : USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast"),
+
+  /** Demo fast-forward: re-runs the forecast as of a date and fires confirmed rules. */
+  simulate: (asOf: string) => {
+    if (USE_MOCKS) {
+      const { stage, rules } = getMockState();
+      if (stage === "base") setMockState({ stage: "simulated" });
+      const confirmed = new Set(rules.filter((r) => r.confirmed).map((r) => r.id));
+      return mock(SimulateResult, {
+        forecast: stageForecast(),
+        fired: simulateMock.fired.filter((f) => confirmed.has(f.rule_id)),
+      });
+    }
+    return request(SimulateResult, `/simulate?as_of=${asOf}`, { method: "POST" });
+  },
+
+  /** The one storm-mode action. Returns the re-run forecast. */
+  moveToBuffer: (amount_gbp: number) => {
+    if (USE_MOCKS) {
+      setMockState({ stage: "after_move" });
+      return mock(Forecast, stageForecast(), 400);
+    }
+    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp }));
+  },
+  rewind: () => (testScenario() ? mockApi.rewind() : USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
+  settings: () =>
+    testScenario()
+      ? mockApi.settings()
+      : USE_MOCKS
+        ? mock(Settings, getMockState().settings)
+        : request(Settings, "/settings"),
+  me: () => (testScenario() ? mockApi.me() : USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),
+
+  /** PUT /settings with the fields that changed. */
+  updateSettings: (patch: Partial<SettingsT>) => {
+    if (USE_MOCKS) {
+      const settings = { ...getMockState().settings, ...patch };
+      setMockState({ settings });
+      return mock(Settings, settings, 60);
+    }
+    return request(Settings, "/settings", { method: "PUT", body: JSON.stringify(patch) });
+  },
+  pactRules: () =>
+    testScenario()
+      ? mockApi.pactRules()
+      : USE_MOCKS
+        ? mock(PactRules, getMockState().rules)
+        : request(PactRules, "/pact"),
+  pactNote: () =>
+    USE_MOCKS
+      ? mock(PactNote, getMockState().note ?? pactNoteMock)
+      : request(PactNote, "/pact/note"),
+
+  /** Claude turns free text into draft rules from the closed action list. */
+  parsePact: (text: string) =>
+    USE_MOCKS ? mock(PactRules, pactDraftMock, 600) : request(PactRules, "/pact/parse", post({ text })),
+
+  /** Stores only the rules the user confirmed (the AI proposes, the user confirms). */
+  savePact: (rules: PactRule[]) => {
+    const confirmed = rules.map((r) => ({ ...r, confirmed: true }));
+    if (USE_MOCKS) {
+      setMockState({ rules: confirmed });
+      return mock(PactRules, confirmed);
+    }
+    return request(PactRules, "/pact", post({ rules: confirmed }));
+  },
+
+  saveNote: (note: PactNote) => {
+    if (USE_MOCKS) {
+      setMockState({ note });
+      return mock(PactNote, note);
+    }
+    return request(PactNote, "/pact/note", post(note));
+  },
 };

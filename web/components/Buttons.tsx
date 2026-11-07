@@ -5,11 +5,11 @@ type Variant = "primary" | "secondary" | "danger";
 
 const VARIANT: Record<Variant, string> = {
   // 56 px, radius 28, primary fill, 17 px bold white
-  primary: "h-14 rounded-[28px] bg-primary text-on-primary",
+  primary: "h-14 rounded-[28px] bg-primary text-on-primary hover:bg-primary-hover ix-raise",
   // 52 px, outlined
-  secondary: "h-[52px] rounded-[26px] border-2 border-ink bg-surface text-ink",
+  secondary: "h-[52px] rounded-[26px] border-2 border-ink bg-surface text-ink hover:bg-tint-teal",
   // Alert actions: "I'm not okay", "Delete my account"
-  danger: "h-14 rounded-[28px] border-2 border-due bg-surface text-due",
+  danger: "h-14 rounded-[28px] border-2 border-due bg-surface text-due hover:bg-due/10",
 };
 
 type Common = { variant?: Variant; className?: string; children: React.ReactNode };
@@ -19,7 +19,7 @@ type AsLink = Common & { href: string };
 /** Full-width action button. Pass `href` to render a link that looks the same. */
 export function Button({ variant = "primary", className, children, ...rest }: AsButton | AsLink) {
   const cls = cn(
-    "flex w-full items-center justify-center gap-2 px-6 text-[17px] font-bold transition-opacity active:opacity-80 disabled:opacity-50",
+    "ix ix-press flex w-full items-center justify-center gap-2 px-6 text-[17px] font-bold disabled:pointer-events-none disabled:opacity-50",
     VARIANT[variant],
     className,
   );
@@ -48,8 +48,8 @@ export function Pill({
       type="button"
       aria-pressed={pressed}
       className={cn(
-        "inline-flex min-h-11 items-center justify-center gap-1 rounded-full border border-border bg-bg px-5 text-[16px] font-bold text-ink",
-        pressed && "border-primary bg-tint-teal",
+        "ix ix-press-sm inline-flex min-h-11 items-center justify-center gap-1 rounded-full border border-border bg-bg px-5 text-[16px] font-bold text-ink hover:border-ink-2",
+        pressed && "border-primary bg-tint-teal hover:border-primary",
         className,
       )}
       {...rest}
@@ -69,7 +69,7 @@ export function IconButton({
       type="button"
       aria-label={label}
       className={cn(
-        "inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-ink",
+        "ix ix-press-sm inline-flex size-11 shrink-0 items-center justify-center rounded-full border border-border bg-surface text-ink hover:border-ink-2 hover:bg-surface-hover disabled:pointer-events-none disabled:opacity-40",
         className,
       )}
       {...rest}
@@ -102,7 +102,10 @@ export function TextLink({
   return (
     <Link
       href={href}
-      className={cn("inline-flex min-h-11 items-center font-bold text-primary underline underline-offset-2", className)}
+      className={cn(
+        "ix inline-flex min-h-11 items-center font-bold text-primary underline decoration-1 underline-offset-2 hover:text-primary-hover hover:decoration-2",
+        className,
+      )}
     >
       {children}
     </Link>

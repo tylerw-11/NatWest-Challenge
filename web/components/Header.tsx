@@ -2,34 +2,21 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { BackIcon, SettingsIcon, SpeakerIcon } from "./icons";
+import { BackIcon, SettingsIcon, SpeakerIcon, StopIcon } from "./icons";
 import { IconButton } from "./Buttons";
-import { readMain, stopSpeaking, isSpeaking } from "@/lib/read-aloud";
+import { mainText, speak, stopSpeaking, useSpeaking } from "@/lib/read-aloud";
+import { cn } from "@/lib/utils";
 
 export function ReadAloudButton() {
-  const [on, setOn] = useState(false);
+  const on = useSpeaking("page");
   return (
     <IconButton
       label={on ? "Stop reading aloud" : "Read this screen aloud"}
       aria-pressed={on}
-      onClick={() => {
-        if (isSpeaking()) {
-          stopSpeaking();
-          setOn(false);
-        } else {
-          readMain();
-          setOn(true);
-          const poll = setInterval(() => {
-            if (!isSpeaking()) {
-              setOn(false);
-              clearInterval(poll);
-            }
-          }, 500);
-        }
-      }}
+      onClick={() => (on ? stopSpeaking() : speak(mainText(), "page"))}
+      className={cn(on && "animate-live border-primary bg-primary text-on-primary hover:bg-primary-hover")}
     >
-      <SpeakerIcon size={24} strokeWidth={2} />
+      {on ? <StopIcon size={18} fill="currentColor" /> : <SpeakerIcon size={24} strokeWidth={2} />}
     </IconButton>
   );
 }
@@ -59,7 +46,7 @@ export function TabHeader({
           <Link
             href="/settings"
             aria-label="Settings"
-            className="inline-flex size-11 items-center justify-center rounded-full border border-border bg-surface text-ink"
+            className="ix ix-press-sm inline-flex size-11 items-center justify-center rounded-full border border-border bg-surface text-ink hover:border-ink-2 hover:bg-surface-hover"
           >
             <SettingsIcon size={24} strokeWidth={2} />
           </Link>
@@ -72,7 +59,7 @@ export function TabHeader({
 /** Sub-screens (Time River, Settings, Sign-up, Account): back arrow + 16 px bold title. */
 export function SubHeader({ title, backHref }: { title: string; backHref?: string }) {
   const router = useRouter();
-  const cls = "inline-flex size-11 items-center justify-center rounded-full text-ink";
+  const cls = "ix ix-press-sm inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-surface-hover";
   return (
     <header className="flex items-center gap-2 px-3 pt-3 pb-1">
       {backHref ? (

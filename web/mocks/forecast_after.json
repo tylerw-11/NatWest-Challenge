@@ -1,0 +1,597 @@
+{
+  "id": "fc_2026-03-13_buffer15",
+  "as_of": "2026-03-13",
+  "horizon_days": 60,
+  "paths": 1000,
+  "days": [
+    {
+      "date": "2026-03-13",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 483,
+      "p50": 535,
+      "p90": 587,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-14",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 462,
+      "p50": 518,
+      "p90": 574,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-15",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 442,
+      "p50": 502,
+      "p90": 562,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-16",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 421,
+      "p50": 485,
+      "p90": 549,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-17",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 370,
+      "p50": 438,
+      "p90": 506,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-18",
+      "p_shortfall": 0.02,
+      "state": "clear",
+      "p10": 320,
+      "p50": 392,
+      "p90": 464,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-19",
+      "p_shortfall": 0.06,
+      "state": "clear",
+      "p10": 269,
+      "p50": 345,
+      "p90": 421,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-20",
+      "p_shortfall": 0.08,
+      "state": "clear",
+      "p10": 205,
+      "p50": 285,
+      "p90": 365,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-21",
+      "p_shortfall": 0.1,
+      "state": "cloudy",
+      "p10": 141,
+      "p50": 225,
+      "p90": 309,
+      "driver_ids": [
+        "drv_quiet_week"
+      ]
+    },
+    {
+      "date": "2026-03-22",
+      "p_shortfall": 0.12,
+      "state": "cloudy",
+      "p10": 77,
+      "p50": 165,
+      "p90": 253,
+      "driver_ids": [
+        "drv_quiet_week",
+        "drv_phone_renewal"
+      ]
+    },
+    {
+      "date": "2026-03-23",
+      "p_shortfall": 0.125,
+      "state": "cloudy",
+      "p10": -42,
+      "p50": 50,
+      "p90": 142,
+      "driver_ids": [
+        "drv_quiet_week",
+        "drv_phone_renewal",
+        "drv_council_tax"
+      ]
+    },
+    {
+      "date": "2026-03-24",
+      "p_shortfall": 0.1,
+      "state": "cloudy",
+      "p10": -21,
+      "p50": 75,
+      "p90": 171,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-25",
+      "p_shortfall": 0.07,
+      "state": "clear",
+      "p10": 65,
+      "p50": 165,
+      "p90": 265,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-26",
+      "p_shortfall": 0.05,
+      "state": "clear",
+      "p10": 151,
+      "p50": 255,
+      "p90": 359,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-27",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 237,
+      "p50": 345,
+      "p90": 453,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-28",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 223,
+      "p50": 335,
+      "p90": 447,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-29",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 209,
+      "p50": 325,
+      "p90": 441,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-30",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 195,
+      "p50": 315,
+      "p90": 435,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-03-31",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 181,
+      "p50": 305,
+      "p90": 429,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-01",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 167,
+      "p50": 295,
+      "p90": 423,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-02",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 153,
+      "p50": 285,
+      "p90": 417,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-03",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 139,
+      "p50": 275,
+      "p90": 411,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-04",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 125,
+      "p50": 265,
+      "p90": 405,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-05",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 166,
+      "p50": 310,
+      "p90": 454,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-06",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 207,
+      "p50": 355,
+      "p90": 503,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-07",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 248,
+      "p50": 400,
+      "p90": 552,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-08",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 289,
+      "p50": 445,
+      "p90": 601,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-09",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 330,
+      "p50": 490,
+      "p90": 650,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-10",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 375,
+      "p50": 535,
+      "p90": 695,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-11",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 359,
+      "p50": 519,
+      "p90": 679,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-12",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 344,
+      "p50": 504,
+      "p90": 664,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-13",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 328,
+      "p50": 488,
+      "p90": 648,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-14",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 312,
+      "p50": 472,
+      "p90": 632,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-15",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 296,
+      "p50": 456,
+      "p90": 616,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-16",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 281,
+      "p50": 441,
+      "p90": 601,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-17",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 265,
+      "p50": 425,
+      "p90": 585,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-18",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 249,
+      "p50": 409,
+      "p90": 569,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-19",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 234,
+      "p50": 394,
+      "p90": 554,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-20",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 218,
+      "p50": 378,
+      "p90": 538,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-21",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 202,
+      "p50": 362,
+      "p90": 522,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-22",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 186,
+      "p50": 346,
+      "p90": 506,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-23",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 171,
+      "p50": 331,
+      "p90": 491,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-24",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 155,
+      "p50": 315,
+      "p90": 475,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-25",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 164,
+      "p50": 324,
+      "p90": 484,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-26",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 172,
+      "p50": 332,
+      "p90": 492,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-27",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 181,
+      "p50": 341,
+      "p90": 501,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-28",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 189,
+      "p50": 349,
+      "p90": 509,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-29",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 198,
+      "p50": 358,
+      "p90": 518,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-04-30",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 206,
+      "p50": 366,
+      "p90": 526,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-01",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 215,
+      "p50": 375,
+      "p90": 535,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-02",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 224,
+      "p50": 384,
+      "p90": 544,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-03",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 232,
+      "p50": 392,
+      "p90": 552,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-04",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 241,
+      "p50": 401,
+      "p90": 561,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-05",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 249,
+      "p50": 409,
+      "p90": 569,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-06",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 258,
+      "p50": 418,
+      "p90": 578,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-07",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 266,
+      "p50": 426,
+      "p90": 586,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-08",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 275,
+      "p50": 435,
+      "p90": 595,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-09",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 275,
+      "p50": 435,
+      "p90": 595,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-10",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 275,
+      "p50": 435,
+      "p90": 595,
+      "driver_ids": []
+    },
+    {
+      "date": "2026-05-11",
+      "p_shortfall": 0.04,
+      "state": "clear",
+      "p10": 275,
+      "p50": 435,
+      "p90": 595,
+      "driver_ids": []
+    }
+  ],
+  "drivers": [
+    {
+      "id": "drv_council_tax",
+      "label": "Council tax",
+      "amount_gbp": 118,
+      "due_date": "2026-03-23",
+      "window": null,
+      "kind": "bill",
+      "source_note": "Paid on the 23rd each month for the last 11 months."
+    },
+    {
+      "id": "drv_phone_renewal",
+      "label": "Phone renewal",
+      "amount_gbp": 45,
+      "due_date": "2026-03-22",
+      "window": null,
+      "kind": "bill",
+      "source_note": "Yearly phone contract; it renewed on 22 March last year."
+    },
+    {
+      "id": "drv_quiet_week",
+      "label": "Quieter week",
+      "amount_gbp": 90,
+      "due_date": null,
+      "window": {
+        "start": "2026-03-16",
+        "end": "2026-03-22"
+      },
+      "kind": "income_dip",
+      "source_note": "Delivery earnings dip in this week in most of your past months."
+    }
+  ],
+  "covered_until": "2026-03-21",
+  "buffer_days": 8,
+  "best_action": {
+    "action_id": "move_to_buffer",
+    "amount_gbp": 15,
+    "date": "2026-03-13",
+    "p_after": 0.125
+  }
+}

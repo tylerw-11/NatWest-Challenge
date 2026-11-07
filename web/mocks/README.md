@@ -1,15 +1,15 @@
 # Scenario mocks and thresholds
 
-Test data for every use case, on top of Roh's demo mocks. With `USE_MOCKS=true` (the default), `lib/api.ts` serves every screen through `lib/mockApi.ts`, so the chosen scenario reaches the real screens.
+Test data for every use case, on top of Roh's demo mocks. With `USE_MOCKS=true` (the default), the app runs Roh's staged demo (`lib/mock-store.ts`; Shift+F fast-forwards, Shift+R resets). Pick any other scenario on `/dev/scenarios` and `lib/api.ts` serves the five read calls from `lib/mockApi.ts` instead, so the real screens show it.
 
 | File | What |
 | --- | --- |
-| `mocks/scenarios.ts` | 32 named scenarios. `demo` **is** Roh's `forecast.json`, `rewind.json`, `settings.json`, `me.json` and `pact.json`; the rest are variations |
+| `mocks/scenarios.ts` | 34 named scenarios. `demo` **is** Roh's `forecast.json`, `rewind.json`, `settings.json`, `me.json` and `pact.json`; the rest are variations |
 | `lib/thresholds.ts` | Threshold decisions: weather rule, storm warning lead time, Storm mode, buffer band, calm offer. Wording stays in `lib/format.ts` |
 | `lib/mockApi.ts` | Scenario-aware fake engine behind `api` in mock mode. It also has `parsePact`, `explain` and `moveToBuffer`, plus latency and error injection |
 | `lib/errors.ts` | `ApiError` (plain-language errors), shared by `api.ts` and `mockApi.ts` |
 | `app/dev/scenarios/page.tsx` | The switcher |
-| `/web-tests` (repo root) | 108 checks, including the engine's real responses against `lib/contracts.ts`, plus `npm run bench`. Kept outside `web/` so `web/package.json` stays the app's |
+| `/web-tests` (repo root) | 112 checks, including the engine's real responses against `lib/contracts.ts`, plus `npm run bench`. Kept outside `web/` so `web/package.json` stays the app's |
 
 ## Use it
 
@@ -37,7 +37,7 @@ Still to confirm with the team (see `docs/decisions/0001-data-contract.md`, item
 
 | Group | Names |
 | --- | --- |
-| Demo path | `demo`, `demo_after_buffer`, `storm_mode` |
+| Demo path | `demo`, `rules_agreed`, `demo_fast_forward`, `demo_after_buffer`, `storm_mode` |
 | Weather states | `all_clear`, `tight_only`, `storm_today`, `two_storms` |
 | Warning lead time | `storm_far`, `storm_in_7_lead7`, `storm_in_7_lead0` |
 | Threshold edges | `boundaries`, `boundaries_sensitive` |

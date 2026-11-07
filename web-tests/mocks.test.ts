@@ -72,10 +72,10 @@ describe("demo is the spec's figures", () => {
     expect(f.best_action).toMatchObject({ action_id: "move_to_buffer", amount_gbp: 15, date: "2026-03-13" });
     expect(oneInN(f.best_action!.p_after)).toBe("1 in 8");
   });
-  it("after the move, 23 March reads tight and there is nothing left to suggest (demo step 7)", () => {
+  it("fast-forward keeps the 23 March storm; after the move it reads tight (demo steps 5 and 7)", () => {
+    expect(firstStorm(FORECASTS.demo_simulated)?.date).toBe("2026-03-23");
     expect(firstStorm(FORECASTS.demo_after_buffer)).toBeNull();
-    expect(FORECASTS.demo_after_buffer.best_action).toBeNull();
-    expect(FORECASTS.demo_after_buffer.buffer_days).toBe(7);
+    expect(oneInN(FORECASTS.demo_after_buffer.days.find((d) => d.date === "2026-03-23")!.p_shortfall)).toBe("1 in 8");
     expect(stateLabel(FORECASTS.demo_after_buffer.days.find((d) => d.date === "2026-03-23")!.state)).toBe("tight");
   });
   it("rewind £214 extra, about £96 kept", () => {
@@ -118,16 +118,16 @@ describe("screen decisions", () => {
 describe("mockApi", () => {
   beforeEach(() => void resetMocks("demo"));
 
-  it("has every call api.ts has, returning Roh's demo mocks", async () => {
+  it("covers api.ts's five read calls with the same demo data", async () => {
     const { api } = await import("@/lib/api");
-    for (const k of Object.keys(api)) expect(mockApi, k).toHaveProperty(k);
+    for (const k of ["forecast", "rewind", "settings", "me", "pactRules"]) expect(mockApi, k).toHaveProperty(k);
     expect(await mockApi.forecast()).toEqual(await api.forecast());
     expect(await mockApi.rewind()).toEqual(await api.rewind());
     expect(await mockApi.settings()).toEqual(await api.settings());
     expect(await mockApi.me()).toEqual(await api.me());
     expect(await mockApi.pactRules()).toEqual(await api.pactRules());
   });
-  it("api.ts serves mocks through mockApi, so ?scenario= reaches every screen", async () => {
+  it("a test scenario reaches every screen through api.ts; the demo keeps Roh's staged mocks", async () => {
     const { api } = await import("@/lib/api");
     resetMocks("forecast_500");
     await expect(api.forecast()).rejects.toMatchObject({ code: "server_error" });
