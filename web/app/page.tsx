@@ -1,16 +1,17 @@
-// Placeholder home. The Weather screen (F-tasks) replaces this file.
 import Link from "next/link";
 
+// Placeholder until Feature 3 (Weather) replaces it.
 export default function Home() {
   return (
-    <main style={{ padding: 20, maxWidth: 390, margin: "0 auto" }}>
-      <h1 style={{ fontSize: 22 }}>Pact</h1>
-      <p>The Weather screen goes here.</p>
-      <p>
-        <Link href="/dev/scenarios" style={{ color: "var(--primary)", fontWeight: 700 }}>
-          Open the mock scenario switcher
-        </Link>
-      </p>
+    <main className="px-5 py-10">
+      <h1 className="text-[22px] font-bold">Pact</h1>
+      <p className="mt-2 text-ink-2">The Weather screen arrives in Feature 3.</p>
+      <Link
+        href="/dev/tokens"
+        className="mt-6 inline-flex min-h-11 items-center font-bold text-primary underline"
+      >
+        See the design tokens
+      </Link>
     </main>
   );
 }

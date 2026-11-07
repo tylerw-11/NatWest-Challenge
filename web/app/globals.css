@@ -1,8 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap");
+@import "tailwindcss";
 
-/* Tokens from the pact-frontend skill. Three sets, chosen by data-colour-mode. */
+/*
+ * Pact design tokens (pact-frontend skill). Every colour in the app comes
+ * from these variables. Three sets, chosen by data-colour-mode on <html>:
+ * standard (default), colour_blind, high_contrast.
+ */
 :root,
-[data-colour-mode="standard"] {
+:root[data-colour-mode="standard"] {
   --bg: #f5f6f2;
   --surface: #ffffff;
   --border: #daddd6;
@@ -10,72 +14,145 @@
   --ink: #17201b;
   --ink-2: #4b5650;
   --primary: #0e5e52;
+  --on-primary: #ffffff;
   --tint-teal: #e1efec;
+
   --clear-hero: #ddebf6;
   --clear-label: #1b5e8a;
   --sun: #f6c453;
+  --sun-ring: #c78a12;
+
   --tight-hero: #eceef0;
   --tight-label: #48535c;
+
   --storm-hero: #fce7d6;
   --storm-label: #9a3a00;
   --storm-bg: #fbf3ec;
+
   --rewind-hero: #ece8f5;
   --rewind-label: #5b4b8a;
+
   --due: #b3261e;
+  --chart-base: #b9beb6;
 }
 
-[data-colour-mode="colour_blind"] {
-  --clear-hero: #dbe9f7;
-  --clear-label: #1b4f9c;
-  --storm-hero: #fde8c8;
-  --storm-label: #8a4b00;
+/* Colour-blind friendly: alert/due moves from red to blue; storm label
+ * darkens so it is not read against clear by hue alone. */
+:root[data-colour-mode="colour_blind"] {
+  --bg: #f5f6f2;
+  --surface: #ffffff;
+  --border: #daddd6;
+  --divider: #e6e8e3;
+  --ink: #17201b;
+  --ink-2: #4b5650;
+  --primary: #0e5e52;
+  --on-primary: #ffffff;
+  --tint-teal: #e1efec;
+
+  --clear-hero: #ddebf6;
+  --clear-label: #1b5e8a;
+  --sun: #f6c453;
+  --sun-ring: #c78a12;
+
+  --tight-hero: #eceef0;
+  --tight-label: #48535c;
+
+  --storm-hero: #fce7d6;
+  --storm-label: #7a3000;
+  --storm-bg: #fbf3ec;
+
+  --rewind-hero: #ece8f5;
+  --rewind-label: #5b4b8a;
+
   --due: #1b4f9c;
+  --chart-base: #b9beb6;
 }
 
-[data-colour-mode="high_contrast"] {
+/* High contrast: pure ink, darker borders and labels, stronger tints. */
+:root[data-colour-mode="high_contrast"] {
   --bg: #ffffff;
   --surface: #ffffff;
-  --border: #000000;
-  --divider: #000000;
+  --border: #17201b;
+  --divider: #4b5650;
   --ink: #000000;
-  --ink-2: #000000;
-  --primary: #003d33;
-  --tint-teal: #ffffff;
-  --clear-hero: #ffffff;
-  --clear-label: #00305a;
-  --tight-hero: #ffffff;
-  --tight-label: #000000;
-  --storm-hero: #ffffff;
-  --storm-label: #6b2500;
-  --rewind-hero: #ffffff;
-  --rewind-label: #2d1f5c;
-  --due: #8c0000;
+  --ink-2: #1f2723;
+  --primary: #07463d;
+  --on-primary: #ffffff;
+  --tint-teal: #cfe6e1;
+
+  --clear-hero: #c9def0;
+  --clear-label: #0b3f63;
+  --sun: #f6c453;
+  --sun-ring: #8a5d00;
+
+  --tight-hero: #dde0e3;
+  --tight-label: #262e34;
+
+  --storm-hero: #f8d4b6;
+  --storm-label: #6b2700;
+  --storm-bg: #fbf3ec;
+
+  --rewind-hero: #ddd6ef;
+  --rewind-label: #3b2d6b;
+
+  --due: #8c1a14;
+  --chart-base: #4b5650;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-divider: var(--divider);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--on-primary);
+  --color-tint-teal: var(--tint-teal);
+  --color-clear-hero: var(--clear-hero);
+  --color-clear-label: var(--clear-label);
+  --color-sun: var(--sun);
+  --color-sun-ring: var(--sun-ring);
+  --color-tight-hero: var(--tight-hero);
+  --color-tight-label: var(--tight-label);
+  --color-storm-hero: var(--storm-hero);
+  --color-storm-label: var(--storm-label);
+  --color-storm-bg: var(--storm-bg);
+  --color-rewind-hero: var(--rewind-hero);
+  --color-rewind-label: var(--rewind-label);
+  --color-due: var(--due);
+  --color-chart-base: var(--chart-base);
+
+  --radius-hero: 24px;
+  --radius-card: 20px;
+
+  --font-sans: var(--font-atkinson), system-ui, sans-serif;
 }
 
-html,
+html {
+  background: var(--bg);
+}
+
 body {
-  margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: "Atkinson Hyperlegible", system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.45;
+  font-family: var(--font-atkinson), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* Visible 3 px primary focus ring on every interactive element. */
 :focus-visible {
   outline: 3px solid var(--primary);
   outline-offset: 2px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  * {
-    animation: none !important;
-    transition: none !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

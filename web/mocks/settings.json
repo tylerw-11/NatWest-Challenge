@@ -1,13 +1,13 @@
 {
   "reading_level": "simple",
-  "read_aloud": false,
+  "read_aloud": true,
   "translation": null,
   "storm_lead_days": 14,
   "storm_threshold": 0.3,
   "colour_mode": "standard",
   "ally": {
-    "name": "Femi",
-    "relation": "brother"
+    "name": "Jade",
+    "relation": "sister"
   },
   "calm_mode": false,
   "mood": null

@@ -51,22 +51,22 @@
   ],
   "categories": [
     {
-      "id": "insurance-monthly",
-      "label": "Monthly insurance premium",
+      "id": "cat_insurance_monthly",
+      "label": "Paying insurance monthly",
       "total_gbp": 118,
-      "source_note": "Paying monthly instead of yearly cost £118 more."
+      "source_note": "Your car insurance costs \u00a3118 more a year paid monthly than paid once."
     },
     {
-      "id": "overdraft-interest",
+      "id": "cat_overdraft",
       "label": "Overdraft interest",
       "total_gbp": 61,
-      "source_note": "22 days in your overdraft."
+      "source_note": "Interest charged on 22 days you were overdrawn."
     },
     {
-      "id": "pay-later-fees",
+      "id": "cat_paylater_fees",
       "label": "Pay-later late fees",
       "total_gbp": 35,
-      "source_note": "7 late fees of £5."
+      "source_note": "7 late fees of \u00a35 each."
     }
   ],
   "total_gbp": 214,
