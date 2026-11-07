@@ -96,7 +96,7 @@ export default function ScenariosPage() {
       settle(mockApi.forecast()),
       settle(mockApi.settings()),
       settle(mockApi.rewind()),
-      settle(mockApi.pact()),
+      settle(mockApi.pactRules()),
       settle(mockApi.me()),
       settle(mockApi.explain()),
     ]);
@@ -293,7 +293,8 @@ function Decisions({ forecast, settings }: { forecast: Forecast; settings: Setti
     ],
     ["Storm card", `${warn ? "show" : "hide"} (lead ${settings.storm_lead_days} days)`],
     ["Storm mode takes over", inStormMode(forecast) ? "yes" : "no"],
-    ["Covered until", `${dayShort(forecast.covered_until)} (${plural(covered, "day")}, ${bufferBand(covered)})`],
+    ["Covered until", `${dayShort(forecast.covered_until)} (${plural(covered, "day")})`],
+    ["Safety buffer tile", `${plural(forecast.buffer_days, "day")} (${bufferBand(forecast.buffer_days)})`],
     ["Best action", `${ba.action_id} ${gbp(ba.amount_gbp)} on ${dayShort(ba.date)} → ${oneInN(ba.p_after)}`],
     ["Storm threshold", `${settings.storm_threshold} (show the engine's state)`],
     ["Reading level", settings.reading_level],

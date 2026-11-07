@@ -4,11 +4,11 @@ An add-on to Roh's foundation (FE-01) for testing every use case before the engi
 
 | File | What |
 | --- | --- |
-| `mocks/scenarios.ts` | 31 named scenarios. `demo` **is** `forecast.json`, `rewind.json` and `settings.json`; the rest are variations |
+| `mocks/scenarios.ts` | 31 named scenarios. `demo` **is** Roh's `forecast.json`, `rewind.json`, `settings.json`, `me.json` and `pact.json`; the rest are variations |
 | `lib/thresholds.ts` | Threshold decisions: weather rule, storm warning lead time, Storm mode, buffer band, calm offer. Wording stays in `lib/format.ts` |
-| `lib/mockApi.ts` | Scenario-aware fake engine. `forecast`, `rewind` and `settings` match `api` in `lib/api.ts`; it adds `me`, `pact`, `parsePact`, `explain`, `moveToBuffer`… with latency and error injection |
+| `lib/mockApi.ts` | Scenario-aware fake engine. `forecast`, `rewind`, `settings`, `me` and `pactRules` match `api` in `lib/api.ts`; it adds `parsePact`, `explain`, `moveToBuffer`… with latency and error injection |
 | `app/dev/scenarios/page.tsx` | The switcher |
-| `/web-tests` (repo root) | 91 checks. Kept outside `web/` so `web/package.json` stays Roh's |
+| `/web-tests` (repo root) | 94 checks. Kept outside `web/` so `web/package.json` stays Roh's |
 
 ## Use it
 

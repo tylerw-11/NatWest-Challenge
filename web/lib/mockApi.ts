@@ -1,11 +1,11 @@
-// Scenario-aware fake engine. Its forecast/rewind/settings match lib/api.ts's `api`
+// Scenario-aware fake engine. forecast/rewind/settings/me/pactRules match lib/api.ts's `api`
 // one for one, so a screen can switch to it with a one-line change in api.ts
 // (see docs/decisions/0001-data-contract.md, decision 5). Every response is parsed
 // with the same Zod contracts, so a bad mock fails the same way a bad engine would.
 //
 // Scenario order: ?scenario=<name> in the URL, then the one picked on /dev/scenarios
 // (saved in this browser), then NEXT_PUBLIC_MOCK_SCENARIO, then "demo".
-import { Forecast, PactRule, Rewind, Settings, UIBlock } from "./contracts";
+import { Forecast, Me, PactRule, PactRules, Rewind, Settings, UIBlock, type ActionKind } from "./contracts";
 import { ApiError } from "./api";
 import {
   APP_SCENARIOS,
@@ -95,8 +95,10 @@ export const mockApi = {
   rewind: () => respond("/rewind", () => Rewind.parse(clone(REWINDS[s().scenario.rewind]))),
   settings: () => respond("/settings", () => Settings.parse(clone(s().settings))),
 
+  me: () => respond("/me", () => Me.parse(clone(ME[s().scenario.me]))),
+  pactRules: () => respond("/pact", () => PactRules.parse(clone(s().rules))),
+
   // Endpoints api.ts does not have yet
-  me: () => respond("/me", () => clone(ME[s().scenario.me])),
   putSettings: (patch: Partial<Settings>) =>
     respond("/settings", () => (s().settings = Settings.parse({ ...s().settings, ...patch }))),
   drivers: (day: string) =>
@@ -105,19 +107,20 @@ export const mockApi = {
       const ids = f.days.find((x) => x.date === day)?.driver_ids ?? [];
       return clone(f.drivers.filter((x) => ids.includes(x.id)));
     }),
-  pact: () => respond("/pact", () => PactRule.array().parse(clone(s().rules))),
+  /** Free text to one draft rule from the closed list of five actions, or a rephrase error. */
   parsePact: (text: string) =>
     respond("/pact/parse", () => {
       const t = text.toLowerCase();
-      const pick = /takeaway|spend|food/.test(t)
-        ? DEMO_RULES[0]
+      const kind: ActionKind | null = /takeaway|spend|food/.test(t)
+        ? "category_cap"
         : /wait|klarna|pay.?later|credit|borrow/.test(t)
-          ? DEMO_RULES[1]
+          ? "credit_pause_hours"
           : /tell|sister|brother|friend|ally|not okay/.test(t)
-            ? DEMO_RULES[2]
+            ? "notify_ally"
             : /aside|save|buffer|payday/.test(t)
-              ? DEMO_RULES[3]
+              ? "move_to_buffer"
               : null;
+      const pick = kind && DEMO_RULES.find((r) => r.action.kind === kind);
       if (!pick) throw new ApiError(ERRORS.rephrase.code, ERRORS.rephrase.message_plain);
       return [PactRule.parse({ ...clone(pick), id: `draft_${pick.id}`, confirmed: false })];
     }),

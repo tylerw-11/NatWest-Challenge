@@ -1,18 +1,22 @@
 // Dummy data for every frontend use case, so screens can be tested before the engine is wired.
 // Pick one on /dev/scenarios, or add ?scenario=<name> to any URL.
 //
-// "demo" IS web/mocks/forecast.json, rewind.json and settings.json (the exact spec figures);
+// "demo" IS web/mocks/forecast.json, rewind.json, settings.json, pact.json and me.json (Roh's, with the spec figures);
 // every other scenario is a variation that hits a threshold, an edge, or a failure path.
 // Everything here must pass lib/contracts.ts (tests in /web-tests check it).
-import type { Driver, Forecast, PactRule, Rewind, Settings, UIBlock } from "../lib/contracts";
+import type { Driver, Forecast, Me, PactRule, Rewind, Settings, UIBlock } from "../lib/contracts";
 import { DEFAULT_STORM_THRESHOLD, weatherState } from "../lib/thresholds";
 import forecastJson from "./forecast.json";
 import rewindJson from "./rewind.json";
 import settingsJson from "./settings.json";
+import meJson from "./me.json";
+import pactJson from "./pact.json";
 
 const demoForecast = forecastJson as Forecast;
 const demoRewind = rewindJson as Rewind;
 const demoSettings = settingsJson as Settings;
+const demoMe = meJson as Me;
+const demoRules = pactJson as PactRule[];
 const AS_OF = demoForecast.as_of; // 2026-03-10
 
 function addDays(iso: string, n: number): string {
@@ -70,7 +74,7 @@ const LONG_LABEL: Driver = { id: "drv_long", label: "Contents and buildings insu
 const NO_STORM_ACTION = { action_id: "move_to_buffer" as const, amount_gbp: 15, date: "2026-03-13", p_after: 0.02 };
 
 function forecast(id: string, days: ReturnType<typeof buildDays>, extra: Partial<Forecast> = {}): Forecast {
-  return { id, as_of: AS_OF, horizon_days: 60, paths: 1000, days, drivers: [], covered_until: coveredUntil(days), best_action: NO_STORM_ACTION, ...extra };
+  return { id, as_of: AS_OF, horizon_days: 60, paths: 1000, days, drivers: [], covered_until: coveredUntil(days), buffer_days: 6, best_action: NO_STORM_ACTION, ...extra };
 }
 
 export const FORECASTS = {
@@ -80,21 +84,24 @@ export const FORECASTS = {
   demo_after_buffer: {
     ...demoForecast,
     id: `${demoForecast.id}_after_buffer`,
+    buffer_days: demoForecast.buffer_days + 1,
     days: demoForecast.days.map((d) =>
       d.date === "2026-03-23" ? { ...d, p_shortfall: 0.125, state: "cloudy" as const, p10: -42, p50: 50, p90: 142 } : d,
     ),
   },
-  all_clear: forecast("fc_all_clear", buildDays({}, 0.02, 420)),
-  tight_only: forecast("fc_tight_only", buildDays(range("2026-03-16", "2026-03-24", { p: 0.22, p50: 60, driver_ids: [PHONE.id] })), { drivers: [PHONE] }),
+  all_clear: forecast("fc_all_clear", buildDays({}, 0.02, 420), { buffer_days: 21 }),
+  tight_only: forecast("fc_tight_only", buildDays(range("2026-03-16", "2026-03-24", { p: 0.22, p50: 60, driver_ids: [PHONE.id] })), { drivers: [PHONE], buffer_days: 4 }),
   storm_tomorrow: forecast("fc_storm_tomorrow", buildDays({ "2026-03-11": { p: 0.55, p10: -80, p50: -12, p90: 40, driver_ids: DEMO_IDS } }), {
     drivers: [COUNCIL_TAX, PHONE, QUIET_WEEK],
+    buffer_days: 1,
     best_action: { action_id: "move_to_buffer", amount_gbp: 15, date: "2026-03-10", p_after: 0.4 },
   }),
   storm_today: forecast("fc_storm_today", buildDays(range("2026-03-10", "2026-03-13", { p: 0.92, p10: -140, p50: -25, p90: 10, driver_ids: [COUNCIL_TAX.id] })), {
     drivers: [COUNCIL_TAX],
+    buffer_days: 0,
     best_action: { action_id: "credit_pause_hours", amount_gbp: 0, date: "2026-03-10", p_after: 0.8 },
   }),
-  storm_far: forecast("fc_storm_far", buildDays({ "2026-03-30": { p: 0.4, p50: 20, driver_ids: [LETTER.id] } }), { drivers: [LETTER] }),
+  storm_far: forecast("fc_storm_far", buildDays({ "2026-03-30": { p: 0.4, p50: 20, driver_ids: [LETTER.id] } }), { drivers: [LETTER], buffer_days: 14 }),
   storm_in_7: forecast("fc_storm_in_7", buildDays({ "2026-03-17": { p: 0.34, p50: 30, driver_ids: DEMO_IDS } }), { drivers: [COUNCIL_TAX, PHONE, QUIET_WEEK] }),
   two_storms: forecast(
     "fc_two_storms",
@@ -122,7 +129,7 @@ export const FORECASTS = {
     best_action: { action_id: "move_to_buffer", amount_gbp: 15, date: "2026-03-13", p_after: 0.45 },
   }),
   storm_no_drivers: forecast("fc_storm_no_drivers", buildDays({ "2026-03-20": { p: 0.35, p50: 25 } })),
-  wealthy: forecast("fc_wealthy", buildDays({}, 0, 12_345.67)),
+  wealthy: forecast("fc_wealthy", buildDays({}, 0, 12_345.67), { buffer_days: 90 }),
 } satisfies Record<string, Forecast>;
 
 // ---------- Rewind ----------
@@ -159,13 +166,8 @@ export const SETTINGS = {
   calm_mode_on: { ...demoSettings, mood: "worried", calm_mode: true },
 } satisfies Record<string, Settings>;
 
-// ---------- Pact rules (no rules mock exists yet; these follow the Pact design) ----------
-export const DEMO_RULES: PactRule[] = [
-  { id: "rule_takeaway_cap", trigger: { kind: "storm_probability", threshold: 0.3, horizon_days: 14 }, action: { kind: "category_cap", category: "takeaway", amount_gbp: 20 }, when_label: "When a storm is coming", then_label: "Keep takeaways under £20 a week", confirmed: true },
-  { id: "rule_pause_credit", trigger: { kind: "storm_probability", threshold: 0.3, horizon_days: 14 }, action: { kind: "credit_pause_hours", hours: 24 }, when_label: "When a storm is coming", then_label: "Wait 24 hours before pay-later", confirmed: true },
-  { id: "rule_tell_ally", trigger: { kind: "user_not_okay" }, action: { kind: "notify_ally" }, when_label: "When I say I'm not okay", then_label: "Tell Jade", confirmed: true },
-  { id: "rule_buffer", trigger: { kind: "buffer_below_days", buffer_days: 7 }, action: { kind: "move_to_buffer", amount_gbp: 15 }, when_label: "When my buffer is under a week", then_label: "Move £15 to my buffer on payday", confirmed: true },
-];
+// ---------- Pact rules (demo = Roh's web/mocks/pact.json) ----------
+export const DEMO_RULES: PactRule[] = demoRules;
 
 export const PACT_RULES = {
   demo: DEMO_RULES,
@@ -195,12 +197,13 @@ export const EXPLAIN = {
   fallback: { kind: "tip", text: "We couldn't explain this one right now. See what causes it below." },
 } satisfies Record<string, UIBlock>;
 
-// ---------- /me (shape from Tyler's engine; not in contracts.ts yet) ----------
+// ---------- /me (demo = Roh's web/mocks/me.json) ----------
 export const ME = {
-  demo: { id: "amara", display_name: "Amara", bank_connection: { provider: "Demo bank", status: "connected" }, onboarding_complete: true },
-  new_user: { id: "new", display_name: "Sam", bank_connection: null, onboarding_complete: false },
-  bank_disconnected: { id: "amara", display_name: "Amara", bank_connection: { provider: "Demo bank", status: "expired" }, onboarding_complete: true },
-};
+  demo: demoMe,
+  new_user: { user: { name: "Sam", email: "sam@example.com" }, bank: null, onboarding_complete: false },
+  /** Bank consent ran out before as_of: show the reconnect prompt. */
+  bank_disconnected: { ...demoMe, bank: { name: "Demo bank", connected_until: "2026-03-01" } },
+} satisfies Record<string, Me>;
 
 // ---------- Errors (reading age 9) ----------
 export const ERRORS = {
@@ -228,7 +231,7 @@ export type AppScenario = {
 const d = { forecast: "demo", settings: "demo", rewind: "demo", rules: "demo", me: "demo" } as const;
 
 export const APP_SCENARIOS: Record<string, AppScenario> = {
-  demo: { ...d, group: "Demo path", note: "Spec demo, as of Tue 10 March 2026 (web/mocks/*.json)." },
+  demo: { ...d, group: "Demo path", note: "Spec demo, as of Tue 10 March 2026 (Roh's web/mocks/*.json)." },
   demo_after_buffer: { ...d, forecast: "demo_after_buffer", group: "Demo path", note: "After Move £15 to my buffer: 23 March reads tight." },
   storm_mode: { ...d, forecast: "storm_tomorrow", group: "Demo path", note: "Storm tomorrow: Storm mode takes over." },
 
@@ -255,7 +258,7 @@ export const APP_SCENARIOS: Record<string, AppScenario> = {
   translated_rtl: { ...d, settings: "translated_arabic_rtl", group: "People and settings", note: "Arabic beside English, dir=rtl." },
   colour_blind: { ...d, settings: "colour_blind", group: "People and settings", note: "Colour-blind tokens (due turns blue)." },
   high_contrast: { ...d, settings: "high_contrast", group: "People and settings", note: "High contrast tokens." },
-  bank_disconnected: { ...d, me: "bank_disconnected", group: "People and settings", note: "Bank link expired." },
+  bank_disconnected: { ...d, me: "bank_disconnected", group: "People and settings", note: "Bank consent ran out on 1 March." },
 
   drafts: { ...d, rules: "drafts", group: "Pact rules", note: "Four unagreed drafts on the Pact screen." },
   no_rules: { ...d, rules: "none", group: "Pact rules", note: "No rules yet: empty Pact screen." },

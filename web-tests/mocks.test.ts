@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { Forecast, PactRule, Rewind, Settings, UIBlock } from "@/lib/contracts";
+import { Forecast, Me, PactRule, Rewind, Settings, UIBlock } from "@/lib/contracts";
 import { oneInN, stateLabel } from "@/lib/format";
 import {
   bufferBand,
@@ -10,7 +10,7 @@ import {
   showCalmOffer,
   weatherState,
 } from "@/lib/thresholds";
-import { APP_SCENARIOS, EXPLAIN, FORECASTS, PACT_RULES, REWINDS, SETTINGS } from "@/mocks/scenarios";
+import { APP_SCENARIOS, EXPLAIN, FORECASTS, ME, PACT_RULES, REWINDS, SETTINGS } from "@/mocks/scenarios";
 import { mockApi, resetMocks } from "@/lib/mockApi";
 import { ApiError } from "@/lib/api";
 
@@ -48,6 +48,7 @@ describe("every mock passes Roh's contracts", () => {
   it.each(Object.entries(SETTINGS))("settings %s", (_, s) => void Settings.parse(s));
   it.each(Object.entries(PACT_RULES))("rules %s", (_, rs) => void PactRule.array().parse(rs));
   it.each(Object.entries(EXPLAIN))("explain %s", (_, b) => void UIBlock.parse(b));
+  it.each(Object.entries(ME))("me %s", (_, m) => void Me.parse(m));
   it.each(Object.entries(APP_SCENARIOS))("scenario %s points at real mocks", (_, sc) => {
     expect(FORECASTS[sc.forecast]).toBeDefined();
     expect(SETTINGS[sc.settings]).toBeDefined();
@@ -98,7 +99,9 @@ describe("screen decisions", () => {
     expect(inStormMode(FORECASTS.storm_today)).toBe(true);
     expect(inStormMode(FORECASTS.demo)).toBe(false);
   });
-  it("buffer bands", () => {
+  it("buffer tile: demo is 6 days (low); covered until spans 10 days", () => {
+    expect(FORECASTS.demo.buffer_days).toBe(6);
+    expect(bufferBand(FORECASTS.demo.buffer_days)).toBe("low");
     expect(coveredDays(FORECASTS.demo)).toBe(10);
     expect(coveredDays(FORECASTS.storm_today)).toBe(0);
     expect([0, 3, 7, 14].map(bufferBand)).toEqual(["empty", "low", "ok", "good"]);
@@ -113,10 +116,14 @@ describe("screen decisions", () => {
 describe("mockApi", () => {
   beforeEach(() => void resetMocks("demo"));
 
-  it("has the same calls as api.ts", async () => {
-    expect((await mockApi.forecast()).id).toBe(FORECASTS.demo.id);
-    expect((await mockApi.rewind()).total_gbp).toBe(214);
-    expect((await mockApi.settings()).ally?.name).toBe("Jade");
+  it("has every call api.ts has, returning Roh's demo mocks", async () => {
+    const { api } = await import("@/lib/api");
+    for (const k of Object.keys(api)) expect(mockApi, k).toHaveProperty(k);
+    expect(await mockApi.forecast()).toEqual(await api.forecast());
+    expect(await mockApi.rewind()).toEqual(await api.rewind());
+    expect(await mockApi.settings()).toEqual(await api.settings());
+    expect(await mockApi.me()).toEqual(await api.me());
+    expect(await mockApi.pactRules()).toEqual(await api.pactRules());
   });
   it("moving £15 turns the storm tight", async () => {
     expect(firstStorm(await mockApi.moveToBuffer(15))).toBeNull();
