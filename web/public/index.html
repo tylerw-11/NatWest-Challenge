@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foresight / Pact — Time-Aware Financial Resilience (GreatUniHack 2026)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --font-main: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      --font-accessible: 'Atkinson Hyperlegible', Verdana, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: #0b0f17;
+      color: #f8fafc;
+      line-height: 1.6;
+    }
+
+    body.dyslexia-mode {
+      font-family: var(--font-accessible) !important;
+      letter-spacing: 0.04em;
+      word-spacing: 0.1em;
+      line-height: 1.85;
+    }
+
+    body.high-contrast-mode {
+      background-color: #000000 !important;
+      color: #ffffff !important;
+    }
+
+    *:focus-visible {
+      outline: 3px solid #38bdf8 !important;
+      outline-offset: 3px !important;
+    }
+
+    .touch-btn {
+      min-height: 46px;
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased">
+
+  <!-- Top Header & Accessibility Bar -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur border-b border-slate-800">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-sky-500 text-slate-950 font-extrabold text-xl flex items-center justify-center shadow">
+          ⛅
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-lg font-extrabold text-white tracking-tight">Foresight · Pact</h1>
+            <span class="text-[11px] font-bold px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-400/30">
+              Banking My Way, Made Time-Aware
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Let your good days look out for your hard ones · Plain words, zero stress</p>
+        </div>
+      </div>
+
+      <!-- Mode Switcher: Linear Regression CSV Mode vs Full Amara 7-Step Pact Demo -->
+      <div class="flex items-center bg-slate-900 border border-slate-700 p-1 rounded-2xl">
+        <button onclick="switchMainMode('csv')" id="mode-btn-csv" class="touch-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-sky-500 text-slate-950 transition">
+          📊 CSV & Linear Regression Forecaster
+        </button>
+        <button onclick="switchMainMode('pact')" id="mode-btn-pact" class="touch-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white transition">
+          ⚡ Amara 7-Step Pact Demo (10 Mar → 23 Mar)
+        </button>
+      </div>
+
+      <!-- Accessibility Controls -->
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="toggleSimpleReading()" id="btn-reading" class="touch-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-500 text-slate-950 transition" aria-pressed="true">
+          📖 Age 9 Reading
+        </button>
+
+        <button onclick="toggleDyscalculia()" id="btn-dyscalculia" class="touch-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition" aria-pressed="false">
+          🔢 Hide Hard Maths
+        </button>
+
+        <button onclick="toggleDyslexia()" id="btn-dyslexia" class="touch-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition" aria-pressed="false">
+          Aa Easy Font
+        </button>
+
+        <select id="lang-select" onchange="changeLanguage(this.value)" aria-label="Choose language" class="touch-btn bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-semibold text-white">
+          <option value="en">🇬🇧 English</option>
+          <option value="ur">🇵🇰 Urdu (اردو)</option>
+          <option value="pl">🇵🇱 Polish (Polski)</option>
+          <option value="yo">🇳🇬 Yorùbá</option>
+          <option value="ro">🇷🇴 Romanian</option>
+          <option value="ar">🇸🇦 Arabic (العربية)</option>
+          <option value="es">🇪🇸 Spanish (Español)</option>
+        </select>
+
+        <button onclick="speakSummary()" class="touch-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 transition">
+          🔊 Read Aloud
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- MODE 1: EASY CSV & LINEAR REGRESSION BILL-VS-PAYDAY DEBT FORECASTER   -->
+  <!-- ===================================================================== -->
+  <main id="main-mode-csv" class="max-w-5xl mx-auto px-4 py-8 space-y-8">
+
+    <!-- STEP 1: NON-STRENUOUS SETUP -->
+    <section aria-labelledby="setup-heading" class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-sky-500/15 text-sky-300 border border-sky-400/30">
+            Step 1 · Non-Strenuous Onboarding
+          </span>
+          <h2 id="setup-heading" class="text-2xl font-extrabold text-white mt-2">
+            How should we load your money history?
+          </h2>
+          <p class="text-sm text-slate-300 mt-1">
+            Confirm, don't calculate: upload a statement CSV or tap Demo Bank, and our backend automatically extracts your balance, pay day, bill day, and weekly spending trend.
+          </p>
+        </div>
+        <a href="./trial_bank_statement.csv" download="trial_bank_statement.csv" class="touch-btn inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-sky-300 border border-slate-700 transition">
+          ⬇ Download Trial CSV (39 rows)
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div class="rounded-2xl bg-slate-950 border-2 border-sky-500/60 p-5 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="text-2xl mb-1">📄</div>
+            <h3 class="text-base font-extrabold text-white">1. Upload Bank CSV</h3>
+            <p class="text-xs text-slate-400 mt-1">
+              Load our built-in <code class="text-sky-300">trial_bank_statement.csv</code> or upload your own statement.
+            </p>
+          </div>
+          <div class="space-y-2">
+            <button onclick="loadTrialCSV()" class="touch-btn w-full py-2.5 px-4 rounded-xl text-xs font-extrabold bg-sky-500 hover:bg-sky-400 text-slate-950 transition shadow">
+              ✓ Load Trial CSV Now
+            </button>
+            <label class="touch-btn w-full py-2 px-4 rounded-xl text-xs font-bold bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-700 transition flex items-center justify-center cursor-pointer">
+              <span>📂 Or Upload Your Own .CSV</span>
+              <input type="file" accept=".csv" class="hidden" onchange="handleFileUpload(event)" />
+            </label>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-5 flex flex-col justify-between space-y-4">
+          <div>
+            <div class="text-2xl mb-1">⚡</div>
+            <h3 class="text-base font-extrabold text-white">2. Continue as Amara (Demo Bank)</h3>
+            <p class="text-xs text-slate-400 mt-1">
+              Passwordless 1-tap login (`POST /auth/demo`). Connects "Demo bank" via Open Banking with zero typing.
+            </p>
+          </div>
+          <button onclick="loginAsAmaraDemo()" class="touch-btn w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-400/40 transition">
+            ⚡ Continue as Amara (1-Tap)
+          </button>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-5 flex flex-col justify-between space-y-3">
+          <div>
+            <div class="text-2xl mb-1">🎙️</div>
+            <h3 class="text-base font-extrabold text-white">3. Or Just Tell Us</h3>
+            <p class="text-xs text-slate-400 mt-1">
+              Say or type one plain sentence:
+            </p>
+            <textarea id="plain-setup-input" rows="2" class="w-full mt-2 rounded-xl bg-slate-900 border border-slate-700 p-2.5 text-xs text-white">I have £740 left, I get paid £1350 on the 28th, and my bills are £680 on the 20th.</textarea>
+          </div>
+          <button onclick="parsePlainSetup()" class="touch-btn w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-200 border border-indigo-400/40 transition">
+            ✨ Fill From Sentence
+          </button>
+        </div>
+      </div>
+
+      <div id="csv-status-bar" class="rounded-2xl bg-emerald-950/50 border border-emerald-500/40 px-4 py-3 flex flex-wrap items-center justify-between gap-2 text-xs text-emerald-200">
+        <span>✅ <strong>Loaded:</strong> <code class="text-white">trial_bank_statement.csv</code> (12 weeks of history, 39 transactions analysed)</span>
+        <span class="font-bold">Linear Regression R² = 0.99 (Consistent weekly expenditure)</span>
+      </div>
+    </section>
+
+    <!-- STEP 2: CONFIRM INPUTS -->
+    <section aria-labelledby="confirm-heading" class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-8 shadow-xl space-y-6">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-500/15 text-emerald-300 border border-emerald-400/30">
+          Step 2 · Model Inputs (Pre-filled from History)
+        </span>
+        <h2 id="confirm-heading" class="text-2xl font-extrabold text-white mt-2">
+          Does this look right?
+        </h2>
+        <p class="text-sm text-slate-300 mt-1">
+          Our model trains on your historical weekly spending and takes these 4 inputs to predict whether bills will push you into debt before payday.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4 space-y-3">
+          <div class="text-xs font-bold uppercase text-slate-400">1. Current Bank Balance</div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-slate-400">£</span>
+            <input id="inp-balance" type="number" value="740" onchange="recalculatePrediction()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xl font-extrabold text-white" />
+          </div>
+          <div>
+            <label for="inp-date" class="text-xs text-slate-400 block mb-1">Current Date:</label>
+            <input id="inp-date" type="date" value="2026-03-10" onchange="recalculatePrediction()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-200" />
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4 space-y-3">
+          <div class="text-xs font-bold uppercase text-emerald-400">2. Monthly Income (Constant)</div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-slate-400">£</span>
+            <input id="inp-income" type="number" value="1350" onchange="recalculatePrediction()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xl font-extrabold text-emerald-400" />
+          </div>
+          <div>
+            <label for="inp-pay-day" class="text-xs text-slate-400 block mb-1">Pay Day of Month (1–28):</label>
+            <div class="flex items-center gap-2">
+              <input id="inp-pay-day" type="number" min="1" max="28" value="28" onchange="recalculatePrediction()" class="w-20 bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm font-extrabold text-white" />
+              <span class="text-xs text-slate-400">of every month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4 space-y-3">
+          <div class="text-xs font-bold uppercase text-rose-400">3. Monthly Bills (Constant)</div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-slate-400">£</span>
+            <input id="inp-bills" type="number" value="680" onchange="recalculatePrediction()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xl font-extrabold text-rose-400" />
+          </div>
+          <div>
+            <label for="inp-bill-day" class="text-xs text-slate-400 block mb-1">Bill Due Day (1–28):</label>
+            <div class="flex items-center gap-2">
+              <input id="inp-bill-day" type="number" min="1" max="28" value="20" onchange="recalculatePrediction()" class="w-20 bg-slate-900 border border-slate-700 rounded-xl px-3 py-1.5 text-sm font-extrabold text-white" />
+              <span class="text-xs text-slate-400">of every month</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-sky-500/40 p-4 space-y-3">
+          <div class="text-xs font-bold uppercase text-sky-400">4. Weekly Spend (Linear Reg.)</div>
+          <div class="flex items-center gap-2">
+            <span class="text-lg font-bold text-slate-400">£</span>
+            <input id="inp-weekly-spend" type="number" step="1" value="98.22" onchange="recalculatePrediction()" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xl font-extrabold text-sky-300" />
+          </div>
+          <p class="text-[11px] text-slate-400 leading-snug" id="lr-formula-caption">
+            Predicted by Linear Regression from your past 12 weeks (~£14.03/day).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 3: DEBT PREDICTION VERDICT & 1-TAP FIXES -->
+    <section aria-labelledby="verdict-heading" id="verdict-card" class="rounded-3xl p-6 sm:p-8 border-2 border-rose-500/70 bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/40 shadow-2xl space-y-6">
+      <div class="flex flex-wrap items-start justify-between gap-4">
+        <div class="space-y-2 max-w-2xl">
+          <span id="verdict-pill" class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-rose-500 text-slate-950">
+            ⚠️ Debt Risk Detected Before Payday
+          </span>
+          <h2 id="verdict-heading" class="text-2xl sm:text-3xl font-extrabold text-white">
+            You will fall £178.53 into debt on 20 Mar because Bills arrive 8 days before Payday.
+          </h2>
+          <p id="verdict-explanation" class="text-base text-slate-200 leading-relaxed"></p>
+          <p id="verdict-translated" class="hidden text-base text-amber-200 bg-amber-500/10 border border-amber-400/30 rounded-2xl p-3.5 font-medium"></p>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full lg:w-auto">
+          <div class="rounded-2xl bg-slate-950/90 border border-slate-800 p-4 text-center min-w-[140px]">
+            <div class="text-xs text-slate-400 font-semibold">On Bill Day (20th)</div>
+            <div id="stat-bill-day-bal" class="text-xl font-extrabold text-rose-400 mt-1">-£80.31</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/90 border border-slate-800 p-4 text-center min-w-[140px]">
+            <div class="text-xs text-slate-400 font-semibold">Lowest Point (27th)</div>
+            <div id="stat-lowest-bal" class="text-xl font-extrabold text-rose-400 mt-1">-£178.53</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950/90 border border-emerald-500/40 p-4 text-center min-w-[140px]">
+            <div class="text-xs text-emerald-300 font-semibold">Safe Weekly Target</div>
+            <div id="stat-safe-weekly" class="text-xl font-extrabold text-emerald-400 mt-1">£24.71/wk</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pt-4 border-t border-slate-800/90 space-y-3">
+        <h3 class="text-sm font-extrabold uppercase tracking-wider text-sky-300">
+          💡 How to Stay Out of Debt This Month (Click to Test Any Fix Live):
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="rounded-2xl bg-slate-950/90 border border-slate-800 p-4 flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-xs font-bold text-emerald-400">Fix #1 · Timing Gap Fix</span>
+              <h4 class="text-sm font-extrabold text-white mt-1">Move Bill Day to Payday (20th → 28th)</h4>
+              <p class="text-xs text-slate-300 mt-1">
+                Shifting your direct debit date from the 20th to the 28th means your £1,350 pay lands on the same day as your £680 bills—zero debt!
+              </p>
+            </div>
+            <button onclick="applyFixMoveBillDay()" class="touch-btn w-full py-2.5 px-3 rounded-xl text-xs font-extrabold bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition">
+              ✨ Test Moving Bills to the 28th
+            </button>
+          </div>
+
+          <div class="rounded-2xl bg-slate-950/90 border border-slate-800 p-4 flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-xs font-bold text-sky-400">Fix #2 · Weekly Spend Cap</span>
+              <h4 class="text-sm font-extrabold text-white mt-1" id="fix-budget-title">Cap weekly spend at £24.71/wk until the 28th</h4>
+              <p class="text-xs text-slate-300 mt-1">
+                Pacing weekly expenditure for the next 2.5 weeks saves the £178 deficit so your £740 balance covers the £680 bills on the 20th.
+              </p>
+            </div>
+            <button onclick="applyFixWeeklyCap()" class="touch-btn w-full py-2.5 px-3 rounded-xl text-xs font-extrabold bg-sky-500 hover:bg-sky-400 text-slate-950 transition">
+              ✨ Test Safe Weekly Spend Cap
+            </button>
+          </div>
+
+          <div class="rounded-2xl bg-slate-950/90 border border-slate-800 p-4 flex flex-col justify-between space-y-3">
+            <div>
+              <span class="text-xs font-bold text-amber-400">Reset Scenario</span>
+              <h4 class="text-sm font-extrabold text-white mt-1">Reset to Original Trial CSV</h4>
+              <p class="text-xs text-slate-300 mt-1">
+                Restore the original statement values (Balance £740, Bills £680 on 20th, Pay £1,350 on 28th, £98.22/wk spend).
+              </p>
+            </div>
+            <button onclick="loadTrialCSV()" class="touch-btn w-full py-2.5 px-3 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+              ↺ Reset to Original Statement
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 4: TWO CLEAR CHARTS -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <section class="rounded-3xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <div>
+          <h3 class="text-lg font-extrabold text-white">1. 30-Day Balance Forecast (Bill Day vs Pay Day)</h3>
+          <p class="text-xs text-slate-300 mt-0.5">
+            One-sentence summary: Balance drops by £14.03/day, plunges by £680 on Bill Day (20th) into the red Debt Zone, and recovers when £1,350 pay arrives on the 28th.
+          </p>
+        </div>
+        <div id="cashflow-svg-box" class="w-full h-60 bg-slate-950 rounded-2xl border border-slate-800 p-3"></div>
+      </section>
+
+      <section class="rounded-3xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <div>
+          <h3 class="text-lg font-extrabold text-white">2. Linear Regression on Past 12 Weeks</h3>
+          <p class="text-xs text-slate-300 mt-0.5">
+            One-sentence summary: Weekly spending in <code class="text-sky-300">trial_bank_statement.csv</code> grew from £86/wk (Week 1) to £97.50/wk (Week 12), fitting a linear trend of £98.22/wk.
+          </p>
+        </div>
+        <div id="lr-svg-box" class="w-full h-60 bg-slate-950 rounded-2xl border border-slate-800 p-3"></div>
+      </section>
+    </div>
+
+    <!-- STEP 5: FINANCIAL JARGON TRANSLATOR -->
+    <section aria-labelledby="translator-heading" class="rounded-3xl bg-slate-900 border border-slate-800 p-6 sm:p-8 space-y-4">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-400/30">
+          Accessibility · Financial Term Translator
+        </span>
+        <h2 id="translator-heading" class="text-xl font-extrabold text-white mt-2">
+          Tap any banking term to translate it into plain words & your chosen language
+        </h2>
+      </div>
+
+      <div class="flex flex-wrap gap-2">
+        <button onclick="explainTerm('overdraft')" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-sky-300 border border-slate-700 transition">Unarranged Overdraft</button>
+        <button onclick="explainTerm('direct_debit')" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-sky-300 border border-slate-700 transition">Direct Debit vs Standing Order</button>
+        <button onclick="explainTerm('apr')" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-sky-300 border border-slate-700 transition">APR (Representative)</button>
+        <button onclick="explainTerm('arrears')" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-sky-300 border border-slate-700 transition">In Arrears / Default</button>
+        <button onclick="explainTerm('bnpl')" class="touch-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-950 hover:bg-slate-800 text-sky-300 border border-slate-700 transition">Buy Now, Pay Later (BNPL) Late Fee</button>
+      </div>
+
+      <div class="rounded-2xl bg-slate-950 border border-indigo-500/40 p-5 space-y-2">
+        <div class="text-sm font-extrabold text-indigo-300" id="term-title">Unarranged Overdraft</div>
+        <p class="text-sm text-white leading-relaxed" id="term-english"></p>
+        <p class="text-sm text-amber-200 font-medium hidden" id="term-translated"></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- MODE 2: FULL AMARA PACT 7-STEP DEMO (EXACT SPEC FIGURES AS OF 10 MAR) -->
+  <!-- ===================================================================== -->
+  <section id="main-mode-pact" class="hidden max-w-6xl mx-auto px-4 py-8 space-y-6">
+    <!-- Top Demo Bar for Amara (Tuesday 10 March 2026 -> Friday 13 March 2026 -> Monday 23 March 2026) -->
+    <div class="rounded-3xl bg-slate-900 border border-slate-800 p-5 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <div class="text-xs font-bold uppercase text-sky-400">Amara Demo Persona · Tuesday 10 March 2026</div>
+        <h2 class="text-xl font-extrabold text-white mt-0.5" id="pact-demo-headline">
+          You're covered until 19 March · Buffer: 6 days · 4 rules on
+        </h2>
+        <p class="text-xs text-slate-300 mt-0.5" id="pact-demo-sub">
+          10–18 Mar Clear · 19–22 Mar Tight · <strong>23 Mar Storm</strong> (p_shortfall = 0.33, p50 = £35; Council tax £118 due 23 Mar, Phone renewal £45 due 22 Mar, Earnings £90 lower 16–22 Mar)
+        </p>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-2">
+        <button onclick="fastForwardTo13March()" class="touch-btn px-4 py-2.5 rounded-xl text-xs font-extrabold bg-amber-400 hover:bg-amber-300 text-slate-950 transition">
+          ⏩ Fast-Forward to Fri 13 Mar (Payday)
+        </button>
+        <button onclick="move15ToBufferPayday()" class="touch-btn px-4 py-2.5 rounded-xl text-xs font-extrabold bg-emerald-400 hover:bg-emerald-300 text-slate-950 transition">
+          🛡️ Move £15 on 13 Mar (Risk → 1 in 8)
+        </button>
+        <button onclick="resetPactDemo()" class="touch-btn px-3 py-2.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-200 border border-slate-700">
+          ↺ Reset (10 Mar)
+        </button>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Weather & Time River Drivers Card -->
+      <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <h3 class="text-base font-extrabold text-white">Weather & Time River (23 March)</h3>
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-4 space-y-2">
+          <div class="flex justify-between text-xs"><span class="text-slate-400">Covered until:</span><strong class="text-emerald-400">19 March (6 buffer days)</strong></div>
+          <div class="flex justify-between text-xs"><span class="text-slate-400">23 Mar Storm Risk:</span><strong class="text-rose-400" id="pact-p-shortfall">0.33 (about 1 in 3)</strong></div>
+          <div class="flex justify-between text-xs"><span class="text-slate-400">23 Mar Median (p50):</span><strong class="text-white" id="pact-p50">£35.00</strong></div>
+          <div class="flex justify-between text-xs"><span class="text-slate-400">Best Action:</span><strong class="text-sky-300">Move £15 on Fri 13 Mar → 1 in 8</strong></div>
+        </div>
+        <div class="space-y-2 text-xs">
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Council tax (due 23 Mar)</span><strong class="text-rose-400">-£118</strong></div>
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Phone renewal (due 22 Mar)</span><strong class="text-rose-400">-£45</strong></div>
+          <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Lower earnings (16–22 Mar)</span><strong class="text-rose-400">-£90</strong></div>
+        </div>
+      </div>
+
+      <!-- Storm Mode & Jade's Ally Notification Card -->
+      <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <h3 class="text-base font-extrabold text-white">Storm Mode & Trusted Ally (Jade)</h3>
+        <div class="rounded-2xl bg-amber-500/15 border border-amber-400/40 p-4 text-xs text-amber-100">
+          <strong class="block text-amber-300 uppercase mb-1">💌 Amara's Calm-Day Note:</strong>
+          "Breathe. This tight week will pass. Move £15 to the buffer on Friday payday, skip takeaways, and text Jade if you feel overwhelmed."
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border-2 border-sky-400/60 p-4 space-y-2">
+          <div class="flex items-center justify-between text-[11px] text-sky-300 font-bold">
+            <span>📲 JADE'S PHONE (ALLY OVERLAY)</span>
+            <span id="jade-status-badge">Standby (10 Mar)</span>
+          </div>
+          <p class="text-xs text-white leading-relaxed" id="jade-notif-text">
+            "Amara asked us to tell you money may be tight around 23 March. You can't see her spending."
+          </p>
+        </div>
+
+        <div class="rounded-2xl bg-slate-950 border border-slate-800 p-3.5 flex items-center justify-between text-xs">
+          <span>🔒 48-Hour Rule Edit Lock:</span>
+          <button onclick="trigger48hLockDemo()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sky-300 font-bold">Test 48h Lock</button>
+        </div>
+        <p id="lock-toast" class="hidden text-xs text-emerald-300 font-semibold"></p>
+      </div>
+
+      <!-- Rewind (April to March = £214, £96 Kept with Pact) -->
+      <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6 space-y-4">
+        <h3 class="text-base font-extrabold text-white">Rewind (Last 12 Months)</h3>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-2xl bg-slate-950 border border-slate-800 p-3">
+            <div class="text-[11px] text-slate-400">Extra Costs Paid</div>
+            <div class="text-xl font-extrabold text-rose-400">£214</div>
+          </div>
+          <div class="rounded-2xl bg-slate-950 border border-emerald-500/40 p-3">
+            <div class="text-[11px] text-emerald-300">Kept with Pact</div>
+            <div class="text-xl font-extrabold text-emerald-400">£96</div>
+          </div>
+        </div>
+        <div class="space-y-2 text-xs">
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Monthly insurance premium</span><strong class="text-rose-400">£118</strong></div>
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Overdraft interest (22 days)</span><strong class="text-rose-400">£61</strong></div>
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 flex justify-between"><span>Pay-later late fees (7 × £5)</span><strong class="text-rose-400">£35</strong></div>
+        </div>
+        <div class="text-[11px] text-slate-400">
+          Monthly extras (Apr–Mar): <code class="text-slate-200">12, 8, 31, 15, 9, 24, 14, 10, 38, 27, 16, 10</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const API_BASE = "http://localhost:8000";
+
+    let STATE = {
+      simpleReading: true,
+      dyscalculia: false,
+      dyslexia: false,
+      language: "en",
+      currentTerm: "overdraft",
+      inputs: {
+        current_balance: 740.0,
+        current_date: "2026-03-10",
+        monthly_income: 1350.0,
+        pay_day: 28,
+        total_bills: 680.0,
+        bill_day: 20,
+        predicted_weekly_spend: 98.22
+      },
+      linearRegression: {
+        slope_gbp_per_week: 1.0,
+        intercept_gbp: 85.2,
+        r_squared: 0.99,
+        predicted_weekly_spend_gbp: 98.22,
+        predicted_daily_spend_gbp: 14.03,
+        equation_str: "Weekly Spend = £1.00 × Week + £85.20",
+        weekly_history: [
+          { week: 1, label: "Wk 1", actual_spend_gbp: 86.0, regression_line_gbp: 86.2 },
+          { week: 2, label: "Wk 2", actual_spend_gbp: 87.5, regression_line_gbp: 87.2 },
+          { week: 3, label: "Wk 3", actual_spend_gbp: 88.0, regression_line_gbp: 88.2 },
+          { week: 4, label: "Wk 4", actual_spend_gbp: 89.5, regression_line_gbp: 89.2 },
+          { week: 5, label: "Wk 5", actual_spend_gbp: 90.0, regression_line_gbp: 90.2 },
+          { week: 6, label: "Wk 6", actual_spend_gbp: 91.5, regression_line_gbp: 91.2 },
+          { week: 7, label: "Wk 7", actual_spend_gbp: 92.0, regression_line_gbp: 92.2 },
+          { week: 8, label: "Wk 8", actual_spend_gbp: 93.0, regression_line_gbp: 93.2 },
+          { week: 9, label: "Wk 9", actual_spend_gbp: 94.5, regression_line_gbp: 94.2 },
+          { week: 10, label: "Wk 10", actual_spend_gbp: 95.0, regression_line_gbp: 95.2 },
+          { week: 11, label: "Wk 11", actual_spend_gbp: 96.0, regression_line_gbp: 96.2 },
+          { week: 12, label: "Wk 12", actual_spend_gbp: 97.5, regression_line_gbp: 97.2 }
+        ]
+      },
+      prediction: null
+    };
+
+    function switchMainMode(mode) {
+      const csvSec = document.getElementById("main-mode-csv");
+      const pactSec = document.getElementById("main-mode-pact");
+      const bCsv = document.getElementById("mode-btn-csv");
+      const bPact = document.getElementById("mode-btn-pact");
+      if (mode === "csv") {
+        csvSec.classList.remove("hidden");
+        pactSec.classList.add("hidden");
+        bCsv.className = "touch-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-sky-500 text-slate-950 transition";
+        bPact.className = "touch-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white transition";
+      } else {
+        csvSec.classList.add("hidden");
+        pactSec.classList.remove("hidden");
+        bPact.className = "touch-btn px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-sky-500 text-slate-950 transition";
+        bCsv.className = "touch-btn px-3.5 py-1.5 rounded-xl text-xs font-bold text-slate-300 hover:text-white transition";
+      }
+    }
+
+    async function loginAsAmaraDemo() {
+      try {
+        await fetch(`${API_BASE}/auth/demo`, { method: "POST" });
+      } catch (e) {}
+      await loadTrialCSV("Connected as Amara · Demo bank (Session Active)");
+    }
+
+    async function fastForwardTo13March() {
+      try {
+        await fetch(`${API_BASE}/simulate?as_of=2026-03-13`, { method: "POST" });
+      } catch (e) {}
+      document.getElementById("pact-demo-headline").textContent =
+        "Storm Mode Active (Fri 13 March) · 23 March Storm is 10 days away";
+      document.getElementById("jade-status-badge").textContent = "Sent · 13 Mar 09:02";
+    }
+
+    async function move15ToBufferPayday() {
+      try {
+        await fetch(`${API_BASE}/actions/move-to-buffer`, { method: "POST" });
+      } catch (e) {}
+      document.getElementById("pact-demo-headline").textContent =
+        "✓ £15 Moved to Buffer on 13 March · 23 March Risk Dropped to 1 in 8 (Tight)";
+      document.getElementById("pact-p-shortfall").textContent = "0.125 (about 1 in 8 · Tight)";
+      document.getElementById("pact-p-shortfall").className = "text-amber-300 font-bold";
+      document.getElementById("pact-p50").textContent = "£68.00";
+    }
+
+    async function resetPactDemo() {
+      try {
+        await fetch(`${API_BASE}/reset`, { method: "POST" });
+      } catch (e) {}
+      document.getElementById("pact-demo-headline").textContent =
+        "You're covered until 19 March · Buffer: 6 days · 4 rules on";
+      document.getElementById("pact-p-shortfall").textContent = "0.33 (about 1 in 3)";
+      document.getElementById("pact-p-shortfall").className = "text-rose-400 font-bold";
+      document.getElementById("pact-p50").textContent = "£35.00";
+      document.getElementById("jade-status-badge").textContent = "Standby (10 Mar)";
+    }
+
+    async function trigger48hLockDemo() {
+      const el = document.getElementById("lock-toast");
+      el.textContent = "✓ Your change is booked. To protect you on hard days, changes to safety rules take 48 hours.";
+      el.classList.remove("hidden");
+    }
+
+    function computeDebtTrajectoryClient(inp) {
+      const startDt = new Date(inp.current_date + "T09:00:00Z");
+      const dailySpend = inp.predicted_weekly_spend / 7.0;
+      let bal = Number(inp.current_balance);
+      const timeline = [];
+
+      let willFallIntoDebt = false;
+      let firstDebtLabel = null;
+      let lowestBal = bal;
+      let lowestLabel = "";
+      let billDayBal = null;
+
+      for (let d = 0; d <= 31; d++) {
+        const curr = new Date(startDt.getTime() + d * 86400000);
+        const dayNum = curr.getUTCDate();
+        const label = curr.toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "UTC" });
+
+        if (d > 0) {
+          bal -= dailySpend;
+          if (dayNum === Number(inp.bill_day)) {
+            bal -= Number(inp.total_bills);
+            if (billDayBal === null) billDayBal = bal;
+          }
+          if (dayNum === Number(inp.pay_day)) {
+            bal += Number(inp.monthly_income);
+          }
+        }
+
+        const rBal = Math.round(bal * 100) / 100;
+        if (rBal < 0 && !willFallIntoDebt) {
+          willFallIntoDebt = true;
+          firstDebtLabel = label;
+        }
+        if (rBal < lowestBal) {
+          lowestBal = rBal;
+          lowestLabel = label;
+        }
+        timeline.push({ day_offset: d, label, dayNum, balance_gbp: rBal });
+      }
+
+      let payIdx = timeline.findIndex((t, i) => i > 0 && t.dayNum === Number(inp.pay_day));
+      if (payIdx === -1) payIdx = 31;
+      const prePay = timeline.slice(0, payIdx);
+      const minPrePay = Math.min(...prePay.map((x) => x.balance_gbp));
+      const daysUntilPay = Math.max(1, payIdx - 1);
+
+      let safeWeekly = inp.predicted_weekly_spend;
+      let deficit = 0;
+      if (minPrePay < 0) {
+        deficit = Math.abs(minPrePay);
+        const billsBeforePay = prePay.some((x, i) => i > 0 && x.dayNum === Number(inp.bill_day))
+          ? Number(inp.total_bills)
+          : 0;
+        const avail = Math.max(0, Number(inp.current_balance) - billsBeforePay);
+        safeWeekly = Math.round(((avail / daysUntilPay) * 7) * 100) / 100;
+      }
+
+      let sBal = Number(inp.current_balance);
+      const sDaily = safeWeekly / 7.0;
+      timeline.forEach((item, idx) => {
+        if (idx > 0) {
+          sBal -= sDaily;
+          if (item.dayNum === Number(inp.bill_day)) sBal -= Number(inp.total_bills);
+          if (item.dayNum === Number(inp.pay_day)) sBal += Number(inp.monthly_income);
+        }
+        item.safe_balance_gbp = Math.round(sBal * 100) / 100;
+      });
+
+      return {
+        will_fall_into_debt: willFallIntoDebt,
+        deficit_gbp: Math.round(deficit * 100) / 100,
+        first_debt_label: firstDebtLabel || `${inp.bill_day} Mar`,
+        lowest_balance_gbp: lowestBal,
+        lowest_balance_label: lowestLabel,
+        balance_on_bill_day_gbp: billDayBal !== null ? Math.round(billDayBal * 100) / 100 : lowestBal,
+        safe_weekly_budget_gbp: safeWeekly,
+        daily_timeline: timeline
+      };
+    }
+
+    async function loadTrialCSV(customStatusText) {
+      try {
+        const res = await fetch(`${API_BASE}/linear-default`);
+        if (res.ok) {
+          const data = await res.json();
+          STATE.inputs = {
+            ...data.extracted_inputs,
+            predicted_weekly_spend: data.linear_regression.predicted_weekly_spend_gbp
+          };
+          STATE.linearRegression = data.linear_regression;
+          STATE.prediction = data.prediction;
+          if (customStatusText) {
+            document.getElementById("csv-status-bar").innerHTML =
+              `<span>✅ <strong>${customStatusText}</strong></span><span class="font-bold">Predicted Spend: £${STATE.inputs.predicted_weekly_spend}/wk</span>`;
+          }
+          syncInputsToDOM();
+          renderUI();
+          return;
+        }
+      } catch (e) {}
+
+      STATE.inputs = {
+        current_balance: 740.0,
+        current_date: "2026-03-10",
+        monthly_income: 1350.0,
+        pay_day: 28,
+        total_bills: 680.0,
+        bill_day: 20,
+        predicted_weekly_spend: 98.22
+      };
+      STATE.prediction = computeDebtTrajectoryClient(STATE.inputs);
+      if (customStatusText) {
+        document.getElementById("csv-status-bar").innerHTML =
+          `<span>✅ <strong>${customStatusText}</strong></span><span class="font-bold">Predicted Spend: £98.22/wk</span>`;
+      }
+      syncInputsToDOM();
+      renderUI();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const csvText = e.target.result;
+        try {
+          const res = await fetch(`${API_BASE}/upload-csv`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ csv_text: csvText })
+          });
+          if (res.ok) {
+            const data = await res.json();
+            STATE.inputs = {
+              ...data.extracted_inputs,
+              predicted_weekly_spend: data.linear_regression.predicted_weekly_spend_gbp
+            };
+            STATE.linearRegression = data.linear_regression;
+            STATE.prediction = data.prediction;
+            document.getElementById("csv-status-bar").innerHTML =
+              `<span>✅ <strong>Uploaded CSV:</strong> <code class="text-white">${file.name}</code> (${data.row_count} rows)</span><span class="font-bold">${data.linear_regression.equation_str}</span>`;
+            syncInputsToDOM();
+            renderUI();
+            return;
+          }
+        } catch (err) {}
+        loadTrialCSV(`Uploaded ${file.name}`);
+      };
+      reader.readAsText(file);
+    }
+
+    function parsePlainSetup() {
+      const text = document.getElementById("plain-setup-input").value;
+      const nums = text.match(/\d+(\.\d+)?/g)?.map(Number) || [];
+      if (nums.length >= 4) {
+        STATE.inputs.current_balance = nums[0];
+        STATE.inputs.monthly_income = nums[1];
+        STATE.inputs.pay_day = Math.min(28, Math.max(1, nums[2]));
+        STATE.inputs.total_bills = nums[3];
+        if (nums[4]) STATE.inputs.bill_day = Math.min(28, Math.max(1, nums[4]));
+      }
+      syncInputsToDOM();
+      recalculatePrediction();
+    }
+
+    function syncInputsToDOM() {
+      document.getElementById("inp-balance").value = STATE.inputs.current_balance;
+      document.getElementById("inp-date").value = STATE.inputs.current_date;
+      document.getElementById("inp-income").value = STATE.inputs.monthly_income;
+      document.getElementById("inp-pay-day").value = STATE.inputs.pay_day;
+      document.getElementById("inp-bills").value = STATE.inputs.total_bills;
+      document.getElementById("inp-bill-day").value = STATE.inputs.bill_day;
+      document.getElementById("inp-weekly-spend").value = STATE.inputs.predicted_weekly_spend;
+    }
+
+    async function recalculatePrediction() {
+      STATE.inputs = {
+        current_balance: Number(document.getElementById("inp-balance").value) || 0,
+        current_date: document.getElementById("inp-date").value || "2026-03-10",
+        monthly_income: Number(document.getElementById("inp-income").value) || 0,
+        pay_day: Math.min(28, Math.max(1, Number(document.getElementById("inp-pay-day").value) || 28)),
+        total_bills: Number(document.getElementById("inp-bills").value) || 0,
+        bill_day: Math.min(28, Math.max(1, Number(document.getElementById("inp-bill-day").value) || 20)),
+        predicted_weekly_spend: Number(document.getElementById("inp-weekly-spend").value) || 98.22
+      };
+
+      try {
+        const res = await fetch(`${API_BASE}/predict-debt`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(STATE.inputs)
+        });
+        if (res.ok) {
+          STATE.prediction = await res.json();
+          renderUI();
+          return;
+        }
+      } catch (e) {}
+
+      STATE.prediction = computeDebtTrajectoryClient(STATE.inputs);
+      renderUI();
+    }
+
+    function applyFixMoveBillDay() {
+      document.getElementById("inp-bill-day").value = STATE.inputs.pay_day;
+      recalculatePrediction();
+    }
+
+    function applyFixWeeklyCap() {
+      if (STATE.prediction && STATE.prediction.safe_weekly_budget_gbp !== undefined) {
+        document.getElementById("inp-weekly-spend").value = STATE.prediction.safe_weekly_budget_gbp;
+        recalculatePrediction();
+      }
+    }
+
+    function renderUI() {
+      const pred = STATE.prediction || computeDebtTrajectoryClient(STATE.inputs);
+      const inp = STATE.inputs;
+      const card = document.getElementById("verdict-card");
+      const pill = document.getElementById("verdict-pill");
+      const heading = document.getElementById("verdict-heading");
+      const expl = document.getElementById("verdict-explanation");
+
+      const gapDays = Math.abs(inp.pay_day - inp.bill_day);
+
+      if (pred.will_fall_into_debt) {
+        card.className = "rounded-3xl p-6 sm:p-8 border-2 border-rose-500/70 bg-gradient-to-br from-slate-900 via-slate-900 to-rose-950/40 shadow-2xl space-y-6";
+        pill.className = "inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-rose-500 text-slate-950";
+        pill.textContent = "⚠️ Debt Warning Before Payday";
+
+        if (STATE.dyscalculia) {
+          heading.textContent = `You will run out of money on ${pred.first_debt_label} because your bills come out before your pay arrives.`;
+          expl.innerHTML = `Your bills leave on day <strong>${inp.bill_day}</strong>, which is before your pay arrives on day <strong>${inp.pay_day}</strong>. With your usual weekly shopping, your account dips into minus numbers until payday.`;
+        } else if (STATE.simpleReading) {
+          heading.textContent = `You will drop £${Math.abs(pred.lowest_balance_gbp).toFixed(0)} into debt starting on ${pred.first_debt_label}.`;
+          expl.innerHTML = `Why? Your <strong>£${inp.total_bills} bills</strong> come out on the <strong>${inp.bill_day}th</strong>, which is <strong>${gapDays} days before</strong> your £${inp.monthly_income} pay lands on the <strong>${inp.pay_day}th</strong>. With £${inp.predicted_weekly_spend.toFixed(0)}/week of everyday spending, your balance runs out on Bill Day.`;
+        } else {
+          heading.textContent = `Projected £${Math.abs(pred.lowest_balance_gbp).toFixed(2)} overdraft deficit between ${pred.first_debt_label} and Payday (${inp.pay_day}th).`;
+          expl.innerHTML = `Based on our Linear Regression expenditure model (£${inp.predicted_weekly_spend.toFixed(2)}/week) and fixed monthly bills (£${inp.total_bills} on day ${inp.bill_day}), your balance drops to <strong>£${pred.balance_on_bill_day_gbp.toFixed(2)}</strong> on Bill Day and reaches <strong>£${pred.lowest_balance_gbp.toFixed(2)}</strong> before your £${inp.monthly_income} income arrives on day ${inp.pay_day}.`;
+        }
+      } else {
+        card.className = "rounded-3xl p-6 sm:p-8 border-2 border-emerald-500/70 bg-gradient-to-br from-slate-900 via-slate-900 to-emerald-950/40 shadow-2xl space-y-6";
+        pill.className = "inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-400 text-slate-950";
+        pill.textContent = "✅ Safe · No Debt Predicted";
+        heading.textContent = STATE.dyscalculia
+          ? "Good news! You have enough money to cover your bills and weekly spending all month."
+          : `You stay out of debt all month! Lowest balance is +£${pred.lowest_balance_gbp.toFixed(2)}.`;
+        expl.innerHTML = `Your balance covers both your <strong>£${inp.total_bills} monthly bills</strong> (on the ${inp.bill_day}th) and your weekly spending of <strong>£${inp.predicted_weekly_spend.toFixed(0)}/week</strong> without ever dropping below £0.`;
+      }
+
+      document.getElementById("stat-bill-day-bal").textContent = STATE.dyscalculia
+        ? (pred.balance_on_bill_day_gbp < 0 ? "Below Zero" : "Covered")
+        : `${pred.balance_on_bill_day_gbp < 0 ? "-" : "+"}£${Math.abs(pred.balance_on_bill_day_gbp).toFixed(2)}`;
+      document.getElementById("stat-bill-day-bal").className =
+        `text-xl font-extrabold mt-1 ${pred.balance_on_bill_day_gbp < 0 ? "text-rose-400" : "text-emerald-400"}`;
+
+      document.getElementById("stat-lowest-bal").textContent = STATE.dyscalculia
+        ? (pred.lowest_balance_gbp < 0 ? "In Overdraft" : "Safe")
+        : `${pred.lowest_balance_gbp < 0 ? "-" : "+"}£${Math.abs(pred.lowest_balance_gbp).toFixed(2)}`;
+      document.getElementById("stat-lowest-bal").className =
+        `text-xl font-extrabold mt-1 ${pred.lowest_balance_gbp < 0 ? "text-rose-400" : "text-emerald-400"}`;
+
+      document.getElementById("stat-safe-weekly").textContent = STATE.dyscalculia
+        ? "Spend less until payday"
+        : `£${pred.safe_weekly_budget_gbp.toFixed(2)}/wk`;
+
+      document.getElementById("fix-budget-title").textContent =
+        `Cap weekly spend at £${pred.safe_weekly_budget_gbp.toFixed(0)}/wk until the ${inp.pay_day}th`;
+
+      document.getElementById("lr-formula-caption").textContent = STATE.dyscalculia
+        ? "Learned from your past 12 weeks of everyday shopping."
+        : `${STATE.linearRegression.equation_str} → Predicts £${inp.predicted_weekly_spend.toFixed(2)}/wk`;
+
+      renderVerdictTranslation(pred.will_fall_into_debt);
+      renderCashflowChart(pred);
+      renderLinearRegressionChart();
+      explainTerm(STATE.currentTerm);
+    }
+
+    function renderVerdictTranslation(inDebt) {
+      const box = document.getElementById("verdict-translated");
+      if (STATE.language === "en") {
+        box.classList.add("hidden");
+        return;
+      }
+      const map = {
+        ur: inDebt
+          ? "انتباہ: آپ کے بل (20 تاریخ) تنخواہ (28 تاریخ) سے پہلے آتے ہیں، جس کی وجہ سے آپ کا اکاؤنٹ £0 سے نیچے (قرض میں) چلا جائے گا۔ بل کی تاریخ کو تنخواہ کے بعد منتقل کریں۔"
+          : "خوشخبری! آپ کا بیلنس پورے مہینے کے بلوں اور ہفتہ وار اخراجات کے لیے کافی ہے۔",
+        pl: inDebt
+          ? "Uwaga: Twoje rachunki (20. dnia) wychodzą przed wypłatą (28. dnia), przez co saldo spadnie poniżej £0. Przesuń dzień rachunków po wypłacie."
+          : "Dobra wiadomość! Twoje saldo wystarczy na pokrycie rachunków i tygodniowych wydatków.",
+        yo: inDebt
+          ? "Ìkìlọ̀: Àwọn owó ìsanwó rẹ (ọjọ́ 20) máa ń jáde kí ọjọ́ تنخواہ (ọjọ́ 28) tó dé, èyí tí yóò mú kí àkáǹtì rẹ lọ sí gbèsè."
+          : "Ìròyìn ayọ̀! Owó rẹ tó láti san gbogbo gbèsè àti ìnáwó ọ̀sọ̀ọ̀sẹ̀.",
+        ro: inDebt
+          ? "Atenție: Facturile tale (ziua 20) se scad înainte de ziua de salariu (ziua 28), ceea ce îți va duce soldul sub £0."
+          : "Vești bune! Soldul tău acoperă toate facturile și cheltuielile săptămânale.",
+        ar: inDebt
+          ? "تنبيه: فواتيرك (يوم 20) تستحق قبل يوم الراتب (يوم 28)، مما سيؤدي إلى انخفاض رصيدك تحت الصفر."
+          : "أخبار سارة! رصيدك يغطي جميع الفواتير والمصاريف الأسبوعية طوال الشهر.",
+        es: inDebt
+          ? "Aviso: Tus recibos (día 20) se cobran antes de tu día de pago (día 28), lo que dejará tu cuenta bajo cero."
+          : "¡Buenas noticias! Tu saldo cubre tus recibos mensuales y tus gastos semanales."
+      };
+      box.textContent = map[STATE.language] || "";
+      box.classList.remove("hidden");
+    }
+
+    function renderCashflowChart(pred) {
+      const box = document.getElementById("cashflow-svg-box");
+      const pts = pred.daily_timeline || [];
+      if (!pts.length) return;
+
+      const w = 520;
+      const h = 210;
+      const padL = 44;
+      const padR = 16;
+      const padT = 18;
+      const padB = 28;
+
+      const allVals = pts.flatMap((p) => [p.balance_gbp, p.safe_balance_gbp, 0]);
+      const minY = Math.min(-220, ...allVals);
+      const maxY = Math.max(900, ...allVals);
+
+      const scaleX = (i) => padL + (i / (pts.length - 1)) * (w - padL - padR);
+      const scaleY = (v) => padT + ((maxY - v) / (maxY - minY)) * (h - padT - padB);
+
+      const zeroY = scaleY(0).toFixed(1);
+      const lineActual = pts.map((p, i) => `${scaleX(i).toFixed(1)},${scaleY(p.balance_gbp).toFixed(1)}`).join(" ");
+      const lineSafe = pts.map((p, i) => `${scaleX(i).toFixed(1)},${scaleY(p.safe_balance_gbp).toFixed(1)}`).join(" ");
+
+      const billIdx = pts.findIndex((p, i) => i > 0 && p.dayNum === Number(STATE.inputs.bill_day));
+      const payIdx = pts.findIndex((p, i) => i > 0 && p.dayNum === Number(STATE.inputs.pay_day));
+
+      box.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full" role="img" aria-label="30-day cashflow forecast chart">
+          <rect x="${padL}" y="${zeroY}" width="${w - padL - padR}" height="${Math.max(0, h - padB - zeroY)}" fill="rgba(244, 63, 94, 0.12)" />
+          <line x1="${padL}" y1="${zeroY}" x2="${w - padR}" y2="${zeroY}" stroke="#fbbf24" stroke-width="1.5" stroke-dasharray="4 4" />
+          <text x="6" y="${Number(zeroY) + 4}" fill="#fbbf24" font-size="11" font-weight="bold">£0</text>
+          <polyline fill="none" stroke="#34d399" stroke-width="2.2" stroke-dasharray="5 3" points="${lineSafe}" />
+          <polyline fill="none" stroke="${pred.will_fall_into_debt ? '#fb7185' : '#38bdf8'}" stroke-width="3" points="${lineActual}" />
+          ${billIdx > 0 ? `
+            <circle cx="${scaleX(billIdx)}" cy="${scaleY(pts[billIdx].balance_gbp)}" r="4.5" fill="#fb7185" />
+            <text x="${Math.min(w - 95, scaleX(billIdx) - 20)}" y="${scaleY(pts[billIdx].balance_gbp) + 16}" fill="#fda4af" font-size="10" font-weight="bold">
+              Bills (${pts[billIdx].label})
+            </text>
+          ` : ""}
+          ${payIdx > 0 ? `
+            <circle cx="${scaleX(payIdx)}" cy="${scaleY(pts[payIdx].balance_gbp)}" r="4.5" fill="#34d399" />
+            <text x="${Math.min(w - 95, scaleX(payIdx) - 25)}" y="${Math.max(14, scaleY(pts[payIdx].balance_gbp) - 8)}" fill="#6ee7b7" font-size="10" font-weight="bold">
+              Payday (${pts[payIdx].label})
+            </text>
+          ` : ""}
+        </svg>
+      `;
+    }
+
+    function renderLinearRegressionChart() {
+      const box = document.getElementById("lr-svg-box");
+      const hist = STATE.linearRegression.weekly_history || [];
+      if (!hist.length) return;
+
+      const w = 520;
+      const h = 210;
+      const padL = 42;
+      const padR = 20;
+      const padT = 20;
+      const padB = 28;
+
+      const minY = 70;
+      const maxY = 110;
+      const scaleX = (i) => padL + (i / hist.length) * (w - padL - padR);
+      const scaleY = (v) => padT + ((maxY - v) / (maxY - minY)) * (h - padT - padB);
+
+      const bars = hist.map((item, idx) => {
+        const x = scaleX(idx) + 6;
+        const y = scaleY(item.actual_spend_gbp);
+        const bh = h - padB - y;
+        return `
+          <rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="22" height="${Math.max(4, bh).toFixed(1)}" rx="4" fill="rgba(56, 189, 248, 0.65)" />
+          <text x="${(x + 11).toFixed(1)}" y="${h - 10}" fill="#94a3b8" font-size="9" text-anchor="middle">W${item.week}</text>
+        `;
+      }).join("");
+
+      const x1 = scaleX(0) + 17;
+      const y1 = scaleY(hist[0].regression_line_gbp);
+      const x2 = scaleX(hist.length - 1) + 17;
+      const y2 = scaleY(hist[hist.length - 1].regression_line_gbp);
+
+      box.innerHTML = `
+        <svg viewBox="0 0 ${w} ${h}" class="w-full h-full" role="img" aria-label="Historical weekly spending and fitted linear regression trend line">
+          <text x="6" y="${scaleY(100) + 4}" fill="#94a3b8" font-size="10">£100</text>
+          <text x="6" y="${scaleY(85) + 4}" fill="#94a3b8" font-size="10">£85</text>
+          ${bars}
+          <line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#fbbf24" stroke-width="3" />
+          <circle cx="${x2}" cy="${y2}" r="5" fill="#fbbf24" />
+          <text x="${x2 - 95}" y="${y2 - 10}" fill="#fde68a" font-size="10" font-weight="bold">
+            Next: £${STATE.inputs.predicted_weekly_spend.toFixed(2)}/wk
+          </text>
+        </svg>
+      `;
+    }
+
+    const TERMS_DB = {
+      overdraft: {
+        title: "Unarranged Overdraft",
+        en: "When a bill comes out and you don't have enough money in your account, your balance drops below £0 (into minus numbers) without agreeing a limit with your bank first. Banks often charge heavy fees or interest for this.",
+        ur: "اوور ڈرافٹ (Overdraft): جب اکاؤنٹ میں پیسے کم ہوں اور بل کٹنے سے بیلنس صفر (£0) سے نیچے چلا جائے۔",
+        pl: "Niezaplanowany debet (Overdraft): Gdy rachunek schodzi z konta, a saldo spada poniżej £0 bez wcześniejszej umowy z bankiem.",
+        yo: "Overdraft: Nígbà tí owó ìsanwó bá jáde tí owó inú àkáǹtì rẹ sì dínkù sí ìsàlẹ̀ £0.",
+        ro: "Descoperire de cont (Overdraft): Când o factură este retrasă și soldul scade sub £0 fără un acord prealabil.",
+        ar: "السحب على المكشوف (Overdraft): عندما تُسحب فاتورة ولا يوجد رصيد كافٍ فينخفض الرصيد تحت الصفر (£0).",
+        es: "Descubierto bancario (Overdraft): Cuando se cobra un recibo sin saldo suficiente y tu cuenta cae por debajo de £0."
+      },
+      direct_debit: {
+        title: "Direct Debit vs Standing Order",
+        en: "A Direct Debit lets a company (like your energy supplier or council) take the bill amount automatically on a set day. A Standing Order is set by you for a fixed amount (like rent). You have the right to ask providers to move Direct Debit dates to after your payday!",
+        ur: "ڈائریکٹ ڈیبٹ (Direct Debit): کمپنی خودکار طریقے سے ہر مہینے بل کاٹتی ہے۔ آپ بل کی تاریخ تنخواہ کے بعد رکھوا سکتے ہیں۔",
+        pl: "Polecenie zapłaty (Direct Debit): Firma automatycznie pobiera kwotę rachunku. Możesz przesunąć datę pobrania na dzień po wypłacie!",
+        yo: "Direct Debit: Ilé-iṣẹ́ náà máa ń gba owó ìsanwó fúnra rẹ̀. O lè béèrè kí wọ́n سún ọjọ́ náà sí ẹ̀yìn ọjọ́ تنخواہ rẹ.",
+        ro: "Debitare directă (Direct Debit): Furnizorul retrage automat suma facturii. Poți cere mutarea datei după ziua de salariu!",
+        ar: "الخصم المباشر (Direct Debit): تفويض لشركة الفواتير بسحب المبلغ تلقائياً كل شهر. يحق لك طلب تغيير تاريخ السحب ليكون بعد يوم راتبك.",
+        es: "Domiciliación bancaria (Direct Debit): La empresa cobra el recibo automáticamente. Puedes pedir que cambien la fecha para después de tu día de cobro."
+      },
+      apr: {
+        title: "APR (Annual Percentage Rate)",
+        en: "The true yearly cost of borrowing money, including interest and standard fees. Paying insurance monthly instead of yearly often adds a hidden 20%–30% APR markup (£118/year in Amara's Rewind!).",
+        ur: "اے پی آر (APR): قرض لینے کی سالانہ کل لاگت جس میں سود اور فیس شامل ہوتی ہے۔",
+        pl: "RRSO (APR): Całkowity roczny koszt pożyczki wraz z odsetkami i opłatami.",
+        yo: "APR: Iye owó èlé àti ìsanwó tí o máa san lọ́dún lórí gbèsè.",
+        ro: "DAE (APR): Costul anual real al unui împrumut, incluzând dobânda și comisioanele.",
+        ar: "معدل النسبة السنوي (APR): التكلفة السنوية الحقيقية للاقتراض شاملة الفوائد والرسوم.",
+        es: "TAE (APR): El coste anual real de pedir dinero prestado, incluyendo intereses y comisiones."
+      },
+      arrears: {
+        title: "In Arrears / Default",
+        en: "Being 'in arrears' simply means you are behind on one or more scheduled bill payments. If you tell your council or energy provider early, they must offer an affordable payment plan under UK vulnerability rules.",
+        ur: "بقایا جات (Arrears): جب آپ کی ایک یا زیادہ ماہانہ قسطیں وقت پر ادا نہ ہو سکیں۔",
+        pl: "Zaległości (Arrears): Oznacza opóźnienie w opłaceniu jednego lub więcej rachunków.",
+        yo: "Arrears: Ó túmọ̀ sí pé o kù díẹ̀ láti san owó ìsanwó kan tàbí jù bẹ́ẹ̀ lọ ní àkókò.",
+        ro: "Restanțe (Arrears): Înseamnă că ai întârziat cu plata uneia sau mai multor facturi scadente.",
+        ar: "المتأخرات (Arrears): تعني التأخر عن سداد دفعة أو أكثر من الفواتير المستحقة في موعدها.",
+        es: "En mora / Atrasos (Arrears): Significa tener uno o más pagos de facturas pendientes o atrasados."
+      },
+      bnpl: {
+        title: "Buy Now, Pay Later (BNPL) Late Fee",
+        en: "Services like Klarna or Clearpay split purchases into 3 or 4 payments. Missing an automatic payment because a bill emptied your account triggers fixed late fees (e.g. 7 × £5 = £35 in Amara's Rewind).",
+        ur: "ابھی خریدیں، بعد میں ادائیگی کریں (BNPL): اگر اکاؤنٹ خالی ہونے کی وجہ سے قسط رہ جائے تو لیٹ فیس لگتی ہے۔",
+        pl: "Kup teraz, zapłać później (BNPL): Brak środków na koncie w dniu raty powoduje naliczenie opłaty za opóźnienie.",
+        yo: "BNPL: Rírà nǹkan láti san án díẹ̀díẹ̀. Bí owó bá tán ní àkáǹtì rẹ, wọ́n máa gba owó ìtanràn (£5).",
+        ro: "Cumpără acum, plătește mai târziu (BNPL): Neplata la timp a unei rate atrage comisioane fixe de întârziere.",
+        ar: "اشتر الآن وادفع لاحقاً (BNPL): إذا لم يتوفر رصيد عند موعد القسط التلقائي، يتم فرض غرامة تأخير فورية.",
+        es: "Compra ahora y paga después (BNPL): Si no hay saldo cuando cobran una cuota, aplican recargos por demora."
+      }
+    };
+
+    function explainTerm(key) {
+      STATE.currentTerm = key;
+      const item = TERMS_DB[key];
+      if (!item) return;
+      document.getElementById("term-title").textContent = item.title;
+      document.getElementById("term-english").innerHTML = `<strong>Plain English:</strong> ${item.en}`;
+      const transEl = document.getElementById("term-translated");
+      if (STATE.language !== "en" && item[STATE.language]) {
+        transEl.textContent = item[STATE.language];
+        transEl.classList.remove("hidden");
+      } else {
+        transEl.classList.add("hidden");
+      }
+    }
+
+    function toggleSimpleReading() {
+      STATE.simpleReading = !STATE.simpleReading;
+      const btn = document.getElementById("btn-reading");
+      btn.setAttribute("aria-pressed", String(STATE.simpleReading));
+      btn.textContent = STATE.simpleReading ? "📖 Age 9 Reading" : "📖 Age 16 Reading";
+      btn.className = STATE.simpleReading
+        ? "touch-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-sky-500 text-slate-950 transition"
+        : "touch-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-200 border border-slate-700 transition";
+      renderUI();
+    }
+
+    function toggleDyscalculia() {
+      STATE.dyscalculia = !STATE.dyscalculia;
+      const btn = document.getElementById("btn-dyscalculia");
+      btn.setAttribute("aria-pressed", String(STATE.dyscalculia));
+      btn.className = STATE.dyscalculia
+        ? "touch-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-amber-400 text-slate-950 transition"
+        : "touch-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-200 border border-slate-700 transition";
+      renderUI();
+    }
+
+    function toggleDyslexia() {
+      STATE.dyslexia = !STATE.dyslexia;
+      document.body.classList.toggle("dyslexia-mode", STATE.dyslexia);
+      const btn = document.getElementById("btn-dyslexia");
+      btn.setAttribute("aria-pressed", String(STATE.dyslexia));
+      btn.className = STATE.dyslexia
+        ? "touch-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-emerald-400 text-slate-950 transition"
+        : "touch-btn px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 text-slate-200 border border-slate-700 transition";
+    }
+
+    function changeLanguage(lang) {
+      STATE.language = lang;
+      renderUI();
+    }
+
+    function speakSummary() {
+      if (!("speechSynthesis" in window)) return;
+      window.speechSynthesis.cancel();
+      const text = `${document.getElementById("verdict-heading").textContent}. ${document.getElementById("verdict-explanation").textContent}`;
+      const u = new SpeechSynthesisUtterance(text);
+      u.rate = 0.95;
+      window.speechSynthesis.speak(u);
+    }
+
+    window.addEventListener("DOMContentLoaded", () => loadTrialCSV());
+  </script>
+</body>
+</html>

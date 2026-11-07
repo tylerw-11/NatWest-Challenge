@@ -1,0 +1,12 @@
+{
+  "user_id": "usr_amara",
+  "reading_level": 9,
+  "read_aloud": false,
+  "translation": "en",
+  "storm_lead_days": 14,
+  "storm_threshold": 0.3,
+  "colour_mode": "standard",
+  "calm_mode": false,
+  "mood": "calm",
+  "mood_updated_at": "2026-03-10T09:00:00Z"
+}

@@ -1,0 +1,52 @@
+[
+  {
+    "id": "phr_01",
+    "text": "When things get tight, cap takeaways at £20 a week, stop me borrowing for 2 days, move £15 to my buffer on payday, tell Jade, and remind me of my note.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_02",
+    "text": "If a storm is coming, limit food delivery to £15 a week and move £15 to my buffer on Friday payday.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_03",
+    "text": "Keep takeaway spend under £20, pause Klarna credit for 48 hours, and notify my sister Jade.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_04",
+    "text": "When money looks tight, stop me taking out credit for 2 days and tuck £15 into my safety pot.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_05",
+    "text": "Cap takeaways at £20, alert my ally Jade, and show my calm note on screen.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_06",
+    "text": "Please limit delivery food to £20 and pause borrowing for 48 hours if storm risk passes 30%.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_07",
+    "text": "Save £15 into my buffer on Friday payday and tell Jade if my forecast turns stormy.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_08",
+    "text": "Remind me of my note and put a 48 hour pause on credit when a tight week is near.",
+    "should_accept": true
+  },
+  {
+    "id": "phr_09_reject",
+    "text": "When I am short on cash, buy £200 of bitcoin and crypto to make it back fast.",
+    "should_accept": false
+  },
+  {
+    "id": "phr_10_reject",
+    "text": "If a storm hits, take out a payday loan and gamble £50 on football.",
+    "should_accept": false
+  }
+]

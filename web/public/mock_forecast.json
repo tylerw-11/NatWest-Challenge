@@ -1,0 +1,5287 @@
+{
+  "base": {
+    "persona": {
+      "id": "usr_amara_01",
+      "name": "Amara Okafor",
+      "age": 24,
+      "city": "Manchester",
+      "archetype": "Care leaver & gig delivery rider claiming Universal Credit",
+      "monthly_income_range_gbp": [
+        600,
+        1400
+      ],
+      "current_balance_gbp": 168.4,
+      "buffer_balance_gbp": 25.0,
+      "trusted_ally": {
+        "name": "Tunde (Sister)",
+        "relationship": "Older sister",
+        "phone_masked": "+44 7700 900412",
+        "permissions": "View-only weather state & one alert when a Pact activates. Never sees transactions or balances.",
+        "active": true
+      },
+      "accessibility_profile": {
+        "reading_age": 9,
+        "dyscalculia_mode": false,
+        "calm_layout_prompted": true,
+        "storm_threshold": 0.3,
+        "horizon_days": 14,
+        "language": "en"
+      },
+      "scheduled_one_offs": [
+        {
+          "id": "evt_phone_renewal",
+          "date": "2026-03-22",
+          "merchant": "VODAFONE CONTRACT CPI RENEWAL",
+          "category": "telecoms",
+          "amount": -49.0,
+          "source": "recurring_contract_stepup",
+          "description": "Phone contract annual renewal jump (+\u00a311 increase)"
+        },
+        {
+          "id": "evt_council_tax_mar",
+          "date": "2026-03-23",
+          "merchant": "MANCHESTER CITY COUNCIL TAX",
+          "category": "council_tax",
+          "amount": -118.0,
+          "source": "recurring_bill",
+          "description": "Monthly Council Tax instalment"
+        }
+      ]
+    },
+    "forecast": {
+      "forecast_id": "fc_2026-03-01_base",
+      "as_of": "2026-03-01",
+      "horizon_days": 60,
+      "paths_simulated": 1000,
+      "headline": "You're covered until 19 Mar",
+      "covered_until": "19 Mar",
+      "buffer_days": 18,
+      "next_risk_date": "23 Mar",
+      "next_risk_iso": "2026-03-23",
+      "next_risk_probability": 0.42,
+      "premium_saved_gbp": 214.0,
+      "storm_mode_triggered": false,
+      "storm_action_executed": false,
+      "ally_notified": false,
+      "pattern_shift_detected": true,
+      "pattern_shift_reason": "Takeaway spending this week (\u00a377) is more than double your usual \u00a324/week average.",
+      "thresholds": {
+        "clear_max": 0.1,
+        "storm_min": 0.3
+      },
+      "weather_strip_14d": [
+        {
+          "date": "2026-03-01",
+          "day_offset": 0,
+          "label_short": "1 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -322.14,
+          "p50_balance_gbp": -302.79,
+          "p90_balance_gbp": -291.6,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-03-01",
+              "day": "2026-03-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-02",
+          "day_offset": 1,
+          "label_short": "2 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -340.59,
+          "p50_balance_gbp": -311.91,
+          "p90_balance_gbp": -291.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-03",
+          "day_offset": 2,
+          "label_short": "3 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -356.4,
+          "p50_balance_gbp": -322.49,
+          "p90_balance_gbp": -291.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-04",
+          "day_offset": 3,
+          "label_short": "4 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -376.17,
+          "p50_balance_gbp": -335.08,
+          "p90_balance_gbp": -304.84,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-05",
+          "day_offset": 4,
+          "label_short": "5 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -391.05,
+          "p50_balance_gbp": -346.89,
+          "p90_balance_gbp": -311.58,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-06",
+          "day_offset": 5,
+          "label_short": "6 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -229.41,
+          "p50_balance_gbp": -142.19,
+          "p90_balance_gbp": -73.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-07",
+          "day_offset": 6,
+          "label_short": "7 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 363.56,
+          "p50_balance_gbp": 421.74,
+          "p90_balance_gbp": 476.32,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-08",
+          "day_offset": 7,
+          "label_short": "8 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 351.05,
+          "p50_balance_gbp": 411.36,
+          "p90_balance_gbp": 465.53,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-09",
+          "day_offset": 8,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 336.54,
+          "p50_balance_gbp": 398.69,
+          "p90_balance_gbp": 457.96,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 9,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 302.61,
+          "p50_balance_gbp": 367.9,
+          "p90_balance_gbp": 425.68,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 10,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 291.81,
+          "p50_balance_gbp": 354.57,
+          "p90_balance_gbp": 417.34,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 11,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 274.46,
+          "p50_balance_gbp": 342.67,
+          "p90_balance_gbp": 408.54,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 18,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 304.52,
+          "p50_balance_gbp": 415.27,
+          "p90_balance_gbp": 505.06,
+          "drivers": [],
+          "is_horizon_preview": true
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 22,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.42,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -48.5,
+          "p50_balance_gbp": 12.4,
+          "p90_balance_gbp": 84.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ],
+          "is_horizon_preview": true
+        }
+      ],
+      "days_60d": [
+        {
+          "date": "2026-03-01",
+          "day_offset": 0,
+          "label_short": "1 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -322.14,
+          "p50_balance_gbp": -302.79,
+          "p90_balance_gbp": -291.6,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-03-01",
+              "day": "2026-03-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-02",
+          "day_offset": 1,
+          "label_short": "2 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -340.59,
+          "p50_balance_gbp": -311.91,
+          "p90_balance_gbp": -291.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-03",
+          "day_offset": 2,
+          "label_short": "3 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -356.4,
+          "p50_balance_gbp": -322.49,
+          "p90_balance_gbp": -291.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-04",
+          "day_offset": 3,
+          "label_short": "4 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -376.17,
+          "p50_balance_gbp": -335.08,
+          "p90_balance_gbp": -304.84,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-05",
+          "day_offset": 4,
+          "label_short": "5 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -391.05,
+          "p50_balance_gbp": -346.89,
+          "p90_balance_gbp": -311.58,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-06",
+          "day_offset": 5,
+          "label_short": "6 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": -229.41,
+          "p50_balance_gbp": -142.19,
+          "p90_balance_gbp": -73.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-07",
+          "day_offset": 6,
+          "label_short": "7 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 363.56,
+          "p50_balance_gbp": 421.74,
+          "p90_balance_gbp": 476.32,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-08",
+          "day_offset": 7,
+          "label_short": "8 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 351.05,
+          "p50_balance_gbp": 411.36,
+          "p90_balance_gbp": 465.53,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-09",
+          "day_offset": 8,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 336.54,
+          "p50_balance_gbp": 398.69,
+          "p90_balance_gbp": 457.96,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 9,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 302.61,
+          "p50_balance_gbp": 367.9,
+          "p90_balance_gbp": 425.68,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 10,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 291.81,
+          "p50_balance_gbp": 354.57,
+          "p90_balance_gbp": 417.34,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 11,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 274.46,
+          "p50_balance_gbp": 342.67,
+          "p90_balance_gbp": 408.54,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-13",
+          "day_offset": 12,
+          "label_short": "13 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 450.01,
+          "p50_balance_gbp": 553.03,
+          "p90_balance_gbp": 633.31,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-14",
+          "day_offset": 13,
+          "label_short": "14 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 437.74,
+          "p50_balance_gbp": 541.47,
+          "p90_balance_gbp": 623.62,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-15",
+          "day_offset": 14,
+          "label_short": "15 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 357.87,
+          "p50_balance_gbp": 460.69,
+          "p90_balance_gbp": 543.47,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-03-15",
+              "day": "2026-03-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-16",
+          "day_offset": 15,
+          "label_short": "16 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 344.9,
+          "p50_balance_gbp": 446.19,
+          "p90_balance_gbp": 533.81,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-17",
+          "day_offset": 16,
+          "label_short": "17 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 332.48,
+          "p50_balance_gbp": 436.99,
+          "p90_balance_gbp": 524.29,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-18",
+          "day_offset": 17,
+          "label_short": "18 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 319.06,
+          "p50_balance_gbp": 426.0,
+          "p90_balance_gbp": 514.4,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 18,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 304.52,
+          "p50_balance_gbp": 415.27,
+          "p90_balance_gbp": 505.06,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-20",
+          "day_offset": 19,
+          "label_short": "20 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 438.18,
+          "p50_balance_gbp": 553.71,
+          "p90_balance_gbp": 661.1,
+          "drivers": [
+            {
+              "id": "drv_gig_dip_2026-03-20",
+              "day": "2026-03-20",
+              "label": "Predicted quieter delivery shift week",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-21",
+          "day_offset": 20,
+          "label_short": "21 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 423.93,
+          "p50_balance_gbp": 541.88,
+          "p90_balance_gbp": 649.42,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-22",
+          "day_offset": 21,
+          "label_short": "22 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.26,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": 364.52,
+          "p50_balance_gbp": 480.88,
+          "p90_balance_gbp": 591.09,
+          "drivers": [
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 22,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.42,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -48.5,
+          "p50_balance_gbp": 12.4,
+          "p90_balance_gbp": 84.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-24",
+          "day_offset": 23,
+          "label_short": "24 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": 222.18,
+          "p50_balance_gbp": 339.0,
+          "p90_balance_gbp": 450.9,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-25",
+          "day_offset": 24,
+          "label_short": "25 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": 209.12,
+          "p50_balance_gbp": 326.2,
+          "p90_balance_gbp": 443.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-26",
+          "day_offset": 25,
+          "label_short": "26 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": 195.92,
+          "p50_balance_gbp": 316.21,
+          "p90_balance_gbp": 430.28,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-27",
+          "day_offset": 26,
+          "label_short": "27 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 384.15,
+          "p50_balance_gbp": 522.11,
+          "p90_balance_gbp": 644.1,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-28",
+          "day_offset": 27,
+          "label_short": "28 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 368.58,
+          "p50_balance_gbp": 509.32,
+          "p90_balance_gbp": 635.48,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-29",
+          "day_offset": 28,
+          "label_short": "29 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 360.43,
+          "p50_balance_gbp": 499.33,
+          "p90_balance_gbp": 626.51,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-30",
+          "day_offset": 29,
+          "label_short": "30 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 343.91,
+          "p50_balance_gbp": 486.17,
+          "p90_balance_gbp": 617.58,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-31",
+          "day_offset": 30,
+          "label_short": "31 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 332.79,
+          "p50_balance_gbp": 473.69,
+          "p90_balance_gbp": 608.9,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-01",
+          "day_offset": 31,
+          "label_short": "1 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -143.13,
+          "p50_balance_gbp": -0.43,
+          "p90_balance_gbp": 138.59,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+              "day": "2026-04-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-02",
+          "day_offset": 32,
+          "label_short": "2 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -156.83,
+          "p50_balance_gbp": -8.69,
+          "p90_balance_gbp": 127.33,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-03",
+          "day_offset": 33,
+          "label_short": "3 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.06,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 31.17,
+          "p50_balance_gbp": 200.26,
+          "p90_balance_gbp": 343.15,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-04",
+          "day_offset": 34,
+          "label_short": "4 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 20.76,
+          "p50_balance_gbp": 187.88,
+          "p90_balance_gbp": 332.65,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-05",
+          "day_offset": 35,
+          "label_short": "5 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.09,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 5.07,
+          "p50_balance_gbp": 175.81,
+          "p90_balance_gbp": 320.99,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-06",
+          "day_offset": 36,
+          "label_short": "6 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.11,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "cloudy",
+          "p10_balance_gbp": -7.35,
+          "p50_balance_gbp": 165.31,
+          "p90_balance_gbp": 310.19,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-07",
+          "day_offset": 37,
+          "label_short": "7 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 482.24,
+          "p50_balance_gbp": 615.25,
+          "p90_balance_gbp": 722.26,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-08",
+          "day_offset": 38,
+          "label_short": "8 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 471.01,
+          "p50_balance_gbp": 601.94,
+          "p90_balance_gbp": 709.21,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-09",
+          "day_offset": 39,
+          "label_short": "9 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 461.5,
+          "p50_balance_gbp": 590.26,
+          "p90_balance_gbp": 701.18,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-10",
+          "day_offset": 40,
+          "label_short": "10 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 631.02,
+          "p50_balance_gbp": 777.44,
+          "p90_balance_gbp": 903.98,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-04-10",
+              "day": "2026-04-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-11",
+          "day_offset": 41,
+          "label_short": "11 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 618.25,
+          "p50_balance_gbp": 764.54,
+          "p90_balance_gbp": 892.91,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-12",
+          "day_offset": 42,
+          "label_short": "12 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 600.31,
+          "p50_balance_gbp": 753.07,
+          "p90_balance_gbp": 881.62,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-13",
+          "day_offset": 43,
+          "label_short": "13 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 591.59,
+          "p50_balance_gbp": 741.66,
+          "p90_balance_gbp": 871.25,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-14",
+          "day_offset": 44,
+          "label_short": "14 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 577.87,
+          "p50_balance_gbp": 724.61,
+          "p90_balance_gbp": 861.61,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-15",
+          "day_offset": 45,
+          "label_short": "15 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 493.5,
+          "p50_balance_gbp": 646.07,
+          "p90_balance_gbp": 778.47,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-04-15",
+              "day": "2026-04-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-16",
+          "day_offset": 46,
+          "label_short": "16 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 477.26,
+          "p50_balance_gbp": 637.13,
+          "p90_balance_gbp": 769.52,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-17",
+          "day_offset": 47,
+          "label_short": "17 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 673.85,
+          "p50_balance_gbp": 839.58,
+          "p90_balance_gbp": 985.35,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-18",
+          "day_offset": 48,
+          "label_short": "18 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 658.09,
+          "p50_balance_gbp": 828.77,
+          "p90_balance_gbp": 976.32,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-19",
+          "day_offset": 49,
+          "label_short": "19 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 646.36,
+          "p50_balance_gbp": 814.89,
+          "p90_balance_gbp": 960.56,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-20",
+          "day_offset": 50,
+          "label_short": "20 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 631.0,
+          "p50_balance_gbp": 801.03,
+          "p90_balance_gbp": 951.41,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-21",
+          "day_offset": 51,
+          "label_short": "21 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 622.6,
+          "p50_balance_gbp": 788.48,
+          "p90_balance_gbp": 941.47,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-22",
+          "day_offset": 52,
+          "label_short": "22 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 571.16,
+          "p50_balance_gbp": 738.8,
+          "p90_balance_gbp": 891.45,
+          "drivers": [
+            {
+              "id": "drv_vodafone_2026-04-22",
+              "day": "2026-04-22",
+              "label": "VODAFONE LTD direct debit",
+              "category": "telecoms",
+              "amount_gbp": -38.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly telecoms payment of \u00a338."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-23",
+          "day_offset": 53,
+          "label_short": "23 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 444.74,
+          "p50_balance_gbp": 611.08,
+          "p90_balance_gbp": 760.42,
+          "drivers": [
+            {
+              "id": "drv_manchester_city_council_tax_2026-04-23",
+              "day": "2026-04-23",
+              "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly council tax payment of \u00a3118."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-24",
+          "day_offset": 54,
+          "label_short": "24 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 626.15,
+          "p50_balance_gbp": 818.31,
+          "p90_balance_gbp": 976.23,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-25",
+          "day_offset": 55,
+          "label_short": "25 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 613.94,
+          "p50_balance_gbp": 806.49,
+          "p90_balance_gbp": 968.25,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-26",
+          "day_offset": 56,
+          "label_short": "26 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 607.18,
+          "p50_balance_gbp": 793.25,
+          "p90_balance_gbp": 957.78,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-27",
+          "day_offset": 57,
+          "label_short": "27 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 591.98,
+          "p50_balance_gbp": 777.68,
+          "p90_balance_gbp": 945.73,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-28",
+          "day_offset": 58,
+          "label_short": "28 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 581.35,
+          "p50_balance_gbp": 764.41,
+          "p90_balance_gbp": 937.93,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-29",
+          "day_offset": 59,
+          "label_short": "29 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 567.27,
+          "p50_balance_gbp": 754.37,
+          "p90_balance_gbp": 924.7,
+          "drivers": []
+        }
+      ],
+      "drivers_by_day": {
+        "2026-03-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-03-01",
+            "day": "2026-03-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-03-02": [],
+        "2026-03-03": [],
+        "2026-03-04": [],
+        "2026-03-05": [],
+        "2026-03-06": [],
+        "2026-03-07": [],
+        "2026-03-08": [],
+        "2026-03-09": [],
+        "2026-03-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-03-10",
+            "day": "2026-03-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-03-11": [],
+        "2026-03-12": [],
+        "2026-03-13": [],
+        "2026-03-14": [],
+        "2026-03-15": [
+          {
+            "id": "drv_octopus_energy_2026-03-15",
+            "day": "2026-03-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-03-16": [],
+        "2026-03-17": [],
+        "2026-03-18": [],
+        "2026-03-19": [],
+        "2026-03-20": [
+          {
+            "id": "drv_gig_dip_2026-03-20",
+            "day": "2026-03-20",
+            "label": "Predicted quieter delivery shift week",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+          }
+        ],
+        "2026-03-21": [],
+        "2026-03-22": [
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+          }
+        ],
+        "2026-03-23": [
+          {
+            "id": "drv_council_tax_2026_03_23",
+            "day": "2026-03-23",
+            "label": "Manchester City Council Tax (\u00a3118)",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+          },
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone contract renewal jump (\u00a349)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+          },
+          {
+            "id": "drv_gig_dip_2026_03_20",
+            "day": "2026-03-20",
+            "label": "Low-earnings delivery week (~\u00a352 below average)",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+          }
+        ],
+        "2026-03-24": [],
+        "2026-03-25": [],
+        "2026-03-26": [],
+        "2026-03-27": [],
+        "2026-03-28": [],
+        "2026-03-29": [],
+        "2026-03-30": [],
+        "2026-03-31": [],
+        "2026-04-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+            "day": "2026-04-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-04-02": [],
+        "2026-04-03": [],
+        "2026-04-04": [],
+        "2026-04-05": [],
+        "2026-04-06": [],
+        "2026-04-07": [],
+        "2026-04-08": [],
+        "2026-04-09": [],
+        "2026-04-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-04-10",
+            "day": "2026-04-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-04-11": [],
+        "2026-04-12": [],
+        "2026-04-13": [],
+        "2026-04-14": [],
+        "2026-04-15": [
+          {
+            "id": "drv_octopus_energy_2026-04-15",
+            "day": "2026-04-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-04-16": [],
+        "2026-04-17": [],
+        "2026-04-18": [],
+        "2026-04-19": [],
+        "2026-04-20": [],
+        "2026-04-21": [],
+        "2026-04-22": [
+          {
+            "id": "drv_vodafone_2026-04-22",
+            "day": "2026-04-22",
+            "label": "VODAFONE LTD direct debit",
+            "category": "telecoms",
+            "amount_gbp": -38.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly telecoms payment of \u00a338."
+          }
+        ],
+        "2026-04-23": [
+          {
+            "id": "drv_manchester_city_council_tax_2026-04-23",
+            "day": "2026-04-23",
+            "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly council tax payment of \u00a3118."
+          }
+        ],
+        "2026-04-24": [],
+        "2026-04-25": [],
+        "2026-04-26": [],
+        "2026-04-27": [],
+        "2026-04-28": [],
+        "2026-04-29": []
+      },
+      "learned_summary": {
+        "recurring_bills": [
+          {
+            "id": "rec_manchester_housing_assoc_rent",
+            "merchant": "MANCHESTER HOUSING ASSOC RENT",
+            "normalised_merchant": "manchester housing assoc rent",
+            "category": "housing",
+            "cadence": "monthly",
+            "typical_amount_gbp": 460.0,
+            "typical_day_of_month": 1,
+            "confidence": 0.91
+          },
+          {
+            "id": "rec_e-bike_shield_insurance",
+            "merchant": "E-BIKE SHIELD INSURANCE",
+            "normalised_merchant": "e-bike shield insurance",
+            "category": "insurance",
+            "cadence": "monthly",
+            "typical_amount_gbp": 19.5,
+            "typical_day_of_month": 10,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_octopus_energy",
+            "merchant": "OCTOPUS ENERGY LTD",
+            "normalised_merchant": "octopus energy",
+            "category": "utilities",
+            "cadence": "monthly",
+            "typical_amount_gbp": 68.0,
+            "typical_day_of_month": 15,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_vodafone",
+            "merchant": "VODAFONE LTD",
+            "normalised_merchant": "vodafone",
+            "category": "telecoms",
+            "cadence": "monthly",
+            "typical_amount_gbp": 38.0,
+            "typical_day_of_month": 22,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_manchester_city_council_tax",
+            "merchant": "MANCHESTER CITY COUNCIL TAX",
+            "normalised_merchant": "manchester city council tax",
+            "category": "council_tax",
+            "cadence": "monthly",
+            "typical_amount_gbp": 118.0,
+            "typical_day_of_month": 23,
+            "confidence": 0.95
+          }
+        ],
+        "gig_weekly_mean_gbp": 216.0,
+        "category_stats": {
+          "groceries": {
+            "daily_probability": 0.233,
+            "mean_amount_gbp": 23.18,
+            "std_amount_gbp": 4.32,
+            "weekly_average_gbp": 37.79
+          },
+          "takeaway": {
+            "daily_probability": 0.189,
+            "mean_amount_gbp": 17.78,
+            "std_amount_gbp": 3.01,
+            "weekly_average_gbp": 23.53
+          },
+          "transport": {
+            "daily_probability": 0.121,
+            "mean_amount_gbp": 11.5,
+            "std_amount_gbp": 0.0,
+            "weekly_average_gbp": 9.7
+          }
+        }
+      }
+    },
+    "explainer": {
+      "block_type": "explain",
+      "forecast_id": "fc_2026-03-01_base",
+      "selected_day": "2026-03-23",
+      "reading_age": 9,
+      "language": "en",
+      "text": "Money looks tight around 23 March because three things happen in the same week. Your council tax comes out, your phone bill goes up, and delivery shifts are usually quieter that week. Setting a Pact today lets your calm self protect that week before it arrives.",
+      "translated_text": null,
+      "cited_driver_ids": [
+        "drv_council_tax_2026_03_23",
+        "drv_phone_renewal_2026_03_22",
+        "drv_gig_dip_2026_03_20"
+      ],
+      "drivers": [
+        {
+          "id": "drv_council_tax_2026_03_23",
+          "day": "2026-03-23",
+          "label": "Manchester City Council Tax (\u00a3118)",
+          "category": "council_tax",
+          "amount_gbp": -118.0,
+          "kind": "recurring_bill",
+          "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+        },
+        {
+          "id": "drv_phone_renewal_2026_03_22",
+          "day": "2026-03-22",
+          "label": "Vodafone contract renewal jump (\u00a349)",
+          "category": "telecoms",
+          "amount_gbp": -49.0,
+          "kind": "bill_stepup",
+          "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+        },
+        {
+          "id": "drv_gig_dip_2026_03_20",
+          "day": "2026-03-20",
+          "label": "Low-earnings delivery week (~\u00a352 below average)",
+          "category": "income_gig",
+          "amount_gbp": -52.0,
+          "kind": "income_volatility",
+          "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+        }
+      ]
+    },
+    "ui_blocks": [
+      {
+        "id": "blk_calm_prompt",
+        "kind": "gentle_calm_mode_prompt",
+        "priority": 0
+      },
+      {
+        "id": "blk_headline",
+        "kind": "weather_headline",
+        "priority": 1
+      },
+      {
+        "id": "blk_strip",
+        "kind": "weather_strip_14d",
+        "priority": 2
+      },
+      {
+        "id": "blk_explainer",
+        "kind": "adaptive_explainer",
+        "priority": 3
+      },
+      {
+        "id": "blk_bento",
+        "kind": "bento_metrics_3up",
+        "priority": 4
+      },
+      {
+        "id": "blk_fan_chart",
+        "kind": "time_river_fan_chart",
+        "priority": 5
+      }
+    ],
+    "pact": {
+      "rules": [],
+      "self_note": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight.",
+      "has_confirmed_pact": false
+    },
+    "ally_notification": null
+  },
+  "rewind": {
+    "total_avoidable_fees_gbp": 214.0,
+    "breakdown": [
+      {
+        "kind": "overdraft_fee",
+        "label": "Unarranged overdraft charges (3x \u00a335)",
+        "amount_gbp": 105.0,
+        "count": 3,
+        "rule_that_stops_it": "Move \u00a315 to buffer on payday + \u00a320/wk takeaway cap when storm risk > 30%"
+      },
+      {
+        "kind": "bnpl_late_fee",
+        "label": "Buy Now, Pay Later late fees (Klarna & Clearpay)",
+        "amount_gbp": 51.0,
+        "count": 4,
+        "rule_that_stops_it": "48-hour cooling-off pause on new credit during storm weeks"
+      },
+      {
+        "kind": "poverty_premium",
+        "label": "Monthly insurance APR markups & bounced direct debit fees",
+        "amount_gbp": 58.0,
+        "count": 4,
+        "rule_that_stops_it": "Buffer protection + early storm alert 14 days ahead"
+      }
+    ],
+    "monthly_timeline": [
+      {
+        "month": "2025-03",
+        "label": "Mar '25",
+        "fees_paid_gbp": 0,
+        "fees_with_pact_gbp": 0.0,
+        "events": []
+      },
+      {
+        "month": "2025-04",
+        "label": "Apr '25",
+        "fees_paid_gbp": 14.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1038",
+            "date": "2025-04-11",
+            "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+            "amount_gbp": 14.0,
+            "fee_kind": "instalment_markup",
+            "note": "Monthly insurance APR markup vs annual pay",
+            "how_pact_prevents": "Prevented by buffer reserve covering annual/direct debit cycle"
+          }
+        ]
+      },
+      {
+        "month": "2025-05",
+        "label": "May '25",
+        "fees_paid_gbp": 35.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1078",
+            "date": "2025-05-24",
+            "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+            "amount_gbp": 35.0,
+            "fee_kind": "overdraft_fee",
+            "note": "Triggered after council tax & low gig week",
+            "how_pact_prevents": "Prevented by \u00a315 payday buffer rule & \u00a320/wk takeaway cap before bill day"
+          }
+        ]
+      },
+      {
+        "month": "2025-06",
+        "label": "Jun '25",
+        "fees_paid_gbp": 12.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1101",
+            "date": "2025-06-19",
+            "merchant": "KLARNA LATE PAYMENT FEE",
+            "amount_gbp": 12.0,
+            "fee_kind": "bnpl_late_fee",
+            "note": "Missed BNPL split payment during low-mood week",
+            "how_pact_prevents": "Prevented by 48-hour pause on new BNPL credit during storm weeks"
+          }
+        ]
+      },
+      {
+        "month": "2025-07",
+        "label": "Jul '25",
+        "fees_paid_gbp": 14.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1123",
+            "date": "2025-07-11",
+            "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+            "amount_gbp": 14.0,
+            "fee_kind": "instalment_markup",
+            "note": "Monthly insurance APR markup",
+            "how_pact_prevents": "Prevented by buffer reserve covering annual/direct debit cycle"
+          }
+        ]
+      },
+      {
+        "month": "2025-08",
+        "label": "Aug '25",
+        "fees_paid_gbp": 35.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1167",
+            "date": "2025-08-25",
+            "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+            "amount_gbp": 35.0,
+            "fee_kind": "overdraft_fee",
+            "note": "Shortfall at month end before UC arrived",
+            "how_pact_prevents": "Prevented by \u00a315 payday buffer rule & \u00a320/wk takeaway cap before bill day"
+          }
+        ]
+      },
+      {
+        "month": "2025-09",
+        "label": "Sep '25",
+        "fees_paid_gbp": 12.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1185",
+            "date": "2025-09-17",
+            "merchant": "CLEARPAY LATE FEE",
+            "amount_gbp": 12.0,
+            "fee_kind": "bnpl_late_fee",
+            "note": "Late fee on deferred purchase",
+            "how_pact_prevents": "Prevented by 48-hour pause on new BNPL credit during storm weeks"
+          }
+        ]
+      },
+      {
+        "month": "2025-10",
+        "label": "Oct '25",
+        "fees_paid_gbp": 15.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1218",
+            "date": "2025-10-24",
+            "merchant": "DIRECT DEBIT UNPAID ITEM FEE",
+            "amount_gbp": 15.0,
+            "fee_kind": "poverty_premium",
+            "note": "Bounced telecom direct debit",
+            "how_pact_prevents": "Prevented by buffer reserve covering annual/direct debit cycle"
+          }
+        ]
+      },
+      {
+        "month": "2025-11",
+        "label": "Nov '25",
+        "fees_paid_gbp": 35.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1249",
+            "date": "2025-11-24",
+            "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+            "amount_gbp": 35.0,
+            "fee_kind": "overdraft_fee",
+            "note": "Overdraft fee after winter repair expense",
+            "how_pact_prevents": "Prevented by \u00a315 payday buffer rule & \u00a320/wk takeaway cap before bill day"
+          }
+        ]
+      },
+      {
+        "month": "2025-12",
+        "label": "Dec '25",
+        "fees_paid_gbp": 15.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1268",
+            "date": "2025-12-20",
+            "merchant": "KLARNA LATE PAYMENT FEE",
+            "amount_gbp": 15.0,
+            "fee_kind": "bnpl_late_fee",
+            "note": "Cumulative BNPL late charge",
+            "how_pact_prevents": "Prevented by 48-hour pause on new BNPL credit during storm weeks"
+          }
+        ]
+      },
+      {
+        "month": "2026-01",
+        "label": "Jan '26",
+        "fees_paid_gbp": 12.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1293",
+            "date": "2026-01-18",
+            "merchant": "CLEARPAY LATE FEE",
+            "amount_gbp": 12.0,
+            "fee_kind": "bnpl_late_fee",
+            "note": "January shortfall late fee",
+            "how_pact_prevents": "Prevented by 48-hour pause on new BNPL credit during storm weeks"
+          }
+        ]
+      },
+      {
+        "month": "2026-02",
+        "label": "Feb '26",
+        "fees_paid_gbp": 15.0,
+        "fees_with_pact_gbp": 0.0,
+        "events": [
+          {
+            "id": "tx_1315",
+            "date": "2026-02-11",
+            "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+            "amount_gbp": 15.0,
+            "fee_kind": "instalment_markup",
+            "note": "Renewal monthly payment penalty",
+            "how_pact_prevents": "Prevented by buffer reserve covering annual/direct debit cycle"
+          }
+        ]
+      }
+    ],
+    "fee_events": [
+      {
+        "id": "tx_1038",
+        "date": "2025-04-11",
+        "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+        "amount_gbp": 14.0,
+        "fee_kind": "instalment_markup",
+        "note": "Monthly insurance APR markup vs annual pay"
+      },
+      {
+        "id": "tx_1078",
+        "date": "2025-05-24",
+        "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+        "amount_gbp": 35.0,
+        "fee_kind": "overdraft_fee",
+        "note": "Triggered after council tax & low gig week"
+      },
+      {
+        "id": "tx_1101",
+        "date": "2025-06-19",
+        "merchant": "KLARNA LATE PAYMENT FEE",
+        "amount_gbp": 12.0,
+        "fee_kind": "bnpl_late_fee",
+        "note": "Missed BNPL split payment during low-mood week"
+      },
+      {
+        "id": "tx_1123",
+        "date": "2025-07-11",
+        "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+        "amount_gbp": 14.0,
+        "fee_kind": "instalment_markup",
+        "note": "Monthly insurance APR markup"
+      },
+      {
+        "id": "tx_1167",
+        "date": "2025-08-25",
+        "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+        "amount_gbp": 35.0,
+        "fee_kind": "overdraft_fee",
+        "note": "Shortfall at month end before UC arrived"
+      },
+      {
+        "id": "tx_1185",
+        "date": "2025-09-17",
+        "merchant": "CLEARPAY LATE FEE",
+        "amount_gbp": 12.0,
+        "fee_kind": "bnpl_late_fee",
+        "note": "Late fee on deferred purchase"
+      },
+      {
+        "id": "tx_1218",
+        "date": "2025-10-24",
+        "merchant": "DIRECT DEBIT UNPAID ITEM FEE",
+        "amount_gbp": 15.0,
+        "fee_kind": "poverty_premium",
+        "note": "Bounced telecom direct debit"
+      },
+      {
+        "id": "tx_1249",
+        "date": "2025-11-24",
+        "merchant": "UNARRANGED OVERDRAFT USAGE FEE",
+        "amount_gbp": 35.0,
+        "fee_kind": "overdraft_fee",
+        "note": "Overdraft fee after winter repair expense"
+      },
+      {
+        "id": "tx_1268",
+        "date": "2025-12-20",
+        "merchant": "KLARNA LATE PAYMENT FEE",
+        "amount_gbp": 15.0,
+        "fee_kind": "bnpl_late_fee",
+        "note": "Cumulative BNPL late charge"
+      },
+      {
+        "id": "tx_1293",
+        "date": "2026-01-18",
+        "merchant": "CLEARPAY LATE FEE",
+        "amount_gbp": 12.0,
+        "fee_kind": "bnpl_late_fee",
+        "note": "January shortfall late fee"
+      },
+      {
+        "id": "tx_1315",
+        "date": "2026-02-11",
+        "merchant": "E-BIKE SHIELD INSTALMENT APR FEE",
+        "amount_gbp": 15.0,
+        "fee_kind": "instalment_markup",
+        "note": "Renewal monthly payment penalty"
+      }
+    ]
+  },
+  "parsed_pact": {
+    "valid": true,
+    "rejected_reason": null,
+    "rules": [
+      {
+        "id": "rule_01",
+        "trigger": {
+          "kind": "storm_probability",
+          "threshold": 0.3,
+          "horizon_days": 14
+        },
+        "action": {
+          "kind": "category_cap",
+          "category": "takeaway",
+          "amount_gbp": 20,
+          "period": "week"
+        },
+        "plain_summary": "When a storm is close, keep takeaways to \u00a320 a week.",
+        "confirmed": false
+      },
+      {
+        "id": "rule_02",
+        "trigger": {
+          "kind": "storm_probability",
+          "threshold": 0.3,
+          "horizon_days": 14
+        },
+        "action": {
+          "kind": "credit_pause_hours",
+          "hours": 48
+        },
+        "plain_summary": "Put a 48-hour cooling-off pause on new Buy Now, Pay Later or overdraft borrowing.",
+        "confirmed": false
+      },
+      {
+        "id": "rule_03",
+        "trigger": {
+          "kind": "storm_probability",
+          "threshold": 0.3,
+          "horizon_days": 14
+        },
+        "action": {
+          "kind": "move_to_buffer",
+          "amount_gbp": 15,
+          "when": "next_payday"
+        },
+        "plain_summary": "Move \u00a315 to my safety buffer on payday with one tap.",
+        "confirmed": false
+      },
+      {
+        "id": "rule_04",
+        "trigger": {
+          "kind": "storm_probability",
+          "threshold": 0.3,
+          "horizon_days": 14
+        },
+        "action": {
+          "kind": "notify_ally",
+          "ally_name": "Tunde (Sister)",
+          "channel": "sms_push"
+        },
+        "plain_summary": "Let my sister Tunde know a storm week is near (she never sees my balance or transactions).",
+        "confirmed": false
+      },
+      {
+        "id": "rule_05",
+        "trigger": {
+          "kind": "storm_probability",
+          "threshold": 0.3,
+          "horizon_days": 14
+        },
+        "action": {
+          "kind": "show_note",
+          "note_text": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight."
+        },
+        "plain_summary": "Show my calm-day note at the top of the screen before I make any big money choices.",
+        "confirmed": false
+      }
+    ]
+  },
+  "fast_forward_9_mar": {
+    "persona": {
+      "id": "usr_amara_01",
+      "name": "Amara Okafor",
+      "age": 24,
+      "city": "Manchester",
+      "archetype": "Care leaver & gig delivery rider claiming Universal Credit",
+      "monthly_income_range_gbp": [
+        600,
+        1400
+      ],
+      "current_balance_gbp": 168.4,
+      "buffer_balance_gbp": 25.0,
+      "trusted_ally": {
+        "name": "Tunde (Sister)",
+        "relationship": "Older sister",
+        "phone_masked": "+44 7700 900412",
+        "permissions": "View-only weather state & one alert when a Pact activates. Never sees transactions or balances.",
+        "active": true
+      },
+      "accessibility_profile": {
+        "reading_age": 9,
+        "dyscalculia_mode": false,
+        "calm_layout_prompted": true,
+        "storm_threshold": 0.3,
+        "horizon_days": 14,
+        "language": "en"
+      },
+      "scheduled_one_offs": [
+        {
+          "id": "evt_phone_renewal",
+          "date": "2026-03-22",
+          "merchant": "VODAFONE CONTRACT CPI RENEWAL",
+          "category": "telecoms",
+          "amount": -49.0,
+          "source": "recurring_contract_stepup",
+          "description": "Phone contract annual renewal jump (+\u00a311 increase)"
+        },
+        {
+          "id": "evt_council_tax_mar",
+          "date": "2026-03-23",
+          "merchant": "MANCHESTER CITY COUNCIL TAX",
+          "category": "council_tax",
+          "amount": -118.0,
+          "source": "recurring_bill",
+          "description": "Monthly Council Tax instalment"
+        }
+      ]
+    },
+    "forecast": {
+      "forecast_id": "fc_2026-03-09_base",
+      "as_of": "2026-03-09",
+      "horizon_days": 60,
+      "paths_simulated": 1000,
+      "headline": "You're covered until 19 Mar",
+      "covered_until": "19 Mar",
+      "buffer_days": 10,
+      "next_risk_date": "23 Mar",
+      "next_risk_iso": "2026-03-23",
+      "next_risk_probability": 0.42,
+      "premium_saved_gbp": 214.0,
+      "storm_mode_triggered": true,
+      "storm_action_executed": false,
+      "ally_notified": false,
+      "pattern_shift_detected": true,
+      "pattern_shift_reason": "Takeaway spending this week (\u00a377) is more than double your usual \u00a324/week average.",
+      "thresholds": {
+        "clear_max": 0.1,
+        "storm_min": 0.3
+      },
+      "weather_strip_14d": [
+        {
+          "date": "2026-03-09",
+          "day_offset": 0,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 111.88,
+          "p50_balance_gbp": 137.2,
+          "p90_balance_gbp": 137.2,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 1,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 75.83,
+          "p50_balance_gbp": 101.65,
+          "p90_balance_gbp": 117.7,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 2,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 62.45,
+          "p50_balance_gbp": 93.44,
+          "p90_balance_gbp": 117.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 3,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 48.26,
+          "p50_balance_gbp": 83.2,
+          "p90_balance_gbp": 108.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-13",
+          "day_offset": 4,
+          "label_short": "13 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 210.42,
+          "p50_balance_gbp": 292.38,
+          "p90_balance_gbp": 356.02,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-14",
+          "day_offset": 5,
+          "label_short": "14 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 199.86,
+          "p50_balance_gbp": 280.28,
+          "p90_balance_gbp": 346.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-15",
+          "day_offset": 6,
+          "label_short": "15 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 121.58,
+          "p50_balance_gbp": 205.48,
+          "p90_balance_gbp": 272.78,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-03-15",
+              "day": "2026-03-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-16",
+          "day_offset": 7,
+          "label_short": "16 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 112.67,
+          "p50_balance_gbp": 193.44,
+          "p90_balance_gbp": 264.9,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-17",
+          "day_offset": 8,
+          "label_short": "17 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 100.41,
+          "p50_balance_gbp": 183.64,
+          "p90_balance_gbp": 255.68,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-18",
+          "day_offset": 9,
+          "label_short": "18 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 90.51,
+          "p50_balance_gbp": 173.46,
+          "p90_balance_gbp": 246.43,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 10,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 79.92,
+          "p50_balance_gbp": 163.96,
+          "p90_balance_gbp": 238.39,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-20",
+          "day_offset": 11,
+          "label_short": "20 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 209.3,
+          "p50_balance_gbp": 310.57,
+          "p90_balance_gbp": 395.68,
+          "drivers": [
+            {
+              "id": "drv_gig_dip_2026-03-20",
+              "day": "2026-03-20",
+              "label": "Predicted quieter delivery shift week",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-21",
+          "day_offset": 12,
+          "label_short": "21 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 200.57,
+          "p50_balance_gbp": 302.41,
+          "p90_balance_gbp": 386.21,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-22",
+          "day_offset": 13,
+          "label_short": "22 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.26,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": 134.17,
+          "p50_balance_gbp": 241.89,
+          "p90_balance_gbp": 329.83,
+          "drivers": [
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 14,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.42,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -48.5,
+          "p50_balance_gbp": 12.4,
+          "p90_balance_gbp": 84.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ]
+        }
+      ],
+      "days_60d": [
+        {
+          "date": "2026-03-09",
+          "day_offset": 0,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 111.88,
+          "p50_balance_gbp": 137.2,
+          "p90_balance_gbp": 137.2,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 1,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 75.83,
+          "p50_balance_gbp": 101.65,
+          "p90_balance_gbp": 117.7,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 2,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 62.45,
+          "p50_balance_gbp": 93.44,
+          "p90_balance_gbp": 117.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 3,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 48.26,
+          "p50_balance_gbp": 83.2,
+          "p90_balance_gbp": 108.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-13",
+          "day_offset": 4,
+          "label_short": "13 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 210.42,
+          "p50_balance_gbp": 292.38,
+          "p90_balance_gbp": 356.02,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-14",
+          "day_offset": 5,
+          "label_short": "14 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 199.86,
+          "p50_balance_gbp": 280.28,
+          "p90_balance_gbp": 346.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-15",
+          "day_offset": 6,
+          "label_short": "15 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 121.58,
+          "p50_balance_gbp": 205.48,
+          "p90_balance_gbp": 272.78,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-03-15",
+              "day": "2026-03-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-16",
+          "day_offset": 7,
+          "label_short": "16 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 112.67,
+          "p50_balance_gbp": 193.44,
+          "p90_balance_gbp": 264.9,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-17",
+          "day_offset": 8,
+          "label_short": "17 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 100.41,
+          "p50_balance_gbp": 183.64,
+          "p90_balance_gbp": 255.68,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-18",
+          "day_offset": 9,
+          "label_short": "18 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 90.51,
+          "p50_balance_gbp": 173.46,
+          "p90_balance_gbp": 246.43,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 10,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 79.92,
+          "p50_balance_gbp": 163.96,
+          "p90_balance_gbp": 238.39,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-20",
+          "day_offset": 11,
+          "label_short": "20 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 209.3,
+          "p50_balance_gbp": 310.57,
+          "p90_balance_gbp": 395.68,
+          "drivers": [
+            {
+              "id": "drv_gig_dip_2026-03-20",
+              "day": "2026-03-20",
+              "label": "Predicted quieter delivery shift week",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-21",
+          "day_offset": 12,
+          "label_short": "21 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.16,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 200.57,
+          "p50_balance_gbp": 302.41,
+          "p90_balance_gbp": 386.21,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-22",
+          "day_offset": 13,
+          "label_short": "22 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.26,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": 134.17,
+          "p50_balance_gbp": 241.89,
+          "p90_balance_gbp": 329.83,
+          "drivers": [
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 14,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.42,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -48.5,
+          "p50_balance_gbp": 12.4,
+          "p90_balance_gbp": 84.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-24",
+          "day_offset": 15,
+          "label_short": "24 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": 0.7,
+          "p50_balance_gbp": 106.62,
+          "p90_balance_gbp": 193.59,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-25",
+          "day_offset": 16,
+          "label_short": "25 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -13.42,
+          "p50_balance_gbp": 93.47,
+          "p90_balance_gbp": 188.65,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-26",
+          "day_offset": 17,
+          "label_short": "26 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.36,
+          "odds_in_words": "about 2 in 5",
+          "weather": "storm",
+          "p10_balance_gbp": -23.55,
+          "p50_balance_gbp": 85.31,
+          "p90_balance_gbp": 179.84,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-27",
+          "day_offset": 18,
+          "label_short": "27 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 156.08,
+          "p50_balance_gbp": 290.87,
+          "p90_balance_gbp": 412.14,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-28",
+          "day_offset": 19,
+          "label_short": "28 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 147.44,
+          "p50_balance_gbp": 282.15,
+          "p90_balance_gbp": 402.99,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-29",
+          "day_offset": 20,
+          "label_short": "29 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 138.13,
+          "p50_balance_gbp": 271.97,
+          "p90_balance_gbp": 391.62,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-30",
+          "day_offset": 21,
+          "label_short": "30 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 129.59,
+          "p50_balance_gbp": 263.64,
+          "p90_balance_gbp": 381.79,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-31",
+          "day_offset": 22,
+          "label_short": "31 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 118.28,
+          "p50_balance_gbp": 253.98,
+          "p90_balance_gbp": 375.88,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-01",
+          "day_offset": 23,
+          "label_short": "1 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -354.39,
+          "p50_balance_gbp": -213.97,
+          "p90_balance_gbp": -95.95,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+              "day": "2026-04-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-02",
+          "day_offset": 24,
+          "label_short": "2 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -363.76,
+          "p50_balance_gbp": -226.27,
+          "p90_balance_gbp": -102.52,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-03",
+          "day_offset": 25,
+          "label_short": "3 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -163.31,
+          "p50_balance_gbp": -27.7,
+          "p90_balance_gbp": 115.67,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-04",
+          "day_offset": 26,
+          "label_short": "4 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -172.42,
+          "p50_balance_gbp": -36.39,
+          "p90_balance_gbp": 106.39,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-05",
+          "day_offset": 27,
+          "label_short": "5 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -181.29,
+          "p50_balance_gbp": -43.89,
+          "p90_balance_gbp": 98.75,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-06",
+          "day_offset": 28,
+          "label_short": "6 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -190.62,
+          "p50_balance_gbp": -52.66,
+          "p90_balance_gbp": 89.38,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-07",
+          "day_offset": 29,
+          "label_short": "7 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 93.58,
+          "p50_balance_gbp": 202.71,
+          "p90_balance_gbp": 322.93,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-08",
+          "day_offset": 30,
+          "label_short": "8 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 82.49,
+          "p50_balance_gbp": 194.45,
+          "p90_balance_gbp": 314.66,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-09",
+          "day_offset": 31,
+          "label_short": "9 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 74.56,
+          "p50_balance_gbp": 183.1,
+          "p90_balance_gbp": 306.73,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-10",
+          "day_offset": 32,
+          "label_short": "10 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 236.0,
+          "p50_balance_gbp": 372.37,
+          "p90_balance_gbp": 504.1,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-04-10",
+              "day": "2026-04-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-11",
+          "day_offset": 33,
+          "label_short": "11 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 229.09,
+          "p50_balance_gbp": 361.2,
+          "p90_balance_gbp": 494.55,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-12",
+          "day_offset": 34,
+          "label_short": "12 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 215.99,
+          "p50_balance_gbp": 352.22,
+          "p90_balance_gbp": 485.95,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-13",
+          "day_offset": 35,
+          "label_short": "13 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 202.05,
+          "p50_balance_gbp": 343.0,
+          "p90_balance_gbp": 477.19,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-14",
+          "day_offset": 36,
+          "label_short": "14 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 192.36,
+          "p50_balance_gbp": 335.26,
+          "p90_balance_gbp": 470.35,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-15",
+          "day_offset": 37,
+          "label_short": "15 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 112.15,
+          "p50_balance_gbp": 258.99,
+          "p90_balance_gbp": 398.46,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-04-15",
+              "day": "2026-04-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-16",
+          "day_offset": 38,
+          "label_short": "16 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 103.9,
+          "p50_balance_gbp": 248.52,
+          "p90_balance_gbp": 389.36,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-17",
+          "day_offset": 39,
+          "label_short": "17 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 296.2,
+          "p50_balance_gbp": 453.67,
+          "p90_balance_gbp": 602.67,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-18",
+          "day_offset": 40,
+          "label_short": "18 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 283.51,
+          "p50_balance_gbp": 445.04,
+          "p90_balance_gbp": 595.59,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-19",
+          "day_offset": 41,
+          "label_short": "19 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 274.07,
+          "p50_balance_gbp": 434.12,
+          "p90_balance_gbp": 586.29,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-20",
+          "day_offset": 42,
+          "label_short": "20 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 267.47,
+          "p50_balance_gbp": 427.27,
+          "p90_balance_gbp": 580.99,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-21",
+          "day_offset": 43,
+          "label_short": "21 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 253.02,
+          "p50_balance_gbp": 415.22,
+          "p90_balance_gbp": 570.31,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-22",
+          "day_offset": 44,
+          "label_short": "22 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 205.78,
+          "p50_balance_gbp": 367.26,
+          "p90_balance_gbp": 523.77,
+          "drivers": [
+            {
+              "id": "drv_vodafone_2026-04-22",
+              "day": "2026-04-22",
+              "label": "VODAFONE LTD direct debit",
+              "category": "telecoms",
+              "amount_gbp": -38.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly telecoms payment of \u00a338."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-23",
+          "day_offset": 45,
+          "label_short": "23 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 75.63,
+          "p50_balance_gbp": 240.11,
+          "p90_balance_gbp": 397.93,
+          "drivers": [
+            {
+              "id": "drv_manchester_city_council_tax_2026-04-23",
+              "day": "2026-04-23",
+              "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly council tax payment of \u00a3118."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-24",
+          "day_offset": 46,
+          "label_short": "24 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 274.39,
+          "p50_balance_gbp": 443.33,
+          "p90_balance_gbp": 615.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-25",
+          "day_offset": 47,
+          "label_short": "25 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 263.73,
+          "p50_balance_gbp": 434.65,
+          "p90_balance_gbp": 606.66,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-26",
+          "day_offset": 48,
+          "label_short": "26 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 257.45,
+          "p50_balance_gbp": 427.08,
+          "p90_balance_gbp": 601.57,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-27",
+          "day_offset": 49,
+          "label_short": "27 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 243.5,
+          "p50_balance_gbp": 414.53,
+          "p90_balance_gbp": 592.5,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-28",
+          "day_offset": 50,
+          "label_short": "28 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 234.25,
+          "p50_balance_gbp": 404.77,
+          "p90_balance_gbp": 580.44,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-29",
+          "day_offset": 51,
+          "label_short": "29 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 227.59,
+          "p50_balance_gbp": 395.96,
+          "p90_balance_gbp": 573.93,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-30",
+          "day_offset": 52,
+          "label_short": "30 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 217.77,
+          "p50_balance_gbp": 387.25,
+          "p90_balance_gbp": 566.96,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-01",
+          "day_offset": 53,
+          "label_short": "1 May",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.17,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": -52.99,
+          "p50_balance_gbp": 130.94,
+          "p90_balance_gbp": 312.82,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-05-01",
+              "day": "2026-05-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-05-02",
+          "day_offset": 54,
+          "label_short": "2 May",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.2,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": -68.94,
+          "p50_balance_gbp": 121.03,
+          "p90_balance_gbp": 309.39,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-03",
+          "day_offset": 55,
+          "label_short": "3 May",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.21,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": -74.68,
+          "p50_balance_gbp": 115.18,
+          "p90_balance_gbp": 297.84,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-04",
+          "day_offset": 56,
+          "label_short": "4 May",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.23,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -80.66,
+          "p50_balance_gbp": 104.32,
+          "p90_balance_gbp": 287.62,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-05",
+          "day_offset": 57,
+          "label_short": "5 May",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -93.0,
+          "p50_balance_gbp": 94.2,
+          "p90_balance_gbp": 279.46,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-06",
+          "day_offset": 58,
+          "label_short": "6 May",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -108.16,
+          "p50_balance_gbp": 85.17,
+          "p90_balance_gbp": 267.55,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-07",
+          "day_offset": 59,
+          "label_short": "7 May",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 356.64,
+          "p50_balance_gbp": 507.65,
+          "p90_balance_gbp": 664.47,
+          "drivers": []
+        }
+      ],
+      "drivers_by_day": {
+        "2026-03-09": [],
+        "2026-03-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-03-10",
+            "day": "2026-03-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-03-11": [],
+        "2026-03-12": [],
+        "2026-03-13": [],
+        "2026-03-14": [],
+        "2026-03-15": [
+          {
+            "id": "drv_octopus_energy_2026-03-15",
+            "day": "2026-03-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-03-16": [],
+        "2026-03-17": [],
+        "2026-03-18": [],
+        "2026-03-19": [],
+        "2026-03-20": [
+          {
+            "id": "drv_gig_dip_2026-03-20",
+            "day": "2026-03-20",
+            "label": "Predicted quieter delivery shift week",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+          }
+        ],
+        "2026-03-21": [],
+        "2026-03-22": [
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+          }
+        ],
+        "2026-03-23": [
+          {
+            "id": "drv_council_tax_2026_03_23",
+            "day": "2026-03-23",
+            "label": "Manchester City Council Tax (\u00a3118)",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+          },
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone contract renewal jump (\u00a349)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+          },
+          {
+            "id": "drv_gig_dip_2026_03_20",
+            "day": "2026-03-20",
+            "label": "Low-earnings delivery week (~\u00a352 below average)",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+          }
+        ],
+        "2026-03-24": [],
+        "2026-03-25": [],
+        "2026-03-26": [],
+        "2026-03-27": [],
+        "2026-03-28": [],
+        "2026-03-29": [],
+        "2026-03-30": [],
+        "2026-03-31": [],
+        "2026-04-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+            "day": "2026-04-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-04-02": [],
+        "2026-04-03": [],
+        "2026-04-04": [],
+        "2026-04-05": [],
+        "2026-04-06": [],
+        "2026-04-07": [],
+        "2026-04-08": [],
+        "2026-04-09": [],
+        "2026-04-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-04-10",
+            "day": "2026-04-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-04-11": [],
+        "2026-04-12": [],
+        "2026-04-13": [],
+        "2026-04-14": [],
+        "2026-04-15": [
+          {
+            "id": "drv_octopus_energy_2026-04-15",
+            "day": "2026-04-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-04-16": [],
+        "2026-04-17": [],
+        "2026-04-18": [],
+        "2026-04-19": [],
+        "2026-04-20": [],
+        "2026-04-21": [],
+        "2026-04-22": [
+          {
+            "id": "drv_vodafone_2026-04-22",
+            "day": "2026-04-22",
+            "label": "VODAFONE LTD direct debit",
+            "category": "telecoms",
+            "amount_gbp": -38.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly telecoms payment of \u00a338."
+          }
+        ],
+        "2026-04-23": [
+          {
+            "id": "drv_manchester_city_council_tax_2026-04-23",
+            "day": "2026-04-23",
+            "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly council tax payment of \u00a3118."
+          }
+        ],
+        "2026-04-24": [],
+        "2026-04-25": [],
+        "2026-04-26": [],
+        "2026-04-27": [],
+        "2026-04-28": [],
+        "2026-04-29": [],
+        "2026-04-30": [],
+        "2026-05-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-05-01",
+            "day": "2026-05-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-05-02": [],
+        "2026-05-03": [],
+        "2026-05-04": [],
+        "2026-05-05": [],
+        "2026-05-06": [],
+        "2026-05-07": []
+      },
+      "learned_summary": {
+        "recurring_bills": [
+          {
+            "id": "rec_manchester_housing_assoc_rent",
+            "merchant": "MANCHESTER HOUSING ASSOC RENT",
+            "normalised_merchant": "manchester housing assoc rent",
+            "category": "housing",
+            "cadence": "monthly",
+            "typical_amount_gbp": 460.0,
+            "typical_day_of_month": 1,
+            "confidence": 0.91
+          },
+          {
+            "id": "rec_e-bike_shield_insurance",
+            "merchant": "E-BIKE SHIELD INSURANCE",
+            "normalised_merchant": "e-bike shield insurance",
+            "category": "insurance",
+            "cadence": "monthly",
+            "typical_amount_gbp": 19.5,
+            "typical_day_of_month": 10,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_octopus_energy",
+            "merchant": "OCTOPUS ENERGY LTD",
+            "normalised_merchant": "octopus energy",
+            "category": "utilities",
+            "cadence": "monthly",
+            "typical_amount_gbp": 68.0,
+            "typical_day_of_month": 15,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_vodafone",
+            "merchant": "VODAFONE LTD",
+            "normalised_merchant": "vodafone",
+            "category": "telecoms",
+            "cadence": "monthly",
+            "typical_amount_gbp": 38.0,
+            "typical_day_of_month": 22,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_manchester_city_council_tax",
+            "merchant": "MANCHESTER CITY COUNCIL TAX",
+            "normalised_merchant": "manchester city council tax",
+            "category": "council_tax",
+            "cadence": "monthly",
+            "typical_amount_gbp": 118.0,
+            "typical_day_of_month": 23,
+            "confidence": 0.95
+          }
+        ],
+        "gig_weekly_mean_gbp": 216.0,
+        "category_stats": {
+          "groceries": {
+            "daily_probability": 0.233,
+            "mean_amount_gbp": 23.18,
+            "std_amount_gbp": 4.32,
+            "weekly_average_gbp": 37.79
+          },
+          "takeaway": {
+            "daily_probability": 0.189,
+            "mean_amount_gbp": 17.78,
+            "std_amount_gbp": 3.01,
+            "weekly_average_gbp": 23.53
+          },
+          "transport": {
+            "daily_probability": 0.121,
+            "mean_amount_gbp": 11.5,
+            "std_amount_gbp": 0.0,
+            "weekly_average_gbp": 9.7
+          }
+        }
+      }
+    },
+    "explainer": {
+      "block_type": "explain",
+      "forecast_id": "fc_2026-03-09_base",
+      "selected_day": "2026-03-23",
+      "reading_age": 9,
+      "language": "en",
+      "text": "Money looks tight around 23 March because three things happen in the same week. Your council tax comes out, your phone bill goes up, and delivery shifts are usually quieter that week. Setting a Pact today lets your calm self protect that week before it arrives.",
+      "translated_text": null,
+      "cited_driver_ids": [
+        "drv_council_tax_2026_03_23",
+        "drv_phone_renewal_2026_03_22",
+        "drv_gig_dip_2026_03_20"
+      ],
+      "drivers": [
+        {
+          "id": "drv_council_tax_2026_03_23",
+          "day": "2026-03-23",
+          "label": "Manchester City Council Tax (\u00a3118)",
+          "category": "council_tax",
+          "amount_gbp": -118.0,
+          "kind": "recurring_bill",
+          "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+        },
+        {
+          "id": "drv_phone_renewal_2026_03_22",
+          "day": "2026-03-22",
+          "label": "Vodafone contract renewal jump (\u00a349)",
+          "category": "telecoms",
+          "amount_gbp": -49.0,
+          "kind": "bill_stepup",
+          "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+        },
+        {
+          "id": "drv_gig_dip_2026_03_20",
+          "day": "2026-03-20",
+          "label": "Low-earnings delivery week (~\u00a352 below average)",
+          "category": "income_gig",
+          "amount_gbp": -52.0,
+          "kind": "income_volatility",
+          "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+        }
+      ]
+    },
+    "ui_blocks": [
+      {
+        "id": "blk_self_note",
+        "kind": "self_note_banner",
+        "priority": 1
+      },
+      {
+        "id": "blk_one_action",
+        "kind": "storm_single_action",
+        "priority": 2
+      },
+      {
+        "id": "blk_storm_drivers",
+        "kind": "storm_drivers_card",
+        "priority": 3
+      }
+    ],
+    "pact": {
+      "rules": [
+        {
+          "id": "rule_01",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "category_cap",
+            "category": "takeaway",
+            "amount_gbp": 20,
+            "period": "week"
+          },
+          "plain_summary": "When a storm is close, keep takeaways to \u00a320 a week.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_02",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "credit_pause_hours",
+            "hours": 48
+          },
+          "plain_summary": "Put a 48-hour cooling-off pause on new Buy Now, Pay Later or overdraft borrowing.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_03",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "move_to_buffer",
+            "amount_gbp": 15,
+            "when": "next_payday"
+          },
+          "plain_summary": "Move \u00a315 to my safety buffer on payday with one tap.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_04",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "notify_ally",
+            "ally_name": "Tunde (Sister)",
+            "channel": "sms_push"
+          },
+          "plain_summary": "Let my sister Tunde know a storm week is near (she never sees my balance or transactions).",
+          "confirmed": true
+        },
+        {
+          "id": "rule_05",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "show_note",
+            "note_text": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight."
+          },
+          "plain_summary": "Show my calm-day note at the top of the screen before I make any big money choices.",
+          "confirmed": true
+        }
+      ],
+      "self_note": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight.",
+      "has_confirmed_pact": true
+    },
+    "ally_notification": {
+      "sent": true,
+      "recipient": "Tunde (Sister)",
+      "timestamp": "2026-03-09 09:02",
+      "message": "Foresight Weather Alert: Amara's cashflow forecast entered Storm Mode for 23 Mar. Her calm-day Pact is active. (No balance or transaction data is shared)."
+    }
+  },
+  "protected_9_mar": {
+    "persona": {
+      "id": "usr_amara_01",
+      "name": "Amara Okafor",
+      "age": 24,
+      "city": "Manchester",
+      "archetype": "Care leaver & gig delivery rider claiming Universal Credit",
+      "monthly_income_range_gbp": [
+        600,
+        1400
+      ],
+      "current_balance_gbp": 168.4,
+      "buffer_balance_gbp": 25.0,
+      "trusted_ally": {
+        "name": "Tunde (Sister)",
+        "relationship": "Older sister",
+        "phone_masked": "+44 7700 900412",
+        "permissions": "View-only weather state & one alert when a Pact activates. Never sees transactions or balances.",
+        "active": true
+      },
+      "accessibility_profile": {
+        "reading_age": 9,
+        "dyscalculia_mode": false,
+        "calm_layout_prompted": true,
+        "storm_threshold": 0.3,
+        "horizon_days": 14,
+        "language": "en"
+      },
+      "scheduled_one_offs": [
+        {
+          "id": "evt_phone_renewal",
+          "date": "2026-03-22",
+          "merchant": "VODAFONE CONTRACT CPI RENEWAL",
+          "category": "telecoms",
+          "amount": -49.0,
+          "source": "recurring_contract_stepup",
+          "description": "Phone contract annual renewal jump (+\u00a311 increase)"
+        },
+        {
+          "id": "evt_council_tax_mar",
+          "date": "2026-03-23",
+          "merchant": "MANCHESTER CITY COUNCIL TAX",
+          "category": "council_tax",
+          "amount": -118.0,
+          "source": "recurring_bill",
+          "description": "Monthly Council Tax instalment"
+        }
+      ]
+    },
+    "forecast": {
+      "forecast_id": "fc_2026-03-09_protected",
+      "as_of": "2026-03-09",
+      "horizon_days": 60,
+      "paths_simulated": 1000,
+      "headline": "Your Pact softened the 23 Mar storm to cloudy",
+      "covered_until": "22 Mar",
+      "buffer_days": 13,
+      "next_risk_date": "23 Mar",
+      "next_risk_iso": "2026-03-23",
+      "next_risk_probability": 0.18,
+      "premium_saved_gbp": 214.0,
+      "storm_mode_triggered": false,
+      "storm_action_executed": true,
+      "ally_notified": true,
+      "pattern_shift_detected": true,
+      "pattern_shift_reason": "Takeaway spending this week (\u00a377) is more than double your usual \u00a324/week average.",
+      "thresholds": {
+        "clear_max": 0.1,
+        "storm_min": 0.3
+      },
+      "weather_strip_14d": [
+        {
+          "date": "2026-03-09",
+          "day_offset": 0,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 155.11,
+          "p50_balance_gbp": 179.2,
+          "p90_balance_gbp": 179.2,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 1,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 122.88,
+          "p50_balance_gbp": 148.2,
+          "p90_balance_gbp": 159.7,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 2,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 108.81,
+          "p50_balance_gbp": 136.98,
+          "p90_balance_gbp": 159.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 3,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 95.81,
+          "p50_balance_gbp": 127.91,
+          "p90_balance_gbp": 150.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-13",
+          "day_offset": 4,
+          "label_short": "13 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 258.52,
+          "p50_balance_gbp": 338.33,
+          "p90_balance_gbp": 401.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-14",
+          "day_offset": 5,
+          "label_short": "14 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 250.48,
+          "p50_balance_gbp": 328.56,
+          "p90_balance_gbp": 392.54,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-15",
+          "day_offset": 6,
+          "label_short": "15 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 170.98,
+          "p50_balance_gbp": 251.44,
+          "p90_balance_gbp": 315.87,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-03-15",
+              "day": "2026-03-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-16",
+          "day_offset": 7,
+          "label_short": "16 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 162.36,
+          "p50_balance_gbp": 241.49,
+          "p90_balance_gbp": 309.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-17",
+          "day_offset": 8,
+          "label_short": "17 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 149.66,
+          "p50_balance_gbp": 233.29,
+          "p90_balance_gbp": 303.15,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-18",
+          "day_offset": 9,
+          "label_short": "18 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 142.89,
+          "p50_balance_gbp": 222.71,
+          "p90_balance_gbp": 293.27,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 10,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 131.68,
+          "p50_balance_gbp": 216.76,
+          "p90_balance_gbp": 288.92,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-20",
+          "day_offset": 11,
+          "label_short": "20 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 263.41,
+          "p50_balance_gbp": 361.54,
+          "p90_balance_gbp": 444.18,
+          "drivers": [
+            {
+              "id": "drv_gig_dip_2026-03-20",
+              "day": "2026-03-20",
+              "label": "Predicted quieter delivery shift week",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-21",
+          "day_offset": 12,
+          "label_short": "21 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 254.05,
+          "p50_balance_gbp": 355.42,
+          "p90_balance_gbp": 436.93,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-22",
+          "day_offset": 13,
+          "label_short": "22 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.12,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 191.41,
+          "p50_balance_gbp": 296.83,
+          "p90_balance_gbp": 379.27,
+          "drivers": [
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 14,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.18,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 8.2,
+          "p50_balance_gbp": 69.4,
+          "p90_balance_gbp": 138.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ]
+        }
+      ],
+      "days_60d": [
+        {
+          "date": "2026-03-09",
+          "day_offset": 0,
+          "label_short": "9 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 155.11,
+          "p50_balance_gbp": 179.2,
+          "p90_balance_gbp": 179.2,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-10",
+          "day_offset": 1,
+          "label_short": "10 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 122.88,
+          "p50_balance_gbp": 148.2,
+          "p90_balance_gbp": 159.7,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-03-10",
+              "day": "2026-03-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-11",
+          "day_offset": 2,
+          "label_short": "11 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 108.81,
+          "p50_balance_gbp": 136.98,
+          "p90_balance_gbp": 159.7,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-12",
+          "day_offset": 3,
+          "label_short": "12 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 95.81,
+          "p50_balance_gbp": 127.91,
+          "p90_balance_gbp": 150.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-13",
+          "day_offset": 4,
+          "label_short": "13 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 258.52,
+          "p50_balance_gbp": 338.33,
+          "p90_balance_gbp": 401.71,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-14",
+          "day_offset": 5,
+          "label_short": "14 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 250.48,
+          "p50_balance_gbp": 328.56,
+          "p90_balance_gbp": 392.54,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-15",
+          "day_offset": 6,
+          "label_short": "15 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 170.98,
+          "p50_balance_gbp": 251.44,
+          "p90_balance_gbp": 315.87,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-03-15",
+              "day": "2026-03-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-16",
+          "day_offset": 7,
+          "label_short": "16 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 162.36,
+          "p50_balance_gbp": 241.49,
+          "p90_balance_gbp": 309.6,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-17",
+          "day_offset": 8,
+          "label_short": "17 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 149.66,
+          "p50_balance_gbp": 233.29,
+          "p90_balance_gbp": 303.15,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-18",
+          "day_offset": 9,
+          "label_short": "18 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.0,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 142.89,
+          "p50_balance_gbp": 222.71,
+          "p90_balance_gbp": 293.27,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-19",
+          "day_offset": 10,
+          "label_short": "19 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 131.68,
+          "p50_balance_gbp": 216.76,
+          "p90_balance_gbp": 288.92,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-20",
+          "day_offset": 11,
+          "label_short": "20 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 263.41,
+          "p50_balance_gbp": 361.54,
+          "p90_balance_gbp": 444.18,
+          "drivers": [
+            {
+              "id": "drv_gig_dip_2026-03-20",
+              "day": "2026-03-20",
+              "label": "Predicted quieter delivery shift week",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-21",
+          "day_offset": 12,
+          "label_short": "21 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 254.05,
+          "p50_balance_gbp": 355.42,
+          "p90_balance_gbp": 436.93,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-22",
+          "day_offset": 13,
+          "label_short": "22 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.12,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 191.41,
+          "p50_balance_gbp": 296.83,
+          "p90_balance_gbp": 379.27,
+          "drivers": [
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-23",
+          "day_offset": 14,
+          "label_short": "23 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.18,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 8.2,
+          "p50_balance_gbp": 69.4,
+          "p90_balance_gbp": 138.0,
+          "drivers": [
+            {
+              "id": "drv_council_tax_2026_03_23",
+              "day": "2026-03-23",
+              "label": "Manchester City Council Tax (\u00a3118)",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+            },
+            {
+              "id": "drv_phone_renewal_2026_03_22",
+              "day": "2026-03-22",
+              "label": "Vodafone contract renewal jump (\u00a349)",
+              "category": "telecoms",
+              "amount_gbp": -49.0,
+              "kind": "bill_stepup",
+              "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+            },
+            {
+              "id": "drv_gig_dip_2026_03_20",
+              "day": "2026-03-20",
+              "label": "Low-earnings delivery week (~\u00a352 below average)",
+              "category": "income_gig",
+              "amount_gbp": -52.0,
+              "kind": "income_volatility",
+              "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+            }
+          ]
+        },
+        {
+          "date": "2026-03-24",
+          "day_offset": 15,
+          "label_short": "24 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.14,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 57.72,
+          "p50_balance_gbp": 160.79,
+          "p90_balance_gbp": 244.83,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-25",
+          "day_offset": 16,
+          "label_short": "25 Mar",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.14,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 45.49,
+          "p50_balance_gbp": 152.88,
+          "p90_balance_gbp": 237.79,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-26",
+          "day_offset": 17,
+          "label_short": "26 Mar",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.14,
+          "odds_in_words": "about 1 in 6",
+          "weather": "cloudy",
+          "p10_balance_gbp": 37.54,
+          "p50_balance_gbp": 143.6,
+          "p90_balance_gbp": 233.46,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-27",
+          "day_offset": 18,
+          "label_short": "27 Mar",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 221.23,
+          "p50_balance_gbp": 352.3,
+          "p90_balance_gbp": 467.5,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-28",
+          "day_offset": 19,
+          "label_short": "28 Mar",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 209.0,
+          "p50_balance_gbp": 343.99,
+          "p90_balance_gbp": 458.21,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-29",
+          "day_offset": 20,
+          "label_short": "29 Mar",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 201.53,
+          "p50_balance_gbp": 331.76,
+          "p90_balance_gbp": 449.18,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-30",
+          "day_offset": 21,
+          "label_short": "30 Mar",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 192.74,
+          "p50_balance_gbp": 325.77,
+          "p90_balance_gbp": 441.42,
+          "drivers": []
+        },
+        {
+          "date": "2026-03-31",
+          "day_offset": 22,
+          "label_short": "31 Mar",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 184.27,
+          "p50_balance_gbp": 315.88,
+          "p90_balance_gbp": 437.19,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-01",
+          "day_offset": 23,
+          "label_short": "1 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -286.83,
+          "p50_balance_gbp": -151.65,
+          "p90_balance_gbp": -33.92,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+              "day": "2026-04-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-02",
+          "day_offset": 24,
+          "label_short": "2 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -297.4,
+          "p50_balance_gbp": -163.04,
+          "p90_balance_gbp": -42.97,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-03",
+          "day_offset": 25,
+          "label_short": "3 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -95.36,
+          "p50_balance_gbp": 39.24,
+          "p90_balance_gbp": 181.23,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-04",
+          "day_offset": 26,
+          "label_short": "4 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -104.61,
+          "p50_balance_gbp": 30.62,
+          "p90_balance_gbp": 170.56,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-05",
+          "day_offset": 27,
+          "label_short": "5 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -111.59,
+          "p50_balance_gbp": 24.16,
+          "p90_balance_gbp": 161.48,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-06",
+          "day_offset": 28,
+          "label_short": "6 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.24,
+          "odds_in_words": "about 1 in 4",
+          "weather": "cloudy",
+          "p10_balance_gbp": -119.25,
+          "p50_balance_gbp": 16.32,
+          "p90_balance_gbp": 154.33,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-07",
+          "day_offset": 29,
+          "label_short": "7 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 166.91,
+          "p50_balance_gbp": 271.9,
+          "p90_balance_gbp": 388.57,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-08",
+          "day_offset": 30,
+          "label_short": "8 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 156.51,
+          "p50_balance_gbp": 264.39,
+          "p90_balance_gbp": 379.02,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-09",
+          "day_offset": 31,
+          "label_short": "9 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 146.99,
+          "p50_balance_gbp": 256.42,
+          "p90_balance_gbp": 370.27,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-10",
+          "day_offset": 32,
+          "label_short": "10 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 310.98,
+          "p50_balance_gbp": 443.84,
+          "p90_balance_gbp": 572.31,
+          "drivers": [
+            {
+              "id": "drv_e-bike_shield_insurance_2026-04-10",
+              "day": "2026-04-10",
+              "label": "E-BIKE SHIELD INSURANCE direct debit",
+              "category": "insurance",
+              "amount_gbp": -19.5,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly insurance payment of \u00a320."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-11",
+          "day_offset": 33,
+          "label_short": "11 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 301.6,
+          "p50_balance_gbp": 435.96,
+          "p90_balance_gbp": 558.77,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-12",
+          "day_offset": 34,
+          "label_short": "12 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 294.53,
+          "p50_balance_gbp": 427.32,
+          "p90_balance_gbp": 555.59,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-13",
+          "day_offset": 35,
+          "label_short": "13 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 281.86,
+          "p50_balance_gbp": 418.52,
+          "p90_balance_gbp": 550.4,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-14",
+          "day_offset": 36,
+          "label_short": "14 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 270.03,
+          "p50_balance_gbp": 408.19,
+          "p90_balance_gbp": 542.97,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-15",
+          "day_offset": 37,
+          "label_short": "15 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 196.1,
+          "p50_balance_gbp": 332.93,
+          "p90_balance_gbp": 468.44,
+          "drivers": [
+            {
+              "id": "drv_octopus_energy_2026-04-15",
+              "day": "2026-04-15",
+              "label": "OCTOPUS ENERGY LTD direct debit",
+              "category": "utilities",
+              "amount_gbp": -68.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly utilities payment of \u00a368."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-16",
+          "day_offset": 38,
+          "label_short": "16 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 187.11,
+          "p50_balance_gbp": 322.95,
+          "p90_balance_gbp": 460.53,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-17",
+          "day_offset": 39,
+          "label_short": "17 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 376.33,
+          "p50_balance_gbp": 533.66,
+          "p90_balance_gbp": 676.33,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-18",
+          "day_offset": 40,
+          "label_short": "18 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 366.11,
+          "p50_balance_gbp": 524.9,
+          "p90_balance_gbp": 668.02,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-19",
+          "day_offset": 41,
+          "label_short": "19 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 358.47,
+          "p50_balance_gbp": 513.37,
+          "p90_balance_gbp": 660.72,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-20",
+          "day_offset": 42,
+          "label_short": "20 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 347.95,
+          "p50_balance_gbp": 505.83,
+          "p90_balance_gbp": 655.39,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-21",
+          "day_offset": 43,
+          "label_short": "21 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 336.94,
+          "p50_balance_gbp": 498.4,
+          "p90_balance_gbp": 645.55,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-22",
+          "day_offset": 44,
+          "label_short": "22 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 293.88,
+          "p50_balance_gbp": 451.51,
+          "p90_balance_gbp": 597.34,
+          "drivers": [
+            {
+              "id": "drv_vodafone_2026-04-22",
+              "day": "2026-04-22",
+              "label": "VODAFONE LTD direct debit",
+              "category": "telecoms",
+              "amount_gbp": -38.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly telecoms payment of \u00a338."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-23",
+          "day_offset": 45,
+          "label_short": "23 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 163.05,
+          "p50_balance_gbp": 325.69,
+          "p90_balance_gbp": 471.95,
+          "drivers": [
+            {
+              "id": "drv_manchester_city_council_tax_2026-04-23",
+              "day": "2026-04-23",
+              "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+              "category": "council_tax",
+              "amount_gbp": -118.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly council tax payment of \u00a3118."
+            }
+          ]
+        },
+        {
+          "date": "2026-04-24",
+          "day_offset": 46,
+          "label_short": "24 Apr",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 355.61,
+          "p50_balance_gbp": 529.49,
+          "p90_balance_gbp": 692.89,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-25",
+          "day_offset": 47,
+          "label_short": "25 Apr",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 348.59,
+          "p50_balance_gbp": 521.96,
+          "p90_balance_gbp": 684.07,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-26",
+          "day_offset": 48,
+          "label_short": "26 Apr",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 344.83,
+          "p50_balance_gbp": 512.28,
+          "p90_balance_gbp": 674.5,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-27",
+          "day_offset": 49,
+          "label_short": "27 Apr",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 340.84,
+          "p50_balance_gbp": 502.98,
+          "p90_balance_gbp": 664.12,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-28",
+          "day_offset": 50,
+          "label_short": "28 Apr",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 331.23,
+          "p50_balance_gbp": 493.38,
+          "p90_balance_gbp": 659.66,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-29",
+          "day_offset": 51,
+          "label_short": "29 Apr",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 322.15,
+          "p50_balance_gbp": 484.8,
+          "p90_balance_gbp": 650.61,
+          "drivers": []
+        },
+        {
+          "date": "2026-04-30",
+          "day_offset": 52,
+          "label_short": "30 Apr",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 313.5,
+          "p50_balance_gbp": 474.11,
+          "p90_balance_gbp": 646.54,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-01",
+          "day_offset": 53,
+          "label_short": "1 May",
+          "weekday_short": "Fri",
+          "shortfall_probability": 0.06,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 45.58,
+          "p50_balance_gbp": 224.26,
+          "p90_balance_gbp": 394.98,
+          "drivers": [
+            {
+              "id": "drv_manchester_housing_assoc_rent_2026-05-01",
+              "day": "2026-05-01",
+              "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+              "category": "housing",
+              "amount_gbp": -460.0,
+              "kind": "recurring_bill",
+              "explanation": "Regular monthly housing payment of \u00a3460."
+            }
+          ]
+        },
+        {
+          "date": "2026-05-02",
+          "day_offset": 54,
+          "label_short": "2 May",
+          "weekday_short": "Sat",
+          "shortfall_probability": 0.07,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 41.02,
+          "p50_balance_gbp": 215.2,
+          "p90_balance_gbp": 390.96,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-03",
+          "day_offset": 55,
+          "label_short": "3 May",
+          "weekday_short": "Sun",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 33.45,
+          "p50_balance_gbp": 209.44,
+          "p90_balance_gbp": 385.04,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-04",
+          "day_offset": 56,
+          "label_short": "4 May",
+          "weekday_short": "Mon",
+          "shortfall_probability": 0.08,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 23.81,
+          "p50_balance_gbp": 199.26,
+          "p90_balance_gbp": 375.88,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-05",
+          "day_offset": 57,
+          "label_short": "5 May",
+          "weekday_short": "Tue",
+          "shortfall_probability": 0.09,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 9.75,
+          "p50_balance_gbp": 190.89,
+          "p90_balance_gbp": 366.94,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-06",
+          "day_offset": 58,
+          "label_short": "6 May",
+          "weekday_short": "Wed",
+          "shortfall_probability": 0.1,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 4.44,
+          "p50_balance_gbp": 184.93,
+          "p90_balance_gbp": 357.73,
+          "drivers": []
+        },
+        {
+          "date": "2026-05-07",
+          "day_offset": 59,
+          "label_short": "7 May",
+          "weekday_short": "Thu",
+          "shortfall_probability": 0.04,
+          "odds_in_words": "less than 1 in 10",
+          "weather": "clear",
+          "p10_balance_gbp": 457.55,
+          "p50_balance_gbp": 604.87,
+          "p90_balance_gbp": 750.05,
+          "drivers": []
+        }
+      ],
+      "drivers_by_day": {
+        "2026-03-09": [],
+        "2026-03-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-03-10",
+            "day": "2026-03-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-03-11": [],
+        "2026-03-12": [],
+        "2026-03-13": [],
+        "2026-03-14": [],
+        "2026-03-15": [
+          {
+            "id": "drv_octopus_energy_2026-03-15",
+            "day": "2026-03-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-03-16": [],
+        "2026-03-17": [],
+        "2026-03-18": [],
+        "2026-03-19": [],
+        "2026-03-20": [
+          {
+            "id": "drv_gig_dip_2026-03-20",
+            "day": "2026-03-20",
+            "label": "Predicted quieter delivery shift week",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March gig rider demand dips ~28% between paydays."
+          }
+        ],
+        "2026-03-21": [],
+        "2026-03-22": [
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone annual contract renewal (+\u00a311 jump)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Your \u00a338/month phone plan steps up to \u00a349/month on 22 March."
+          }
+        ],
+        "2026-03-23": [
+          {
+            "id": "drv_council_tax_2026_03_23",
+            "day": "2026-03-23",
+            "label": "Manchester City Council Tax (\u00a3118)",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+          },
+          {
+            "id": "drv_phone_renewal_2026_03_22",
+            "day": "2026-03-22",
+            "label": "Vodafone contract renewal jump (\u00a349)",
+            "category": "telecoms",
+            "amount_gbp": -49.0,
+            "kind": "bill_stepup",
+            "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+          },
+          {
+            "id": "drv_gig_dip_2026_03_20",
+            "day": "2026-03-20",
+            "label": "Low-earnings delivery week (~\u00a352 below average)",
+            "category": "income_gig",
+            "amount_gbp": -52.0,
+            "kind": "income_volatility",
+            "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+          }
+        ],
+        "2026-03-24": [],
+        "2026-03-25": [],
+        "2026-03-26": [],
+        "2026-03-27": [],
+        "2026-03-28": [],
+        "2026-03-29": [],
+        "2026-03-30": [],
+        "2026-03-31": [],
+        "2026-04-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-04-01",
+            "day": "2026-04-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-04-02": [],
+        "2026-04-03": [],
+        "2026-04-04": [],
+        "2026-04-05": [],
+        "2026-04-06": [],
+        "2026-04-07": [],
+        "2026-04-08": [],
+        "2026-04-09": [],
+        "2026-04-10": [
+          {
+            "id": "drv_e-bike_shield_insurance_2026-04-10",
+            "day": "2026-04-10",
+            "label": "E-BIKE SHIELD INSURANCE direct debit",
+            "category": "insurance",
+            "amount_gbp": -19.5,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly insurance payment of \u00a320."
+          }
+        ],
+        "2026-04-11": [],
+        "2026-04-12": [],
+        "2026-04-13": [],
+        "2026-04-14": [],
+        "2026-04-15": [
+          {
+            "id": "drv_octopus_energy_2026-04-15",
+            "day": "2026-04-15",
+            "label": "OCTOPUS ENERGY LTD direct debit",
+            "category": "utilities",
+            "amount_gbp": -68.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly utilities payment of \u00a368."
+          }
+        ],
+        "2026-04-16": [],
+        "2026-04-17": [],
+        "2026-04-18": [],
+        "2026-04-19": [],
+        "2026-04-20": [],
+        "2026-04-21": [],
+        "2026-04-22": [
+          {
+            "id": "drv_vodafone_2026-04-22",
+            "day": "2026-04-22",
+            "label": "VODAFONE LTD direct debit",
+            "category": "telecoms",
+            "amount_gbp": -38.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly telecoms payment of \u00a338."
+          }
+        ],
+        "2026-04-23": [
+          {
+            "id": "drv_manchester_city_council_tax_2026-04-23",
+            "day": "2026-04-23",
+            "label": "MANCHESTER CITY COUNCIL TAX direct debit",
+            "category": "council_tax",
+            "amount_gbp": -118.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly council tax payment of \u00a3118."
+          }
+        ],
+        "2026-04-24": [],
+        "2026-04-25": [],
+        "2026-04-26": [],
+        "2026-04-27": [],
+        "2026-04-28": [],
+        "2026-04-29": [],
+        "2026-04-30": [],
+        "2026-05-01": [
+          {
+            "id": "drv_manchester_housing_assoc_rent_2026-05-01",
+            "day": "2026-05-01",
+            "label": "MANCHESTER HOUSING ASSOC RENT direct debit",
+            "category": "housing",
+            "amount_gbp": -460.0,
+            "kind": "recurring_bill",
+            "explanation": "Regular monthly housing payment of \u00a3460."
+          }
+        ],
+        "2026-05-02": [],
+        "2026-05-03": [],
+        "2026-05-04": [],
+        "2026-05-05": [],
+        "2026-05-06": [],
+        "2026-05-07": []
+      },
+      "learned_summary": {
+        "recurring_bills": [
+          {
+            "id": "rec_manchester_housing_assoc_rent",
+            "merchant": "MANCHESTER HOUSING ASSOC RENT",
+            "normalised_merchant": "manchester housing assoc rent",
+            "category": "housing",
+            "cadence": "monthly",
+            "typical_amount_gbp": 460.0,
+            "typical_day_of_month": 1,
+            "confidence": 0.91
+          },
+          {
+            "id": "rec_e-bike_shield_insurance",
+            "merchant": "E-BIKE SHIELD INSURANCE",
+            "normalised_merchant": "e-bike shield insurance",
+            "category": "insurance",
+            "cadence": "monthly",
+            "typical_amount_gbp": 19.5,
+            "typical_day_of_month": 10,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_octopus_energy",
+            "merchant": "OCTOPUS ENERGY LTD",
+            "normalised_merchant": "octopus energy",
+            "category": "utilities",
+            "cadence": "monthly",
+            "typical_amount_gbp": 68.0,
+            "typical_day_of_month": 15,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_vodafone",
+            "merchant": "VODAFONE LTD",
+            "normalised_merchant": "vodafone",
+            "category": "telecoms",
+            "cadence": "monthly",
+            "typical_amount_gbp": 38.0,
+            "typical_day_of_month": 22,
+            "confidence": 0.95
+          },
+          {
+            "id": "rec_manchester_city_council_tax",
+            "merchant": "MANCHESTER CITY COUNCIL TAX",
+            "normalised_merchant": "manchester city council tax",
+            "category": "council_tax",
+            "cadence": "monthly",
+            "typical_amount_gbp": 118.0,
+            "typical_day_of_month": 23,
+            "confidence": 0.95
+          }
+        ],
+        "gig_weekly_mean_gbp": 216.0,
+        "category_stats": {
+          "groceries": {
+            "daily_probability": 0.233,
+            "mean_amount_gbp": 23.18,
+            "std_amount_gbp": 4.32,
+            "weekly_average_gbp": 37.79
+          },
+          "takeaway": {
+            "daily_probability": 0.189,
+            "mean_amount_gbp": 17.78,
+            "std_amount_gbp": 3.01,
+            "weekly_average_gbp": 23.53
+          },
+          "transport": {
+            "daily_probability": 0.121,
+            "mean_amount_gbp": 11.5,
+            "std_amount_gbp": 0.0,
+            "weekly_average_gbp": 9.7
+          }
+        }
+      }
+    },
+    "explainer": {
+      "block_type": "explain",
+      "forecast_id": "fc_2026-03-09_protected",
+      "selected_day": "2026-03-23",
+      "reading_age": 9,
+      "language": "en",
+      "text": "Good news. Your Pact rules stepped in early. By tucking \u00a315 into your safety buffer on payday and keeping takeaways to \u00a320 a week, the storm on 23 March has calmed down to cloudy. Your council tax and phone bill are now covered.",
+      "translated_text": null,
+      "cited_driver_ids": [
+        "drv_council_tax_2026_03_23",
+        "drv_phone_renewal_2026_03_22",
+        "drv_gig_dip_2026_03_20"
+      ],
+      "drivers": [
+        {
+          "id": "drv_council_tax_2026_03_23",
+          "day": "2026-03-23",
+          "label": "Manchester City Council Tax (\u00a3118)",
+          "category": "council_tax",
+          "amount_gbp": -118.0,
+          "kind": "recurring_bill",
+          "explanation": "Monthly council tax instalment of \u00a3118 leaves on the 23rd."
+        },
+        {
+          "id": "drv_phone_renewal_2026_03_22",
+          "day": "2026-03-22",
+          "label": "Vodafone contract renewal jump (\u00a349)",
+          "category": "telecoms",
+          "amount_gbp": -49.0,
+          "kind": "bill_stepup",
+          "explanation": "Phone bill rises from \u00a338 to \u00a349 the day before Council Tax."
+        },
+        {
+          "id": "drv_gig_dip_2026_03_20",
+          "day": "2026-03-20",
+          "label": "Low-earnings delivery week (~\u00a352 below average)",
+          "category": "income_gig",
+          "amount_gbp": -52.0,
+          "kind": "income_volatility",
+          "explanation": "Mid-March delivery payouts dip while fixed bills stack up."
+        }
+      ]
+    },
+    "ui_blocks": [
+      {
+        "id": "blk_calm_prompt",
+        "kind": "gentle_calm_mode_prompt",
+        "priority": 0
+      },
+      {
+        "id": "blk_headline",
+        "kind": "weather_headline",
+        "priority": 1
+      },
+      {
+        "id": "blk_strip",
+        "kind": "weather_strip_14d",
+        "priority": 2
+      },
+      {
+        "id": "blk_explainer",
+        "kind": "adaptive_explainer",
+        "priority": 3
+      },
+      {
+        "id": "blk_bento",
+        "kind": "bento_metrics_3up",
+        "priority": 4
+      },
+      {
+        "id": "blk_fan_chart",
+        "kind": "time_river_fan_chart",
+        "priority": 5
+      }
+    ],
+    "pact": {
+      "rules": [
+        {
+          "id": "rule_01",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "category_cap",
+            "category": "takeaway",
+            "amount_gbp": 20,
+            "period": "week"
+          },
+          "plain_summary": "When a storm is close, keep takeaways to \u00a320 a week.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_02",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "credit_pause_hours",
+            "hours": 48
+          },
+          "plain_summary": "Put a 48-hour cooling-off pause on new Buy Now, Pay Later or overdraft borrowing.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_03",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "move_to_buffer",
+            "amount_gbp": 15,
+            "when": "next_payday"
+          },
+          "plain_summary": "Move \u00a315 to my safety buffer on payday with one tap.",
+          "confirmed": true
+        },
+        {
+          "id": "rule_04",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "notify_ally",
+            "ally_name": "Tunde (Sister)",
+            "channel": "sms_push"
+          },
+          "plain_summary": "Let my sister Tunde know a storm week is near (she never sees my balance or transactions).",
+          "confirmed": true
+        },
+        {
+          "id": "rule_05",
+          "trigger": {
+            "kind": "storm_probability",
+            "threshold": 0.3,
+            "horizon_days": 14
+          },
+          "action": {
+            "kind": "show_note",
+            "note_text": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight."
+          },
+          "plain_summary": "Show my calm-day note at the top of the screen before I make any big money choices.",
+          "confirmed": true
+        }
+      ],
+      "self_note": "Breathe. This tight week will pass. Stick to the plan, call Tunde if you feel overwhelmed, and don't open Klarna tonight.",
+      "has_confirmed_pact": true
+    },
+    "ally_notification": {
+      "sent": true,
+      "recipient": "Tunde (Sister)",
+      "timestamp": "2026-03-09 09:02",
+      "message": "Foresight Weather Alert: Amara's cashflow forecast entered Storm Mode for 23 Mar. Her calm-day Pact is active. (No balance or transaction data is shared)."
+    }
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "months": [
+    {
+      "month": "2025-04",
+      "label": "Apr",
+      "extra_gbp": 12.0,
+      "extra_cost_gbp": 12.0,
+      "fees_paid_gbp": 12.0,
+      "kept_with_pact_gbp": 5.0
+    },
+    {
+      "month": "2025-05",
+      "label": "May",
+      "extra_gbp": 8.0,
+      "extra_cost_gbp": 8.0,
+      "fees_paid_gbp": 8.0,
+      "kept_with_pact_gbp": 4.0
+    },
+    {
+      "month": "2025-06",
+      "label": "Jun",
+      "extra_gbp": 31.0,
+      "extra_cost_gbp": 31.0,
+      "fees_paid_gbp": 31.0,
+      "kept_with_pact_gbp": 14.0
+    },
+    {
+      "month": "2025-07",
+      "label": "Jul",
+      "extra_gbp": 15.0,
+      "extra_cost_gbp": 15.0,
+      "fees_paid_gbp": 15.0,
+      "kept_with_pact_gbp": 7.0
+    },
+    {
+      "month": "2025-08",
+      "label": "Aug",
+      "extra_gbp": 9.0,
+      "extra_cost_gbp": 9.0,
+      "fees_paid_gbp": 9.0,
+      "kept_with_pact_gbp": 4.0
+    },
+    {
+      "month": "2025-09",
+      "label": "Sep",
+      "extra_gbp": 24.0,
+      "extra_cost_gbp": 24.0,
+      "fees_paid_gbp": 24.0,
+      "kept_with_pact_gbp": 11.0
+    },
+    {
+      "month": "2025-10",
+      "label": "Oct",
+      "extra_gbp": 14.0,
+      "extra_cost_gbp": 14.0,
+      "fees_paid_gbp": 14.0,
+      "kept_with_pact_gbp": 6.0
+    },
+    {
+      "month": "2025-11",
+      "label": "Nov",
+      "extra_gbp": 10.0,
+      "extra_cost_gbp": 10.0,
+      "fees_paid_gbp": 10.0,
+      "kept_with_pact_gbp": 5.0
+    },
+    {
+      "month": "2025-12",
+      "label": "Dec",
+      "extra_gbp": 38.0,
+      "extra_cost_gbp": 38.0,
+      "fees_paid_gbp": 38.0,
+      "kept_with_pact_gbp": 18.0
+    },
+    {
+      "month": "2026-01",
+      "label": "Jan",
+      "extra_gbp": 27.0,
+      "extra_cost_gbp": 27.0,
+      "fees_paid_gbp": 27.0,
+      "kept_with_pact_gbp": 12.0
+    },
+    {
+      "month": "2026-02",
+      "label": "Feb",
+      "extra_gbp": 16.0,
+      "extra_cost_gbp": 16.0,
+      "fees_paid_gbp": 16.0,
+      "kept_with_pact_gbp": 6.0
+    },
+    {
+      "month": "2026-03",
+      "label": "Mar",
+      "extra_gbp": 10.0,
+      "extra_cost_gbp": 10.0,
+      "fees_paid_gbp": 10.0,
+      "kept_with_pact_gbp": 4.0
+    }
+  ],
+  "monthly_timeline": [
+    {
+      "month": "2025-04",
+      "label": "Apr",
+      "extra_gbp": 12.0,
+      "extra_cost_gbp": 12.0,
+      "fees_paid_gbp": 12.0,
+      "kept_with_pact_gbp": 5.0
+    },
+    {
+      "month": "2025-05",
+      "label": "May",
+      "extra_gbp": 8.0,
+      "extra_cost_gbp": 8.0,
+      "fees_paid_gbp": 8.0,
+      "kept_with_pact_gbp": 4.0
+    },
+    {
+      "month": "2025-06",
+      "label": "Jun",
+      "extra_gbp": 31.0,
+      "extra_cost_gbp": 31.0,
+      "fees_paid_gbp": 31.0,
+      "kept_with_pact_gbp": 14.0
+    },
+    {
+      "month": "2025-07",
+      "label": "Jul",
+      "extra_gbp": 15.0,
+      "extra_cost_gbp": 15.0,
+      "fees_paid_gbp": 15.0,
+      "kept_with_pact_gbp": 7.0
+    },
+    {
+      "month": "2025-08",
+      "label": "Aug",
+      "extra_gbp": 9.0,
+      "extra_cost_gbp": 9.0,
+      "fees_paid_gbp": 9.0,
+      "kept_with_pact_gbp": 4.0
+    },
+    {
+      "month": "2025-09",
+      "label": "Sep",
+      "extra_gbp": 24.0,
+      "extra_cost_gbp": 24.0,
+      "fees_paid_gbp": 24.0,
+      "kept_with_pact_gbp": 11.0
+    },
+    {
+      "month": "2025-10",
+      "label": "Oct",
+      "extra_gbp": 14.0,
+      "extra_cost_gbp": 14.0,
+      "fees_paid_gbp": 14.0,
+      "kept_with_pact_gbp": 6.0
+    },
+    {
+      "month": "2025-11",
+      "label": "Nov",
+      "extra_gbp": 10.0,
+      "extra_cost_gbp": 10.0,
+      "fees_paid_gbp": 10.0,
+      "kept_with_pact_gbp": 5.0
+    },
+    {
+      "month": "2025-12",
+      "label": "Dec",
+      "extra_gbp": 38.0,
+      "extra_cost_gbp": 38.0,
+      "fees_paid_gbp": 38.0,
+      "kept_with_pact_gbp": 18.0
+    },
+    {
+      "month": "2026-01",
+      "label": "Jan",
+      "extra_gbp": 27.0,
+      "extra_cost_gbp": 27.0,
+      "fees_paid_gbp": 27.0,
+      "kept_with_pact_gbp": 12.0
+    },
+    {
+      "month": "2026-02",
+      "label": "Feb",
+      "extra_gbp": 16.0,
+      "extra_cost_gbp": 16.0,
+      "fees_paid_gbp": 16.0,
+      "kept_with_pact_gbp": 6.0
+    },
+    {
+      "month": "2026-03",
+      "label": "Mar",
+      "extra_gbp": 10.0,
+      "extra_cost_gbp": 10.0,
+      "fees_paid_gbp": 10.0,
+      "kept_with_pact_gbp": 4.0
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat_insurance_premium",
+      "kind": "insurance_premium",
+      "label": "Monthly insurance premium",
+      "total_gbp": 118.0,
+      "amount_gbp": 118.0,
+      "detail_note": "Paying courier cover monthly instead of yearly added \u00a3118",
+      "source_note": "12 monthly instalments vs annual rate"
+    },
+    {
+      "id": "cat_overdraft_interest",
+      "kind": "overdraft_interest",
+      "label": "Overdraft interest (22 days)",
+      "total_gbp": 61.0,
+      "amount_gbp": 61.0,
+      "detail_note": "22 days in overdraft across tight bill weeks",
+      "source_note": "22 days @ daily overdraft interest"
+    },
+    {
+      "id": "cat_bnpl_late_fees",
+      "kind": "bnpl_late_fees",
+      "label": "Pay-later late fees (7 \u00d7 \u00a35)",
+      "total_gbp": 35.0,
+      "amount_gbp": 35.0,
+      "detail_note": "7 \u00d7 \u00a35 missed instalment late fees",
+      "source_note": "7 late fees during low-earnings weeks"
+    }
+  ],
+  "breakdown": [
+    {
+      "id": "cat_insurance_premium",
+      "kind": "insurance_premium",
+      "label": "Monthly insurance premium",
+      "total_gbp": 118.0,
+      "amount_gbp": 118.0,
+      "detail_note": "Paying courier cover monthly instead of yearly added \u00a3118",
+      "source_note": "12 monthly instalments vs annual rate"
+    },
+    {
+      "id": "cat_overdraft_interest",
+      "kind": "overdraft_interest",
+      "label": "Overdraft interest (22 days)",
+      "total_gbp": 61.0,
+      "amount_gbp": 61.0,
+      "detail_note": "22 days in overdraft across tight bill weeks",
+      "source_note": "22 days @ daily overdraft interest"
+    },
+    {
+      "id": "cat_bnpl_late_fees",
+      "kind": "bnpl_late_fees",
+      "label": "Pay-later late fees (7 \u00d7 \u00a35)",
+      "total_gbp": 35.0,
+      "amount_gbp": 35.0,
+      "detail_note": "7 \u00d7 \u00a35 missed instalment late fees",
+      "source_note": "7 late fees during low-earnings weeks"
+    }
+  ],
+  "total_gbp": 214.0,
+  "total_avoidable_fees_gbp": 214.0,
+  "kept_with_pact_gbp": 96.0
+}
