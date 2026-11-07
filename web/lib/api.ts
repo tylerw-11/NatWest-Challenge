@@ -12,10 +12,14 @@ import {
   PactRules,
   Rewind,
   Settings,
+  SimulateResult,
   type PactRule,
 } from "./contracts";
 import { getMockState, setMockState } from "./mock-store";
 import forecastMock from "@/mocks/forecast.json";
+import forecastSimulatedMock from "@/mocks/forecast_simulated.json";
+import forecastAfterMock from "@/mocks/forecast_after.json";
+import simulateMock from "@/mocks/simulate.json";
 import rewindMock from "@/mocks/rewind.json";
 import meMock from "@/mocks/me.json";
 import pactDraftMock from "@/mocks/pact_draft.json";
@@ -75,8 +79,37 @@ function mock<T>(schema: z.ZodType<T>, data: unknown, delay = 120): Promise<T> {
   );
 }
 
+/** The forecast the mock engine would return at the current demo stage. */
+function stageForecast(): unknown {
+  const { stage } = getMockState();
+  return stage === "after_move" ? forecastAfterMock : stage === "simulated" ? forecastSimulatedMock : forecastMock;
+}
+
 export const api = {
-  forecast: () => (USE_MOCKS ? mock(Forecast, forecastMock) : request(Forecast, "/forecast")),
+  forecast: () => (USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast")),
+
+  /** Demo fast-forward: re-runs the forecast as of a date and fires confirmed rules. */
+  simulate: (asOf: string) => {
+    if (USE_MOCKS) {
+      const { stage, rules } = getMockState();
+      if (stage === "base") setMockState({ stage: "simulated" });
+      const confirmed = new Set(rules.filter((r) => r.confirmed).map((r) => r.id));
+      return mock(SimulateResult, {
+        forecast: stageForecast(),
+        fired: simulateMock.fired.filter((f) => confirmed.has(f.rule_id)),
+      });
+    }
+    return request(SimulateResult, `/simulate?as_of=${asOf}`, { method: "POST" });
+  },
+
+  /** The one storm-mode action. Returns the re-run forecast. */
+  moveToBuffer: (amount_gbp: number) => {
+    if (USE_MOCKS) {
+      setMockState({ stage: "after_move" });
+      return mock(Forecast, stageForecast(), 400);
+    }
+    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp }));
+  },
   rewind: () => (USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
   settings: () => (USE_MOCKS ? mock(Settings, getMockState().settings) : request(Settings, "/settings")),
   me: () => (USE_MOCKS ? mock(Me, meMock) : request(Me, "/me")),

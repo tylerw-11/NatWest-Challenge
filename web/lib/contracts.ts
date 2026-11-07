@@ -123,6 +123,19 @@ export type Me = z.infer<typeof Me>;
 export const PactNote = z.object({ text: z.string(), duration_s: z.number() });
 export type PactNote = z.infer<typeof PactNote>;
 
+/** A confirmed rule that fired on a forecast. Added FE-07. */
+export const FiredRule = z.object({
+  rule_id: z.string(),
+  action_kind: ActionKind,
+  /** category_cap: money left in that category this week. */
+  left_gbp: z.number().nullable(),
+});
+export type FiredRule = z.infer<typeof FiredRule>;
+
+/** POST /simulate?as_of=YYYY-MM-DD (demo fast-forward). Added FE-07. */
+export const SimulateResult = z.object({ forecast: Forecast, fired: z.array(FiredRule) });
+export type SimulateResult = z.infer<typeof SimulateResult>;
+
 export const ReadingLevel = z.enum(["simple", "clear", "detailed"]);
 export type ReadingLevel = z.infer<typeof ReadingLevel>;
 
