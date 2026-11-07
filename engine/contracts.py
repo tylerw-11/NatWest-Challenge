@@ -66,11 +66,35 @@ class CustomerForecastRequest(BaseModel):
     seed: int | None = Field(default=2026, ge=0, le=2**32 - 1)
 
 
+class Profile(BaseModel):
+    """A real person's money, entered in Sign-up step 3. GET /forecast forecasts it from today."""
+    current_balance_gbp: float = Field(allow_inf_nan=False, ge=-100000, le=10000000)
+    incomes: list[IncomeSource] = Field(default_factory=list, max_length=50)
+    bills: list[BillSchedule] = Field(default_factory=list, max_length=100)
+
+
+class CodeRequest(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+
+
+class CodeVerify(BaseModel):
+    email: str = Field(min_length=3, max_length=254)
+    code: str = Field(pattern=r"^\d{6}$")
+
+
+class CredentialInput(BaseModel):
+    """A WebAuthn RegistrationResponseJSON or AuthenticationResponseJSON from the browser."""
+    credential: dict[str, Any]
+
+
 class TextInput(BaseModel):
     text: str = Field(min_length=1, max_length=2000)
 
 
 class NoteInput(BaseModel):
+    # Web contract PactNote: {text, duration_s}. transcript/audio_blob_ref kept for older callers.
+    text: str = Field(default="", max_length=4000)
+    duration_s: float = Field(default=0, ge=0, le=600)
     transcript: str = Field(default="", max_length=4000)
     audio_blob_ref: str | None = None
 

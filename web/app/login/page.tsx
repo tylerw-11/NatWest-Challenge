@@ -10,7 +10,7 @@ import { RowCard } from "@/components/Cards";
 import { ReadAloudButton } from "@/components/Header";
 import { ShieldSunIcon } from "@/components/illustrations";
 import { ChevronIcon, FaceIdIcon, LockIcon } from "@/components/icons";
-import { api } from "@/lib/api";
+import { ApiError, api, USE_MOCKS } from "@/lib/api";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -20,6 +20,28 @@ export default function LoginPage() {
     setBusy(true);
     await api.authDemo();
     router.push("/");
+  };
+
+  /** Real passkey login (Face ID, Touch ID, Windows Hello). In mock mode it stays the demo login. */
+  const faceIdLogin = async () => {
+    if (USE_MOCKS) return demoLogin();
+    setBusy(true);
+    try {
+      await api.passkeyLogin();
+      router.push("/");
+    } catch (e) {
+      const cancelled = e instanceof Error && (e.name === "NotAllowedError" || e.name === "AbortError");
+      const unknown = e instanceof ApiError && (e.code === "passkey_unknown" || e.code === "passkey_failed");
+      const unsupported = typeof window !== "undefined" && !window.PublicKeyCredential;
+      toast(
+        cancelled || unknown || unsupported
+          ? "No Face ID set up on this device yet. Get a code first, then turn on Face ID in Account."
+          : e instanceof ApiError
+            ? e.message_plain
+            : "We could not log you in with Face ID. Please try a code instead.",
+      );
+      setBusy(false);
+    }
   };
 
   return (
@@ -45,10 +67,10 @@ export default function LoginPage() {
           icon={<ShieldSunIcon />}
         />
 
-        <Button onClick={demoLogin} disabled={busy}>
+        <Button onClick={faceIdLogin} disabled={busy}>
           <FaceIdIcon size={24} aria-hidden /> Log in with Face ID
         </Button>
-        <Button variant="secondary" onClick={() => toast("In the full app we send you a 6-digit code.")}>
+        <Button variant="secondary" href="/login/code">
           Get a code by text or email
         </Button>
 

@@ -6,8 +6,12 @@
  * instead, so every screen can be checked against it (decision 0001, item 5).
  */
 import { z } from "zod";
+import { startAuthentication, startRegistration } from "@simplewebauthn/browser";
 import {
   ApiErrorBody,
+  CodeRequestResult,
+  Profile,
+  VerifyResult,
   Forecast,
   Me,
   PactNote,
@@ -16,6 +20,7 @@ import {
   Settings,
   SimulateResult,
   type PactRule,
+  type Profile as ProfileT,
   type Settings as SettingsT,
 } from "./contracts";
 import { ApiError } from "./errors";
@@ -116,7 +121,8 @@ export const api = {
       setMockState({ stage: "after_move" });
       return mock(Forecast, stageForecast(), 400);
     }
-    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp }));
+    // The button press is the confirmation (invariant 2); the engine refuses a move without it.
+    return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp, confirmed: true }));
   },
   rewind: () => (testScenario() ? mockApi.rewind() : USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
   settings: () =>
@@ -168,4 +174,47 @@ export const api = {
     }
     return request(PactNote, "/pact/note", post(note));
   },
+  /** Real login, step 1: email a 6-digit code. dev_code only comes back when the engine has no email set up. */
+  requestCode: (email: string) =>
+    USE_MOCKS
+      ? mock(CodeRequestResult, { sent: true, expires_in_s: 600, dev_code: "123456" }, 400)
+      : request(CodeRequestResult, "/auth/code/request", post({ email })),
+
+  /** Real login, step 2: check the code. Sets the session cookie. */
+  verifyCode: (email: string, code: string) => {
+    if (USE_MOCKS) {
+      return code === "123456"
+        ? mock(VerifyResult, { new_user: true }, 300)
+        : Promise.reject(new ApiError("wrong_code", "That code is not right. Check it and try again."));
+    }
+    return request(VerifyResult, "/auth/code/verify", post({ email, code }));
+  },
+
+  /** Face ID / Windows Hello / Touch ID login with a passkey (WebAuthn). */
+  passkeyLogin: async () => {
+    if (USE_MOCKS) return mock(VerifyResult, { new_user: false }, 300);
+    const optionsJSON = await request(z.any(), "/auth/passkey/login/options", post({}));
+    const credential = await startAuthentication({ optionsJSON });
+    return request(VerifyResult, "/auth/passkey/login/verify", post({ credential }));
+  },
+
+  /** Turn on Face ID for this device (needs a session). */
+  registerPasskey: async () => {
+    if (USE_MOCKS) return mock(z.object({ registered: z.boolean() }), { registered: true }, 300);
+    const optionsJSON = await request(z.any(), "/auth/passkey/register/options", post({}));
+    const credential = await startRegistration({ optionsJSON });
+    return request(z.object({ registered: z.boolean() }), "/auth/passkey/register/verify", post({ credential }));
+  },
+
+  /** A real person's numbers. 404 not_found until they have set them up. */
+  profile: () =>
+    USE_MOCKS
+      ? Promise.reject(new ApiError("not_found", "You have not added your numbers yet."))
+      : request(Profile, "/profile"),
+
+  /** Save a real person's numbers; GET /forecast then forecasts from them, as of today. */
+  saveProfile: (profile: ProfileT) =>
+    USE_MOCKS
+      ? mock(Profile, profile, 300)
+      : request(Profile, "/profile", { method: "PUT", body: JSON.stringify(profile) }),
 };

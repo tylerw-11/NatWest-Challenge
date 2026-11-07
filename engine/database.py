@@ -32,7 +32,11 @@ def init_db() -> None:
         CREATE TABLE IF NOT EXISTS login_codes(contact TEXT PRIMARY KEY, code_hash TEXT, expires_at TEXT, attempts INTEGER DEFAULT 0, last_sent_at TEXT);
         CREATE TABLE IF NOT EXISTS passkeys(id TEXT PRIMARY KEY, user_id TEXT NOT NULL, credential_id TEXT NOT NULL, public_key TEXT NOT NULL, sign_count INTEGER DEFAULT 0, label TEXT);
         CREATE TABLE IF NOT EXISTS bank_connections(id TEXT PRIMARY KEY, user_id TEXT NOT NULL, provider TEXT, consent_expires_at TEXT, status TEXT);
+        CREATE TABLE IF NOT EXISTS profiles(user_id TEXT PRIMARY KEY REFERENCES users(id), value TEXT NOT NULL, updated_at TEXT NOT NULL);
+        CREATE TABLE IF NOT EXISTS webauthn_challenges(challenge TEXT PRIMARY KEY, kind TEXT NOT NULL, user_id TEXT, expires_at TEXT NOT NULL);
         """)
+        if "duration_s" not in {row["name"] for row in db.execute("PRAGMA table_info(pact_notes)")}:
+            db.execute("ALTER TABLE pact_notes ADD COLUMN duration_s REAL DEFAULT 0")
         now = datetime.now(timezone.utc).isoformat()
         db.execute("INSERT OR IGNORE INTO users(id,display_name,contact,created_at) VALUES('amara','Amara','amara@example.com',?)", (now,))
         # Demo seed (decision 0001 d): matches web/mocks/settings.json. No rules yet: demo step 4 creates them.

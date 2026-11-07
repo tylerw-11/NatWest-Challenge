@@ -64,21 +64,23 @@ def test_step_4_pact_rules_and_closed_action_list(client):
     saved = client.post("/pact", json=drafts, headers=ORIGIN).json()
     assert len(saved) == 4 and all(r["confirmed"] for r in saved)  # stored only once the user agrees
     assert {r["action"]["kind"] for r in client.get("/pact").json()} <= ALLOWED_ACTIONS
-    rejected = client.post("/pact/parse", json={"text": "Invest everything in crypto"}, headers=ORIGIN).json()
-    assert rejected["rules"] == [] and rejected["rephrase_request"]
-    draft = client.post("/pact/parse", json={"text": "Put £15 aside on payday"}, headers=ORIGIN).json()["rules"][0]
+    rejected = client.post("/pact/parse", json={"text": "Invest everything in crypto"}, headers=ORIGIN)
+    assert rejected.status_code == 422 and rejected.json()["code"] == "rephrase"
+    draft = client.post("/pact/parse", json={"text": "Put £15 aside on payday"}, headers=ORIGIN).json()[0]
     assert draft["action"]["kind"] == "move_to_buffer" and draft["confirmed"] is False  # the user confirms
 
 
 def test_steps_5_to_7_storm_mode_move_and_rerun(client):
     client.post("/pact", json=[{**r, "confirmed": False} for r in DEMO_RULES], headers=ORIGIN)  # step 4
     sim = client.post("/simulate?as_of=2026-03-13", headers=ORIGIN).json()
-    assert any(r["action"]["kind"] == "notify_ally" for r in sim["fired_rules"])  # Jade's alert
+    assert any(f["action_kind"] == "notify_ally" for f in sim["fired"])  # Jade's alert
+    assert next(f for f in sim["fired"] if f["action_kind"] == "category_cap")["left_gbp"] == 12  # £20 cap - £8 spent
+    assert sim["forecast"]["as_of"] == "2026-03-13"  # payday, 10 days before the storm
     # Invariant 2: nothing moves without a confirmed button press.
     assert client.post("/actions/move-to-buffer", json={"amount_gbp": 15, "confirmed": False}, headers=ORIGIN).status_code == 400
     after = client.post("/actions/move-to-buffer", json={"amount_gbp": 15, "confirmed": True}, headers=ORIGIN).json()
     assert day(after, "2026-03-23")["state"] == "cloudy" and round(1 / day(after, "2026-03-23")["p_shortfall"]) == 8
-    assert after["best_action"] is None and after["buffer_days"] == 7
+    assert after["best_action"] is None and after["buffer_days"] == 8 and after["as_of"] == "2026-03-13"
     # Step 7: Weather re-runs and remembers the move.
     assert day(client.get("/forecast").json(), "2026-03-23")["state"] == "cloudy"
     # A new demo login starts fresh, so the demo can run twice in a row.

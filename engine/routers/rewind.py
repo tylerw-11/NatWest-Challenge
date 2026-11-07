@@ -1,5 +1,7 @@
 from fastapi import APIRouter, Depends
 
+from datetime import date
+
 from ..dependencies import current_user
 from ..generator import REWIND_MONTHS
 
@@ -8,6 +10,11 @@ router = APIRouter(prefix="/rewind", tags=["rewind"])
 
 @router.get("")
 def rewind(_user_id: str = Depends(current_user)):
+    if _user_id != "amara":
+        # A real person has no transaction history in Pact yet (no bank link), so there is nothing to replay.
+        today = date.today()
+        months = [f"{(today.year * 12 + today.month - 13 + i) // 12}-{(today.month - 13 + i) % 12 + 1:02d}" for i in range(12)]
+        return {"months": [{"month": m, "extra_gbp": 0} for m in months], "categories": [], "total_gbp": 0, "kept_with_pact_gbp": 0}
     labels = [f"{2025 + (3 + i) // 12}-{(3 + i) % 12 + 1:02d}" for i in range(12)]  # 2025-04 .. 2026-03 (decision 0001 a)
     return {"months": [{"month": month, "extra_gbp": amount} for month, amount in zip(labels, REWIND_MONTHS)], "categories": [
         {"id": "insurance", "label": "Monthly insurance premium", "total_gbp": 118, "source_note": "Monthly payments cost more than paying yearly."},

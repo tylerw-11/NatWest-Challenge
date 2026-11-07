@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from .database import init_db
-from .routers import account, ally, auth, explain, forecast, pact, rewind, settings
+from .routers import account, ally, auth, explain, forecast, pact, profile, rewind, settings
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
@@ -59,5 +59,5 @@ def health():
     return {"status": "ok"}
 
 
-for route_module in (auth, account, ally, explain, forecast, pact, rewind, settings):
+for route_module in (auth, account, ally, explain, forecast, pact, profile, rewind, settings):
     app.include_router(route_module.router)

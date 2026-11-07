@@ -9,7 +9,7 @@ import { Button } from "@/components/Buttons";
 import { FallbackCard, Skeleton } from "@/components/Fallback";
 import { DownloadIcon } from "@/components/icons";
 import { useMe, usePactRules, useSettings } from "@/lib/hooks";
-import { api } from "@/lib/api";
+import { ApiError, api } from "@/lib/api";
 
 const linkBtn = "ix inline-flex min-h-11 items-center font-bold text-primary hover:text-primary-hover hover:underline";
 
@@ -26,7 +26,31 @@ export default function AccountPage() {
   const me = useMe();
   const settings = useSettings();
   const rules = usePactRules();
-  const [faceId, setFaceId] = useState(true);
+  const [turningOn, setTurningOn] = useState(false);
+
+  /** Register a passkey for this device (Face ID, Touch ID, Windows Hello). */
+  const turnOnFaceId = async () => {
+    setTurningOn(true);
+    try {
+      await api.registerPasskey();
+      toast("Face ID is on for this device.");
+      await me.refetch();
+    } catch (e) {
+      const cancelled = e instanceof Error && (e.name === "NotAllowedError" || e.name === "AbortError");
+      const unsupported = typeof window !== "undefined" && !window.PublicKeyCredential;
+      toast(
+        unsupported
+          ? "This device can't use Face ID with Pact. You can still log in with a code."
+          : cancelled
+            ? "Face ID was not turned on. You can try again any time."
+            : e instanceof ApiError
+              ? e.message_plain
+              : "We could not turn on Face ID. Please try again.",
+      );
+    } finally {
+      setTurningOn(false);
+    }
+  };
   const soon = (what: string) => toast(`In the full app you can ${what} here.`);
 
   const download = () => {
@@ -88,17 +112,15 @@ export default function AccountPage() {
 
       <Card className="py-3">
         <h2 className="text-[18px] font-bold">Logging in</h2>
-        <Row>
-          <label htmlFor="faceid" className="text-[17px]">
-            Face ID on this phone
-          </label>
-          <input
-            id="faceid"
-            type="checkbox"
-            checked={faceId}
-            onChange={(e) => setFaceId(e.target.checked)}
-            className="size-7 accent-primary"
-          />
+        <Row last={!phone_masked}>
+          <span className="text-[17px]">Face ID on this device</span>
+          {me.data.has_passkey ? (
+            <span className="text-[16px] font-bold text-primary">On</span>
+          ) : (
+            <button type="button" className={linkBtn} onClick={turnOnFaceId} disabled={turningOn}>
+              {turningOn ? "Turning on…" : "Turn on"}
+            </button>
+          )}
         </Row>
         {phone_masked && (
           <Row last>

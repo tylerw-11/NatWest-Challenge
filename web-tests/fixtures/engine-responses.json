@@ -613,7 +613,16 @@
    "status": "connected"
   },
   "contact": "amara@example.com",
+  "devices": [
+   {
+    "current": true,
+    "id": "9S8Iql80YiIo",
+    "label": "Demo device",
+    "last_seen": "2026-11-07T16:59:03.844931+00:00"
+   }
+  ],
   "display_name": "Amara",
+  "has_passkey": false,
   "id": "amara",
   "onboarding_complete": true,
   "user": {
@@ -624,7 +633,7 @@
  "moveToBuffer": {
   "as_of": "2026-03-10",
   "best_action": null,
-  "buffer_days": 7,
+  "buffer_days": 8,
   "covered_until": "2026-03-19",
   "days": [
    {

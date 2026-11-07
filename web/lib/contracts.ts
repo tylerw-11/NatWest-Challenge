@@ -126,8 +126,51 @@ export const Me = z.object({
   devices: z
     .array(z.object({ id: z.string(), label: z.string(), last_seen: z.string(), current: z.boolean() }))
     .optional(),
+  /** True when this account has a passkey (Face ID / Windows Hello). Added for real login. */
+  has_passkey: z.boolean().optional(),
 });
 export type Me = z.infer<typeof Me>;
+
+/** POST /auth/code/request. dev_code is only sent when the engine has no email set up. */
+export const CodeRequestResult = z.object({
+  sent: z.boolean(),
+  expires_in_s: z.number(),
+  dev_code: z.string().nullable().optional(),
+});
+export type CodeRequestResult = z.infer<typeof CodeRequestResult>;
+
+/** POST /auth/code/verify and /auth/passkey/login/verify. */
+export const VerifyResult = z.object({ new_user: z.boolean() });
+export type VerifyResult = z.infer<typeof VerifyResult>;
+
+export const Frequency = z.enum(["once", "weekly", "fortnightly", "monthly", "yearly"]);
+export type Frequency = z.infer<typeof Frequency>;
+
+export const IncomeSource = z.object({
+  label: z.string().min(1),
+  amount_gbp: z.number().positive(),
+  next_pay_date: isoDate,
+  frequency: Frequency,
+  /** 0.25 means pay varies by about a quarter. */
+  variability_pct: z.number().min(0).max(1),
+});
+export type IncomeSource = z.infer<typeof IncomeSource>;
+
+export const BillSchedule = z.object({
+  label: z.string().min(1),
+  amount_gbp: z.number().positive(),
+  due_date: isoDate,
+  frequency: Frequency,
+});
+export type BillSchedule = z.infer<typeof BillSchedule>;
+
+/** GET/PUT /profile: a real person's numbers. GET /forecast then forecasts from these, as of today. */
+export const Profile = z.object({
+  current_balance_gbp: z.number(),
+  incomes: z.array(IncomeSource),
+  bills: z.array(BillSchedule),
+});
+export type Profile = z.infer<typeof Profile>;
 
 /** POST /pact/note and the stored note. Added FE-06. */
 export const PactNote = z.object({ text: z.string(), duration_s: z.number() });

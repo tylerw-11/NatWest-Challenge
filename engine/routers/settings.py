@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Cookie, Depends
 
 from ..contracts import Settings, TextInput
 from ..database import connect
@@ -10,7 +10,7 @@ router = APIRouter(tags=["settings", "profile"])
 
 
 @router.get("/me")
-def me(user_id: str = Depends(current_user)):
+def me(user_id: str = Depends(current_user), pact_session: str | None = Cookie(default=None)):
     with connect() as db:
         user = dict(db.execute("SELECT id,display_name,contact,created_at FROM users WHERE id=?", (user_id,)).fetchone())
         bank = db.execute("SELECT provider,consent_expires_at,status FROM bank_connections WHERE user_id=?", (user_id,)).fetchone()
@@ -19,6 +19,15 @@ def me(user_id: str = Depends(current_user)):
     # Web contract `Me` (FE-03, decision 0001 c). Old fields above are kept so nothing breaks.
     user["user"] = {"name": user["display_name"], "email": user["contact"] or ""}
     user["bank"] = {"name": bank["provider"], "connected_until": bank["consent_expires_at"]} if bank and bank["status"] == "connected" else None
+    with connect() as db:
+        has_profile = db.execute("SELECT 1 FROM profiles WHERE user_id=?", (user_id,)).fetchone() is not None
+        user["has_passkey"] = db.execute("SELECT 1 FROM passkeys WHERE user_id=?", (user_id,)).fetchone() is not None
+        user["devices"] = [
+            {"id": row["id"][:12], "label": row["device_label"] or "Browser", "last_seen": row["last_seen_at"], "current": row["id"] == pact_session}
+            for row in db.execute("SELECT id,device_label,last_seen_at FROM sessions WHERE user_id=? ORDER BY last_seen_at DESC LIMIT 5", (user_id,))
+        ]
+    # Amara is the scripted demo; anyone else is set up once they have saved their money details.
+    user["onboarding_complete"] = user_id == "amara" or has_profile
     return user
 
 

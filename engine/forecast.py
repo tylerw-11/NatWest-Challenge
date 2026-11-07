@@ -26,9 +26,9 @@ def make_forecast(as_of: date = date(2026, 3, 10), threshold: float = .30, buffe
         drivers = [x.id for x in DRIVERS] if d == storm_date else []
         days.append(Day(date=d, p_shortfall=p, state=state, p10=-18 if d == storm_date else 14, p50=35 if d == storm_date else 180, p90=92 if d == storm_date else 340, driver_ids=drivers))
     moved = buffer_move >= 15
-    # Demo figures: buffer covers 6 days (7 after the £15 move); once moved, there is nothing left to suggest.
+    # Demo figures: buffer covers 6 days (8 after the £15 move); once moved, there is nothing left to suggest.
     best_action = None if moved else {"action_id": "move_to_buffer", "amount_gbp": 15, "date": date(2026, 3, 13), "p_after": 0.125}
-    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), buffer_days=7 if moved else 6, best_action=best_action)
+    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), buffer_days=8 if moved else 6, best_action=best_action)
 
 
 def _add_months(day: date, months: int, anchor_day: int) -> date:

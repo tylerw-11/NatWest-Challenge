@@ -2,7 +2,7 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "./api";
-import type { PactNote, PactRule, Settings } from "./contracts";
+import type { PactNote, PactRule, Profile, Settings } from "./contracts";
 
 export const queryKeys = {
   forecast: ["forecast"] as const,
@@ -11,6 +11,7 @@ export const queryKeys = {
   me: ["me"] as const,
   pactRules: ["pact"] as const,
   pactNote: ["pact-note"] as const,
+  profile: ["profile"] as const,
   simulate: (asOf: string) => ["simulate", asOf] as const,
 };
 
@@ -73,5 +74,23 @@ export function useUpdateSettings() {
     },
     onError: (_e, _p, ctx) => ctx?.prev && qc.setQueryData(queryKeys.settings, ctx.prev),
     onSuccess: (settings) => qc.setQueryData(queryKeys.settings, settings),
+  });
+}
+
+/** A real person's numbers (404 not_found until set up, so no retries). */
+export const useProfile = () => useQuery({ queryKey: queryKeys.profile, queryFn: api.profile, retry: false });
+
+/** Save a real person's numbers, then refetch everything that depends on them. */
+export function useSaveProfile() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (profile: Profile) => api.saveProfile(profile),
+    onSuccess: (profile) => {
+      qc.setQueryData(queryKeys.profile, profile);
+      return Promise.all([
+        qc.invalidateQueries({ queryKey: queryKeys.forecast }),
+        qc.invalidateQueries({ queryKey: queryKeys.me }),
+      ]);
+    },
   });
 }

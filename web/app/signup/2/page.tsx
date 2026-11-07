@@ -143,7 +143,7 @@ export default function SignupStep2() {
         </Card>
       )}
 
-      <Button onClick={() => router.push("/")}>Next</Button>
+      <Button onClick={() => router.push("/signup/3")}>Next</Button>
       <div className="text-center">
         <TextLink href="/">Skip for now</TextLink>
       </div>

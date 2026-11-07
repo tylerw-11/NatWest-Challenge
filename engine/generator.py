@@ -25,6 +25,7 @@ def generate_transactions(seed: int = 23032026) -> list[dict]:
                 rows.append(dict(date=d.isoformat(), amount_gbp=amount, merchant_label=merchant, category=category))
             except ValueError:
                 pass
+    rows.append(dict(date="2026-03-12", amount_gbp=-8.0, merchant_label="takeaway", category="takeaways"))
     # The demo's rewind figures are planted deterministically in the engine output.
     return sorted(rows, key=lambda row: row["date"])
 
