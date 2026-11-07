@@ -116,6 +116,11 @@ export const Me = z.object({
   user: z.object({ name: z.string(), email: z.string() }),
   bank: z.object({ name: z.string(), connected_until: isoDate }).nullable(),
   onboarding_complete: z.boolean(),
+  /** Added FE-12 (Account screen). */
+  phone_masked: z.string().optional(),
+  devices: z
+    .array(z.object({ id: z.string(), label: z.string(), last_seen: z.string(), current: z.boolean() }))
+    .optional(),
 });
 export type Me = z.infer<typeof Me>;
 
