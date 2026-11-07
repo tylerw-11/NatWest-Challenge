@@ -6,23 +6,24 @@ import { setPageLanguage } from "@/lib/auto-translate";
 
 export const LANGUAGE_KEY = "pact.language";
 export const LANGUAGE_EVENT = "pact-language";
+const OFF = "off";
 
 const stored = (): string | null => {
   try {
-    return window.localStorage.getItem(LANGUAGE_KEY);
+    return typeof window === "undefined" ? null : window.localStorage.getItem(LANGUAGE_KEY);
   } catch {
     return null;
   }
 };
 
 /**
- * Remembers the language in this browser (so Log in and Sign-up use it before there is a session)
- * and tells every screen. Settings > Reading and Sign-up step 2 also save it to the person's settings.
+ * Remembers the language in this browser and tells every screen. Every picker (Log in,
+ * Settings, Sign-up step 2) calls this, so the choice persists across screens, reloads and
+ * logging in or out. Settings also save it to the person's account.
  */
 export function rememberLanguage(code: string | null) {
   try {
-    if (code) window.localStorage.setItem(LANGUAGE_KEY, code);
-    else window.localStorage.removeItem(LANGUAGE_KEY);
+    window.localStorage.setItem(LANGUAGE_KEY, code ?? OFF);
   } catch {
     /* storage blocked: this page still switches */
   }
@@ -32,27 +33,18 @@ export function rememberLanguage(code: string | null) {
 /** Translates the whole app into the chosen language, on every screen (lib/auto-translate.ts). */
 export function PageLanguage() {
   const { data } = useSettings();
-  const [local, setLocal] = useState<string | null>(null);
+  // The browser's choice wins (read straight away, so no screen flashes English); the account's
+  // saved language is used only when this browser has never chosen.
+  const [local, setLocal] = useState<string | null>(() => stored());
 
   useEffect(() => {
     setLocal(stored());
-    const on = (e: Event) => setLocal((e as CustomEvent<string | null>).detail);
+    const on = (e: Event) => setLocal((e as CustomEvent<string | null>).detail ?? OFF);
     window.addEventListener(LANGUAGE_EVENT, on);
     return () => window.removeEventListener(LANGUAGE_EVENT, on);
   }, []);
 
-  // A language saved in settings wins; otherwise the one picked before logging in.
-  // (Choosing "Off" in Settings clears both, through rememberLanguage(null).)
-  const code = data?.translation ?? local;
-  useEffect(() => {
-    if (data?.translation) {
-      try {
-        window.localStorage.setItem(LANGUAGE_KEY, data.translation);
-      } catch {
-        /* ignore */
-      }
-    }
-  }, [data]);
+  const code = local === OFF ? null : (local ?? data?.translation ?? null);
 
   useEffect(() => {
     void setPageLanguage(code);
