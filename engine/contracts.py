@@ -63,6 +63,26 @@ class CustomerForecastRequest(BaseModel):
     seed: int | None = Field(default=2026, ge=0, le=2**32 - 1)
 
 
+class TextInput(BaseModel):
+    text: str = Field(min_length=1, max_length=2000)
+
+
+class NoteInput(BaseModel):
+    transcript: str = Field(default="", max_length=4000)
+    audio_blob_ref: str | None = None
+
+
+class MoveInput(BaseModel):
+    amount_gbp: float = Field(gt=0, le=500)
+    confirmed: bool
+
+
+class AllyInput(BaseModel):
+    name: str = Field(min_length=1, max_length=80)
+    relation: str = Field(min_length=1, max_length=80)
+    contact: str | None = Field(default=None, max_length=200)
+
+
 class PactRule(BaseModel):
     id: str = ""
     trigger: dict[str, Any]

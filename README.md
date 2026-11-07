@@ -14,14 +14,7 @@ py -m venv .venv
 
 PowerShell activation is optional. Calling the virtual environment's Python directly avoids execution-policy issues with `Activate.ps1`.
 
-If the virtual environment was created inside `engine/`, from that directory run:
-
-```powershell
-.\.venv\Scripts\python.exe -m pip install -r ..\requirements.txt
-.\.venv\Scripts\python.exe -m uvicorn main:app --reload
-```
-
-Use `engine.main:app` from the repository root, or `main:app` from inside `engine/`; `main.py` and `forecast.py` support both import styles.
+Start Uvicorn from the repository root so Python can import the `engine` package. `engine/requirements.txt` mirrors the root dependency list for tools that install from the backend folder.
 
 The API listens on `http://localhost:8000`; interactive API docs are at `/docs`. Set `FRONTEND_ORIGIN` to the exact web origin when it differs from `http://localhost:3000`, and `PACT_DB` to select a SQLite file. The demo session cookie is HTTP-only, Secure, and SameSite=Lax. Local browser use therefore needs HTTPS for the cookie to be sent.
 
