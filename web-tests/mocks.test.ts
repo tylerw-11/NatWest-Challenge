@@ -70,10 +70,12 @@ describe("demo is the spec's figures", () => {
   it("covered until 19 March; £15 on 13 March makes it 1 in 8", () => {
     expect(f.covered_until).toBe("2026-03-19");
     expect(f.best_action).toMatchObject({ action_id: "move_to_buffer", amount_gbp: 15, date: "2026-03-13" });
-    expect(oneInN(f.best_action.p_after)).toBe("1 in 8");
+    expect(oneInN(f.best_action!.p_after)).toBe("1 in 8");
   });
-  it("after the move, 23 March reads tight (demo step 7)", () => {
+  it("after the move, 23 March reads tight and there is nothing left to suggest (demo step 7)", () => {
     expect(firstStorm(FORECASTS.demo_after_buffer)).toBeNull();
+    expect(FORECASTS.demo_after_buffer.best_action).toBeNull();
+    expect(FORECASTS.demo_after_buffer.buffer_days).toBe(7);
     expect(stateLabel(FORECASTS.demo_after_buffer.days.find((d) => d.date === "2026-03-23")!.state)).toBe("tight");
   });
   it("rewind £214 extra, about £96 kept", () => {
@@ -124,6 +126,13 @@ describe("mockApi", () => {
     expect(await mockApi.settings()).toEqual(await api.settings());
     expect(await mockApi.me()).toEqual(await api.me());
     expect(await mockApi.pactRules()).toEqual(await api.pactRules());
+  });
+  it("api.ts serves mocks through mockApi, so ?scenario= reaches every screen", async () => {
+    const { api } = await import("@/lib/api");
+    resetMocks("forecast_500");
+    await expect(api.forecast()).rejects.toMatchObject({ code: "server_error" });
+    resetMocks("all_clear");
+    expect((await api.forecast()).best_action).toBeNull();
   });
   it("moving £15 turns the storm tight", async () => {
     expect(firstStorm(await mockApi.moveToBuffer(15))).toBeNull();
