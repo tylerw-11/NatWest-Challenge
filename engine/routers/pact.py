@@ -1,7 +1,12 @@
 import json
+import logging
+import math
+import os
 import re
 import secrets
+from copy import deepcopy
 from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter, Body, Depends
@@ -14,6 +19,8 @@ from .forecast import DEMO_USER, forecast_for
 
 router = APIRouter(tags=["pact", "simulation", "actions"])
 ALLOWED_ACTIONS = {"category_cap", "credit_pause_hours", "notify_ally", "move_to_buffer", "show_note"}
+log = logging.getLogger("pact.ai")
+PACT_PROMPT = Path(__file__).resolve().parents[1] / "prompts" / "parse_pact.md"
 
 
 def new_rule(raw: dict, confirmed: bool) -> PactRule:
@@ -23,60 +30,229 @@ def new_rule(raw: dict, confirmed: bool) -> PactRule:
     return PactRule(id=raw.get("id") or secrets.token_hex(8), trigger=raw.get("trigger", {"kind": "storm_probability", "threshold": .3}), action=action, when_label=raw.get("when_label", "When money may be tight"), then_label=raw.get("then_label", "Show my Pact"), confirmed=confirmed)
 
 
-FORBIDDEN = ("transfer money", "invest", "pay someone", "buy crypto", "crypto", "lend me", "loan me", "gamble", "bet ")
-PRONOUN = {"sister": "she", "mum": "she", "mother": "she", "aunt": "she", "daughter": "she", "brother": "he", "dad": "he", "father": "he", "uncle": "he", "son": "he"}
+PACT_RULE_TOOL = {
+    "name": "draft_pact_rules",
+    "description": "Return only clear draft rules explicitly requested by the user.",
+    "input_schema": {
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+            "rules": {
+                "type": "array",
+                "minItems": 0,
+                "maxItems": 5,
+                "items": {
+                    "type": "object",
+                    "additionalProperties": False,
+                    "properties": {
+                        "trigger": {
+                            "type": "object",
+                            "additionalProperties": False,
+                            "properties": {
+                                "kind": {"type": "string", "enum": ["storm_probability", "buffer_below_days", "user_not_okay"]},
+                                "threshold": {"type": "number", "minimum": 0, "maximum": 1},
+                                "horizon_days": {"type": "integer", "minimum": 1, "maximum": 60},
+                                "buffer_days": {"type": "integer", "minimum": 0, "maximum": 60},
+                            },
+                            "required": ["kind"],
+                        },
+                        "action": {
+                            "type": "object",
+                            "additionalProperties": False,
+                            "properties": {
+                                "kind": {"type": "string", "enum": sorted(ALLOWED_ACTIONS)},
+                                "category": {"type": "string", "minLength": 1, "maxLength": 60},
+                                "cap_gbp": {"type": "number", "exclusiveMinimum": 0, "maximum": 500},
+                                "period": {"type": "string", "enum": ["day", "week", "month"]},
+                                "hours": {"type": "integer", "minimum": 1, "maximum": 720},
+                                "amount_gbp": {"type": "number", "exclusiveMinimum": 0, "maximum": 500},
+                                "on": {"type": "string", "enum": ["payday"]},
+                                "reminder": {"type": "string", "minLength": 1, "maxLength": 140},
+                            },
+                            "required": ["kind"],
+                        },
+                        "when_label": {"type": "string", "minLength": 1, "maxLength": 80},
+                        "then_label": {"type": "string", "minLength": 1, "maxLength": 100},
+                    },
+                    "required": ["trigger", "action", "when_label", "then_label"],
+                },
+            }
+        },
+        "required": ["rules"],
+    },
+}
 
 
-def _money(clause: str) -> float | None:
-    match = re.search(r"£\s*(\d+(?:\.\d{1,2})?)", clause)
-    return float(match.group(1)) if match else None
+def _redact_for_ai(text: str, user_id: str, ally: dict[str, str] | None) -> str:
+    """Remove identifying details before sending a rule request to Claude."""
+    safe = text
+    with connect() as db:
+        user = db.execute("SELECT display_name,contact FROM users WHERE id=?", (user_id,)).fetchone()
+    for value in ((user["display_name"] if user else None), (user["contact"] if user else None), (ally or {}).get("name")):
+        if value and len(value.strip()) > 1:
+            safe = re.sub(re.escape(value.strip()), "[person]", safe, flags=re.IGNORECASE)
+    safe = re.sub(r"\b[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}\b", "[email]", safe)
+    safe = re.sub(r"(?<!\w)(?:\+?\d[\d\s().-]{6,}\d)(?!\w)", "[long number]", safe)
+    # Names not yet saved as the user's ally are scrubbed when named as an alert recipient.
+    safe = re.sub(r"\b(tell|notify|message|text|alert)\s+(?!me\b|us\b|someone\b|my\b|a\b|an\b|the\b)([A-Z][A-Za-z'-]+)", r"\1 my trusted person", safe, flags=re.IGNORECASE)
+    return safe
 
 
-def _hours(clause: str) -> int | None:
-    match = re.search(r"(\d+)\s*(hours?|hrs?|days?)", clause)
+def _extract_savings_goal(text: str, user_id: str, ally: dict[str, str] | None) -> str | None:
+    """Return an explicitly stated, privacy-redacted savings goal, if present."""
+    safe = _redact_for_ai(text, user_id, ally)
+    match = re.search(
+        r"\b(?:save|saving|savings)\b.{0,60}?\b(?:for|towards?|toward)\s+(.+?)(?:[.!?]|$)",
+        safe,
+        flags=re.IGNORECASE,
+    )
     if not match:
         return None
-    return int(match.group(1)) * (24 if match.group(2).startswith("day") else 1)
+    goal = match.group(1).strip(" ,;:")
+    if not goal or len(goal) > 95:
+        return None
+    return goal
 
 
-def parse_rules(text: str, ally: dict | None) -> list[PactRule]:
-    """Keyword parser over the closed action list. Claude can replace it later; the output shape stays."""
-    lower = text.lower()
-    if any(term in lower for term in FORBIDDEN):
-        return []
-    storm_ahead = {"kind": "storm_probability", "threshold": 0.3, "horizon_days": 14}
-    storm_now = {"kind": "storm_probability", "threshold": 0.3}
-    rules: dict[str, PactRule] = {}
-    for clause in re.split(r",|;|\.|\band\b|\bthen\b", lower):
-        clause = clause.strip()
-        if not clause:
+def _draft_rules_with_claude(text: str, user_id: str, ally: dict[str, str] | None) -> list[PactRule]:
+    api_key = os.getenv("ANTHROPIC_API_KEY", "").strip()
+    if not api_key:
+        fail(503, "ai_not_configured", "AI suggestions are not set up yet. Add an Anthropic API key to the engine settings.")
+
+    settings = settings_for(user_id)
+    savings_goal = _extract_savings_goal(text, user_id, ally)
+    tool = deepcopy(PACT_RULE_TOOL)
+    system_prompt = PACT_PROMPT.read_text(encoding="utf-8")
+    if savings_goal:
+        # Require several distinct reminders for an explicit goal, without inventing
+        # amounts or schedules. Constrain the tool schema to prevent empty/tool-drift output.
+        rule_schema = tool["input_schema"]["properties"]["rules"]
+        rule_schema["minItems"] = 3
+        action_schema = rule_schema["items"]["properties"]["action"]
+        action_schema["properties"]["kind"]["enum"] = ["show_note"]
+        action_schema["required"] = ["kind", "reminder"]
+        trigger_schema = rule_schema["items"]["properties"]["trigger"]
+        trigger_schema["properties"]["kind"]["enum"] = ["storm_probability"]
+        system_prompt += (
+            "\nFor this request the user has stated a savings goal. You must return between three "
+            "and five distinct show_note drafts. Each reminder must give a different practical "
+            "planning step, not merely restate the goal or offer generic encouragement. For multiple "
+            "targets, useful steps can include listing each target and due date, choosing a Christmas "
+            "budget, and deciding how to split an affordable amount between them. Keep when_label "
+            "about the storm trigger and make then_label a short summary of each reminder. Do not "
+            "invent amounts, dates, affordability, or bank actions."
+        )
+    system_prompt += f"\nThe current storm probability threshold is {settings.storm_threshold}."
+    try:
+        from anthropic import Anthropic
+
+        client = Anthropic(api_key=api_key, timeout=20.0, max_retries=0)
+        message = client.messages.create(
+            model=os.getenv("PACT_CLAUDE_MODEL", "claude-haiku-4-5-20251001"),
+            max_tokens=1200,
+            system=system_prompt,
+            tools=[tool],
+            tool_choice={"type": "tool", "name": "draft_pact_rules"},
+            messages=[{"role": "user", "content": _redact_for_ai(text, user_id, ally)}],
+        )
+        usage = getattr(message, "usage", None)
+        log.info(
+            "Claude Pact request succeeded id=%s model=%s input_tokens=%s output_tokens=%s",
+            getattr(message, "id", "unknown"),
+            getattr(message, "model", "unknown"),
+            getattr(usage, "input_tokens", "unknown"),
+            getattr(usage, "output_tokens", "unknown"),
+        )
+    except Exception as exc:  # SDK/network/provider errors are kept out of the public response.
+        log.warning("Claude Pact drafting failed (%s)", type(exc).__name__)
+        fail(502, "ai_unavailable", "AI suggestions could not be made right now. Please try again.")
+
+    result = next((block.input for block in message.content if getattr(block, "type", None) == "tool_use" and block.name == "draft_pact_rules"), None)
+    if not isinstance(result, dict) or not isinstance(result.get("rules"), list):
+        fail(502, "ai_invalid_response", "AI suggestions came back in a format Pact could not use. Please try again.")
+
+    explicit_amounts = [float(value) for value in re.findall(r"£\s*(\d+(?:\.\d{1,2})?)", text)]
+    explicit_hours = [int(value) * (24 if unit.lower().startswith("d") else 1) for value, unit in re.findall(r"\b(\d+)\s*(hours?|hrs?|days?)\b", text, flags=re.IGNORECASE)]
+    drafts: list[PactRule] = []
+    for item in result["rules"]:
+        if not isinstance(item, dict):
             continue
-        if "category_cap" not in rules and re.search(r"takeaway|eating out|deliveroo|uber eats|just eat|food out|spend(ing)? on", clause):
-            cap = _money(clause) or 20.0
-            rules["category_cap"] = PactRule(id="rule_takeaway_cap", trigger=storm_ahead, action={"kind": "category_cap", "category": "takeaways", "cap_gbp": cap, "period": "week"}, when_label="Storm 14 days away", then_label=f"Takeaways capped at £{cap:g} a week")
-        elif "credit_pause_hours" not in rules and re.search(r"borrow|credit|klarna|clearpay|pay.?later|loan|buy now", clause):
-            hours = _hours(clause) or 48
-            rules["credit_pause_hours"] = PactRule(id="rule_credit_pause", trigger=storm_ahead, action={"kind": "credit_pause_hours", "hours": hours}, when_label="Storm 14 days away", then_label=f"No new credit or pay-later for {hours} hours")
-        elif "notify_ally" not in rules and re.search(r"\btell\b|\blet\b.*\bknow\b|\btext\b|\bmessage\b|\bally\b|sister|brother|friend|\bmum\b|\bdad\b", clause):
-            name = (ally or {}).get("name") or "my ally"
-            pronoun = PRONOUN.get(((ally or {}).get("relation") or "").lower(), "they")
-            rules["notify_ally"] = PactRule(id="rule_notify_ally", trigger=storm_now, action={"kind": "notify_ally"}, when_label="Storm starts", then_label=f"Let {name} know ({pronoun} can't see your spending)")
-        elif "move_to_buffer" not in rules and re.search(r"\b(save|saving|buffer|aside|put away|set by)\b", clause):
-            amount = _money(clause) or 15.0
-            on_payday = "payday" in clause or "pay day" in clause
-            rules["move_to_buffer"] = PactRule(id="rule_payday_buffer", trigger=storm_now, action={"kind": "move_to_buffer", "amount_gbp": amount, **({"on": "payday"} if on_payday else {})}, when_label="Payday in a storm" if on_payday else "When a storm is coming", then_label=f"Move £{amount:g} to your buffer")
-        elif "show_note" not in rules and re.search(r"\bnote\b|remind me|read me|play my", clause):
-            rules["show_note"] = PactRule(id="rule_show_note", trigger=storm_now, action={"kind": "show_note"}, when_label="Storm starts", then_label="Show me my note")
-    return list(rules.values())
+        action = item.get("action")
+        trigger = item.get("trigger")
+        if not isinstance(action, dict) or not isinstance(trigger, dict) or action.get("kind") not in ALLOWED_ACTIONS:
+            continue
+        kind = action["kind"]
+        amount_key = "cap_gbp" if kind == "category_cap" else "amount_gbp" if kind == "move_to_buffer" else None
+        if amount_key:
+            amount = action.get(amount_key)
+            if not isinstance(amount, (int, float)) or not math.isfinite(amount) or not 0 < float(amount) <= 500 or not any(math.isclose(float(amount), explicit, abs_tol=0.005) for explicit in explicit_amounts):
+                continue
+        if kind == "category_cap" and (not isinstance(action.get("category"), str) or action.get("period") not in {"day", "week", "month"}):
+            continue
+        if kind == "category_cap":
+            period_terms = {"day": r"\b(daily|per day|each day)\b", "week": r"\b(weekly|per week|each week|a week)\b", "month": r"\b(monthly|per month|each month|a month)\b"}
+            if not re.search(period_terms[action["period"]], text, flags=re.IGNORECASE):
+                continue
+        if kind == "credit_pause_hours":
+            hours = action.get("hours")
+            if not isinstance(hours, int) or isinstance(hours, bool) or hours not in explicit_hours or not 1 <= hours <= 720:
+                continue
+        if kind == "move_to_buffer":
+            if action.get("on") not in {None, "payday"}:
+                continue
+            if action.get("on") == "payday" and not re.search(r"pay\s*day", text, flags=re.IGNORECASE):
+                continue
+        if kind == "show_note":
+            reminder = action.get("reminder")
+            if not isinstance(reminder, str) or not reminder.strip() or len(reminder) > 140:
+                continue
+            if savings_goal:
+                normalized_reminder = re.sub(r"[^a-z0-9 ]", "", reminder.lower()).strip()
+                normalized_text = re.sub(r"[^a-z0-9 ]", "", text.lower()).strip()
+                practical_step = re.search(
+                    r"\b(list|write|check|set|choose|decide|separate|work out|plan|review|track|compare|prioritise|prioritize|budget|calculate|note|identify)\b",
+                    reminder,
+                    flags=re.IGNORECASE,
+                )
+                if not practical_step or normalized_reminder in normalized_text:
+                    continue
+                if any(
+                    existing.action.get("reminder", "").strip().casefold() == reminder.strip().casefold()
+                    for existing in drafts
+                ):
+                    continue
+        if trigger.get("kind") not in {"storm_probability", "buffer_below_days", "user_not_okay"}:
+            continue
+        if trigger.get("kind") == "storm_probability":
+            trigger["threshold"] = settings.storm_threshold
+            if "horizon_days" in trigger:
+                trigger["horizon_days"] = settings.storm_lead_days
+        elif trigger.get("kind") == "buffer_below_days":
+            buffer_days = trigger.get("buffer_days")
+            requested_days = [int(value) for value in re.findall(r"\b(\d+)\s+days?\b", text, flags=re.IGNORECASE)]
+            if not isinstance(buffer_days, int) or isinstance(buffer_days, bool) or buffer_days not in requested_days or not 0 <= buffer_days <= 60:
+                continue
+        elif not re.search(r"\bnot\s+(?:okay|ok)\b", text, flags=re.IGNORECASE):
+            continue
+        if kind == "notify_ally":
+            item["then_label"] = item.get("then_label", "Let your trusted person know")
+        try:
+            drafts.append(PactRule.model_validate({**item, "id": secrets.token_hex(8), "confirmed": False}))
+        except (TypeError, ValueError):
+            continue
+    if not drafts:
+        if savings_goal:
+            fail(502, "ai_invalid_response", "Claude could not make a usable reminder draft. Please try again.")
+        fail(422, "rephrase", "I could not find a clear Pact rule in that. Try one small step you want future you to take.")
+    if savings_goal and not 3 <= len(drafts) <= 5:
+        fail(502, "ai_invalid_response", "Claude could not make three distinct, usable suggestions. Please try again.")
+    return drafts
 
 
 @router.post("/pact/parse", response_model=list[PactRule])
 def parse_pact(body: TextInput, user_id: str = Depends(current_user)):
     """Draft rules from free text. Drafts are unconfirmed: nothing is stored until POST /pact."""
-    rules = parse_rules(body.text, settings_for(user_id).ally)
-    if not rules:
-        fail(422, "rephrase", "We can't make that into a rule. Try something like \"save £15 on payday\" or \"tell Jade\".")
-    return rules
+    return _draft_rules_with_claude(body.text, user_id, settings_for(user_id).ally)
 
 
 @router.post("/pact", status_code=201)
@@ -183,7 +359,12 @@ def simulate(as_of: date, user_id: str = Depends(current_user)):
         action = rule["action"]
         left = _left_this_week(user_id, action.get("category", ""), float(action.get("cap_gbp", 0)), as_of) if action["kind"] == "category_cap" else None
         fired_rules.append(rule)
-        fired.append({"rule_id": rule["id"], "action_kind": action["kind"], "left_gbp": left})
+        fired.append({
+            "rule_id": rule["id"],
+            "action_kind": action["kind"],
+            "left_gbp": left,
+            "reminder": action.get("reminder") if action["kind"] == "show_note" else None,
+        })
         write_event(user_id, "rule_fired", {"rule_id": rule["id"], "date": as_of.isoformat(), "action": action})
         if action["kind"] == "notify_ally":
             write_event(user_id, "ally_notified", {"message": f"Amara asked us to tell you money may be tight around {storm.date.strftime('%d %B').lstrip('0')}. You can't see her spending."})

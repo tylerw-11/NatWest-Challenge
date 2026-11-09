@@ -96,6 +96,13 @@ function Storm() {
         </section>
       )}
 
+      {fired.filter((rule) => rule.action_kind === "show_note" && rule.reminder).map((rule) => (
+        <section key={rule.rule_id} className="rounded-card border-2 border-storm-hero bg-surface p-5">
+          <h2 className="text-[17px] font-bold"><span aria-hidden>💡</span> A reminder for you</h2>
+          <p className="mt-3 text-[17px] leading-relaxed">{rule.reminder}</p>
+        </section>
+      ))}
+
       {storm && best && (
         <div aria-live="polite" className="flex flex-col gap-3">
           <Button

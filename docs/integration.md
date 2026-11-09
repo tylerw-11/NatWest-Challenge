@@ -16,6 +16,25 @@ USE_MOCKS=false NEXT_PUBLIC_API_URL=http://localhost:8000 npm run dev     # http
 
 On Windows PowerShell, set the variables first: `$env:USE_MOCKS="false"; $env:NEXT_PUBLIC_API_URL="http://localhost:8000"; npm run dev`.
 
+If you open the frontend using your computer's LAN address (for example `http://192.168.1.20:3000`), use that same address for the API and add the exact frontend origin to `FRONTEND_ORIGIN` in the engine `.env`. For local HTTP over a LAN address, set `PACT_COOKIE_SECURE=false` in the engine `.env`; keep it `true` for HTTPS or localhost. Restart both servers after changing these values. Passkeys require HTTPS except on localhost.
+
+If PowerShell blocks `npm.ps1`, use the Windows command wrapper:
+
+```powershell
+$env:USE_MOCKS="false"
+$env:NEXT_PUBLIC_API_URL="http://localhost:8000"
+npm.cmd run dev
+```
+
+For local email-code testing without SMTP, set `PACT_DEV_CODES=true` in the engine environment. The login screen will show the test code. For example, from the repo root in PowerShell:
+
+```powershell
+$env:PACT_DEV_CODES="true"
+python -m uvicorn engine.main:app --reload
+```
+
+Install the frontend dependencies once with `npm.cmd ci` from `web/`. For real email delivery, configure the SMTP fields below instead of enabling test codes.
+
 Check the whole demo without a browser (run it twice; it must pass both times):
 
 ```bash
@@ -102,5 +121,5 @@ Photographing a bill to make it a dated event on the forecast needs an OCR or vi
 ## Not done yet
 
 - Text-message codes (Cut in the spec) and a real bank link (Open Banking needs a provider account and consent screens).
-- Using Claude for the Pact parser and explanations: the engine uses a keyword parser and template sentences, and makes no Anthropic calls.
+- AI-generated Pact rule drafts use Claude via `ANTHROPIC_API_KEY` and `PACT_CLAUDE_MODEL`; the key stays on the engine. The Pact page sends text only after the user asks for suggestions, removes known names, email addresses, and long number strings, and saves nothing until rules are confirmed. Without an API key the engine returns a clear setup message. Forecast explanations still use templates.
 - Day-to-day spending in "Your money", which `best_action` needs for real people.

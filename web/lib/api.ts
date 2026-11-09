@@ -26,18 +26,19 @@ import {
 import { ApiError } from "./errors";
 import { currentScenario, mockApi } from "./mockApi";
 import { rememberForecast, rememberSettings } from "./voice-context";
+import { engineUrl } from "./engine-url";
 import { getMockState, setMockState } from "./mock-store";
 import forecastMock from "@/mocks/forecast.json";
 import forecastSimulatedMock from "@/mocks/forecast_simulated.json";
 import forecastAfterMock from "@/mocks/forecast_after.json";
 import simulateMock from "@/mocks/simulate.json";
 import rewindMock from "@/mocks/rewind.json";
+import { generateMockDemoHistory } from "@/mocks/demo-history";
 import meMock from "@/mocks/me.json";
 import pactDraftMock from "@/mocks/pact_draft.json";
 import pactNoteMock from "@/mocks/pact_note.json";
 
 export const USE_MOCKS = process.env.NEXT_PUBLIC_USE_MOCKS !== "false";
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
 export { ApiError };
 
@@ -50,17 +51,18 @@ const FALLBACK_ERROR = new ApiError("network", "We could not load this right now
  * Live engine only: a logged-out visitor goes to Log in. (A new person without money details
  * sees the plain "Add your money details" card instead, so "Skip for now" still works.)
  */
-function redirectFor(status: number) {
+function redirectFor(status: number, code?: string) {
   if (typeof window === "undefined") return;
   const path = window.location.pathname;
-  if (path.startsWith("/login") || path.startsWith("/signup") || path.startsWith("/dev")) return;
+  if (path.startsWith("/login") || path.startsWith("/dev")) return;
   if (status === 401) window.location.assign("/login");
+  if (status === 404 && code === "no_profile" && !path.startsWith("/signup")) window.location.assign("/signup/3");
 }
 
 async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${API_URL}${path}`, {
+    res = await fetch(engineUrl(path), {
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       ...init,
@@ -71,7 +73,7 @@ async function request<T>(schema: z.ZodType<T>, path: string, init?: RequestInit
   const body: unknown = await res.json().catch(() => null);
   if (!res.ok) {
     const err = ApiErrorBody.safeParse(body);
-    if (err.success) redirectFor(res.status);
+    if (err.success) redirectFor(res.status, err.data.code);
     throw err.success ? new ApiError(err.data.code, err.data.message_plain) : FALLBACK_ERROR;
   }
   const parsed = schema.safeParse(body);
@@ -105,11 +107,20 @@ function stageForecast(): unknown {
 }
 
 const Ok = z.null();
+const AccountSession = z.object({
+  id: z.string(),
+  device_label: z.string().nullable(),
+  created_at: z.string().nullable(),
+  last_seen_at: z.string().nullable(),
+  expires_at: z.string().nullable(),
+});
+const AccountSessions = z.array(AccountSession);
+const DeleteRequest = z.object({ scheduled_for: z.string(), cancel_available: z.boolean() });
 
 export const api = {
   /** Demo login: sets the session cookie for Amara. */
-  authDemo: () => (USE_MOCKS ? mock(Ok, null, 300) : request(Ok, "/auth/demo", { method: "POST" }).catch(() => null)),
-  logout: () => (USE_MOCKS ? mock(Ok, null, 150) : request(Ok, "/auth/logout", { method: "POST" }).catch(() => null)),
+  authDemo: () => (USE_MOCKS ? mock(Ok, null, 300) : request(Ok, "/auth/demo", { method: "POST" })),
+  logout: () => (USE_MOCKS ? mock(Ok, null, 150) : request(Ok, "/auth/logout", { method: "POST" })),
 
   forecast: () =>
     (testScenario() ? mockApi.forecast() : USE_MOCKS ? mock(Forecast, stageForecast()) : request(Forecast, "/forecast")).then(
@@ -139,7 +150,12 @@ export const api = {
     // The button press is the confirmation (invariant 2); the engine refuses a move without it.
     return request(Forecast, "/actions/move-to-buffer", post({ amount_gbp, confirmed: true })).then(rememberForecast);
   },
-  rewind: () => (testScenario() ? mockApi.rewind() : USE_MOCKS ? mock(Rewind, rewindMock) : request(Rewind, "/rewind")),
+  rewind: () =>
+    testScenario()
+      ? mockApi.rewind()
+      : USE_MOCKS
+        ? mock(Rewind, { ...rewindMock, history: generateMockDemoHistory(), history_is_demo: true })
+        : request(Rewind, "/rewind"),
   settings: () =>
     (testScenario()
       ? mockApi.settings()
@@ -233,4 +249,23 @@ export const api = {
     USE_MOCKS
       ? mock(Profile, profile, 300)
       : request(Profile, "/profile", { method: "PUT", body: JSON.stringify(profile) }),
+
+  /** Database-backed account controls. */
+  accountSessions: () => (USE_MOCKS ? mock(AccountSessions, []) : request(AccountSessions, "/account/sessions")),
+  removeSession: (sessionId: string) =>
+    USE_MOCKS
+      ? mock(Ok, null, 100)
+      : request(Ok, `/account/sessions/${encodeURIComponent(sessionId)}`, { method: "DELETE" }),
+  exportAccount: () =>
+    USE_MOCKS
+      ? mock(z.any(), { user_id: "amara", data: { settings: getMockState().settings, pact_rules: getMockState().rules, pact_notes: getMockState().note ? [getMockState().note] : [] } })
+      : request(z.any(), "/account/export"),
+  requestAccountDelete: () =>
+    USE_MOCKS
+      ? mock(DeleteRequest, { scheduled_for: new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString(), cancel_available: true })
+      : request(DeleteRequest, "/account/delete", post({})),
+  cancelAccountDelete: () =>
+    USE_MOCKS
+      ? mock(z.object({ cancelled: z.boolean() }), { cancelled: true })
+      : request(z.object({ cancelled: z.boolean() }), "/account/delete/cancel", post({})),
 };

@@ -14,8 +14,8 @@
 import { useSyncExternalStore } from "react";
 import { toast } from "sonner";
 import { voiceContext, voiceLanguage, type VoiceKind } from "./voice-context";
+import { engineUrl } from "./engine-url";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 /** NEXT_PUBLIC_VOICE=browser turns the ElevenLabs voice off (e.g. offline rehearsal). */
 const EXPRESSIVE = process.env.NEXT_PUBLIC_VOICE !== "browser";
 let audio: HTMLAudioElement | null = null;
@@ -28,7 +28,7 @@ async function playExpressive(text: string, mine: number, kind: VoiceKind): Prom
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 10_000);
   try {
-    const res = await fetch(`${API_URL}/speech`, {
+    const res = await fetch(engineUrl("/speech"), {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ text: text.slice(0, 4000), lang: voiceLanguage(), ...voiceContext(kind) }),

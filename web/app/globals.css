@@ -261,6 +261,7 @@ body {
   stroke-dashoffset: 1;
   animation: draw 600ms var(--ease) 80ms forwards;
 }
+.chart-draw-estimated { stroke-dasharray: 7 5; }
 @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
 .chart-fade { animation: fade-in 500ms var(--ease) both; }
 .chart-dot { animation: fade-in 200ms var(--ease) 600ms both; }

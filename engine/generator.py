@@ -30,6 +30,33 @@ def generate_transactions(seed: int = 23032026) -> list[dict]:
     return sorted(rows, key=lambda row: row["date"])
 
 
+def generate_demo_balance_history(
+    *,
+    start: date = date(2025, 4, 1),
+    end: date = date(2026, 3, 10),
+    closing_balance_gbp: float = 180.0,
+) -> list[dict]:
+    """Build fictional daily closing balances from the seeded demo transactions.
+
+    The final point is anchored to the demo forecast's current balance; earlier
+    balances are reconstructed from the deterministic transaction stream.
+    """
+    flows: dict[date, float] = {}
+    for transaction in generate_transactions():
+        day = date.fromisoformat(transaction["date"])
+        if start <= day <= end:
+            flows[day] = flows.get(day, 0.0) + float(transaction["amount_gbp"])
+
+    history: list[dict] = []
+    balance = closing_balance_gbp
+    day = end
+    while day >= start:
+        history.append({"date": day.isoformat(), "balance_gbp": round(balance, 2)})
+        balance -= flows.get(day, 0.0)
+        day -= timedelta(days=1)
+    return list(reversed(history))
+
+
 REWIND_MONTHS = [12, 8, 31, 15, 9, 24, 14, 10, 38, 27, 16, 10]
 
 

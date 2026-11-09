@@ -87,11 +87,16 @@ export const RewindCategory = z.object({
 });
 export type RewindCategory = z.infer<typeof RewindCategory>;
 
+export const BalanceHistoryPoint = z.object({ date: isoDate, balance_gbp: z.number() });
+export type BalanceHistoryPoint = z.infer<typeof BalanceHistoryPoint>;
+
 export const Rewind = z.object({
   months: z.array(RewindMonth).length(12),
   categories: z.array(RewindCategory),
   total_gbp: z.number(),
   kept_with_pact_gbp: z.number(),
+  history: z.array(BalanceHistoryPoint).optional(),
+  history_is_demo: z.boolean().optional(),
 });
 export type Rewind = z.infer<typeof Rewind>;
 
@@ -121,6 +126,7 @@ export const Me = z.object({
   user: z.object({ name: z.string(), email: z.string() }),
   bank: z.object({ name: z.string(), connected_until: isoDate }).nullable(),
   onboarding_complete: z.boolean(),
+  deletion_requested_at: z.string().nullable().optional(),
   /** Added FE-12 (Account screen). */
   phone_masked: z.string().optional(),
   devices: z
@@ -182,6 +188,7 @@ export const FiredRule = z.object({
   action_kind: ActionKind,
   /** category_cap: money left in that category this week. */
   left_gbp: z.number().nullable(),
+  reminder: z.string().nullable().optional(),
 });
 export type FiredRule = z.infer<typeof FiredRule>;
 

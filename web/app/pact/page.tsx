@@ -10,13 +10,10 @@ import { Button } from "@/components/Buttons";
 import { ShieldTickIcon } from "@/components/illustrations";
 import { LockIcon, MicIcon } from "@/components/icons";
 import { PlayButton } from "@/components/PlayButton";
-import { usePactNote, usePactRules, useParsePact, useSavePact } from "@/lib/hooks";
+import { usePactNote, usePactRules, useParsePact, useSavePact, useSavePactNote } from "@/lib/hooks";
 import { ApiError } from "@/lib/api";
 import type { PactRule } from "@/lib/contracts";
 import { cn } from "@/lib/utils";
-
-const STARTER =
-  "When things get tight, keep takeaways to £20 a week, stop me borrowing for 2 days, tell Jade, and save £15 on payday.";
 
 type SpeechRec = {
   lang: string;
@@ -44,35 +41,39 @@ export default function PactPage() {
   const note = usePactNote();
   const parse = useParsePact();
   const save = useSavePact();
+  const saveNote = useSavePactNote();
 
-  const [text, setText] = useState(STARTER);
+  const [text, setText] = useState("");
+  const [noteText, setNoteText] = useState("");
   const [drafts, setDrafts] = useState<PactRule[]>([]);
   const [checked, setChecked] = useState<Record<string, boolean>>({});
   const [listening, setListening] = useState(false);
-  const firstRun = useRef(true);
   const recRef = useRef<SpeechRec | null>(null);
+  const wordsRef = useRef<HTMLTextAreaElement | null>(null);
 
-  // Parse the words into draft rules: at once on arrival, then 900 ms after typing stops.
-  const { mutate } = parse;
   useEffect(() => {
-    const t = setTimeout(
-      () => {
-        if (!text.trim()) return;
-        mutate(text, {
-          onSuccess: (rules) => {
-            setDrafts(rules);
-            setChecked(Object.fromEntries(rules.map((r) => [r.id, true])));
-          },
-        });
-      },
-      firstRun.current ? 0 : 900,
-    );
-    firstRun.current = false;
-    return () => clearTimeout(t);
-  }, [text, mutate]);
+    if (note.data) setNoteText(note.data.text);
+  }, [note.data]);
 
   const chosen = drafts.filter((r) => checked[r.id]);
   const pactOn = (saved.data?.length ?? 0) > 0;
+
+  const generateSuggestions = () => {
+    const request = text.trim();
+    if (!request) {
+      toast("Add a few words about what you want your pact to do first.");
+      wordsRef.current?.focus();
+      return;
+    }
+    setDrafts([]);
+    setChecked({});
+    parse.mutate(request, {
+      onSuccess: (rules) => {
+        setDrafts(rules);
+        setChecked(Object.fromEntries(rules.map((r) => [r.id, true])));
+      },
+    });
+  };
 
   const listen = () => {
     if (listening) {
@@ -95,7 +96,7 @@ export default function PactPage() {
 
   const agree = () =>
     save.mutate(
-      { rules: chosen, note: note.data ?? null },
+      { rules: chosen, note: null },
       {
         onSuccess: () => {
           toast.success(`Pact agreed. ${chosen.length} rules are on.`);
@@ -110,21 +111,41 @@ export default function PactPage() {
       <HeroCard
         tone="teal"
         eyebrow="Your promise"
-        headline="Make a pact with future you"
-        body="Set it calm. It kicks in when a storm comes."
+        headline="Choose how to prepare for a money storm"
+        body="Pact brings back the reminders you choose when your forecast shows money may be tight."
         icon={<ShieldTickIcon />}
       />
 
+      <Card className="flex flex-col gap-3">
+        <h2 className="text-[18px] font-bold">How Pact works</h2>
+        <ol className="flex flex-col gap-2 text-[16px] leading-relaxed">
+          <li><b>1.</b> Tell Claude your goal or a rule you want to follow.</li>
+          <li><b>2.</b> Review the suggestions and select the ones you want.</li>
+          <li><b>3.</b> Agree to save them. Pact shows your chosen reminders when a storm appears in your forecast.</li>
+        </ol>
+        <p className="border-t border-divider pt-3 text-[14px] text-ink-2">
+          Claude drafts suggestions from your words. Pact removes names it knows, email addresses, and long numbers first. Pact does not connect to your bank or move money.
+        </p>
+      </Card>
+
       <div className="flex flex-col gap-2">
         <label htmlFor="pact-words" className="text-[16px] font-bold">
-          In your words
+          Your goal or rule
         </label>
+        <p className="text-[14px] text-ink-2">For a savings goal, Claude suggests 3–5 ideas. For a specific rule, it drafts that rule.</p>
         <div className="flex items-start gap-3">
           <textarea
+            ref={wordsRef}
             id="pact-words"
             rows={4}
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            placeholder="Tell Pact what you want future you to do when money may be tight."
+            disabled={parse.isPending}
+            onChange={(e) => {
+              setText(e.target.value);
+              setDrafts([]);
+              setChecked({});
+            }}
             className="ix min-h-28 flex-1 resize-none rounded-2xl border border-ink-2 bg-surface px-4 py-3 text-[17px] leading-relaxed hover:border-ink"
           />
           <button
@@ -142,9 +163,20 @@ export default function PactPage() {
         </div>
       </div>
 
+      <div className="flex flex-col gap-2">
+        <Button variant="secondary" onClick={generateSuggestions} disabled={parse.isPending}>
+          {parse.isPending ? "Thinking of ideas…" : "Get suggestions from Claude"}
+        </Button>
+        <p className="px-1 text-[14px] text-ink-2">
+          Nothing is saved to your Pact until you agree.
+        </p>
+      </div>
+
       <Card className="flex flex-col">
         <h2 className="border-b border-divider pb-3 text-[18px] font-bold">
-          Your {drafts.length || ""} rules
+          {drafts.length > 0 && drafts.every((rule) => rule.action.kind === "show_note")
+            ? `Claude’s suggestions (${drafts.length})`
+            : `Your ${drafts.length || ""} rules`}
         </h2>
         <p aria-live="polite" className="sr-only">
           {parse.isPending ? "Making your rules" : `${drafts.length} rules ready`}
@@ -156,7 +188,7 @@ export default function PactPage() {
               : "We couldn't turn that into rules. Try saying it another way."}
           </p>
         ) : drafts.length === 0 ? (
-          <p className="py-4 text-[16px] text-ink-2">Making your rules…</p>
+          <p className="py-4 text-[16px] text-ink-2">Your draft rules will appear here for you to review.</p>
         ) : (
           <ul className={parse.isPending ? "opacity-60" : undefined}>
             {drafts.map((r) => (
@@ -171,6 +203,11 @@ export default function PactPage() {
                   <span>
                     <span className="block text-[14px] text-ink-2">{r.when_label}</span>
                     <span className="block text-[17px]">{r.then_label}</span>
+                    {r.action.kind === "show_note" && typeof r.action.reminder === "string" && (
+                      <span className="mt-1 block text-[15px] text-ink-2">
+                        Claude suggests: {r.action.reminder}
+                      </span>
+                    )}
                   </span>
                 </label>
               </li>
@@ -179,19 +216,42 @@ export default function PactPage() {
         )}
       </Card>
 
-      {note.data && (
-        <Card className="flex items-center gap-4 py-4">
-          <PlayButton id="note-pact" text={note.data.text} label="Play your note to future you" size="lg" />
-          <span>
-            <span className="block text-[17px] font-bold">
-              <span aria-hidden>💌</span> A note to future you
-            </span>
-            <span className="block text-[15px] text-ink-2">
-              {duration(note.data.duration_s)} · plays when a storm starts
-            </span>
-          </span>
-        </Card>
-      )}
+      <Card className="flex flex-col gap-3">
+        <div>
+          <h2 className="text-[18px] font-bold"><span aria-hidden>💌</span> A message for later</h2>
+          <p className="mt-1 text-[14px] text-ink-2">This note appears in Storm mode and is never sent to Claude.</p>
+        </div>
+        <label htmlFor="pact-note" className="text-[16px] font-bold">Your note</label>
+        <textarea
+          id="pact-note"
+          rows={3}
+          value={noteText}
+          onChange={(event) => setNoteText(event.target.value)}
+          placeholder="What would you like future you to remember?"
+          maxLength={4000}
+          disabled={saveNote.isPending}
+          className="ix min-h-24 resize-y rounded-2xl border border-ink-2 bg-surface px-4 py-3 text-[17px] leading-relaxed hover:border-ink"
+        />
+        <Button
+          variant="secondary"
+          onClick={() => saveNote.mutate(
+            { text: noteText.trim(), duration_s: note.data?.duration_s ?? 0 },
+            {
+              onSuccess: () => toast.success("Your message is saved for later."),
+              onError: () => toast.error("We could not save your message. Please try again."),
+            },
+          )}
+          disabled={saveNote.isPending}
+        >
+          {saveNote.isPending ? "Saving message…" : "Save message for later"}
+        </Button>
+        {note.data?.text && (
+          <div className="flex items-center gap-3 border-t border-divider pt-3 text-[14px] text-ink-2">
+            <PlayButton id="note-pact" text={note.data.text} label="Play your saved note" />
+            <span>Saved for a storm · {duration(note.data.duration_s)}</span>
+          </div>
+        )}
+      </Card>
 
       <Button onClick={agree} disabled={chosen.length === 0 || save.isPending || parse.isPending}>
         {save.isPending ? "Saving…" : `Agree to ${chosen.length} ${chosen.length === 1 ? "rule" : "rules"}`}

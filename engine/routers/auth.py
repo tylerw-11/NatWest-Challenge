@@ -52,7 +52,8 @@ def start_session(response: Response, user_id: str, label: str) -> None:
     now = _now()
     with connect() as db:
         db.execute("INSERT INTO sessions VALUES(?,?,?,?,?,?)", (session, user_id, label, now.isoformat(), now.isoformat(), (now + timedelta(days=30)).isoformat()))
-    response.set_cookie("pact_session", session, httponly=True, secure=True, samesite="lax", max_age=30 * 86400, path="/")
+    cookie_secure = os.getenv("PACT_COOKIE_SECURE", "true").lower() not in {"0", "false", "no"}
+    response.set_cookie("pact_session", session, httponly=True, secure=cookie_secure, samesite="lax", max_age=30 * 86400, path="/")
 
 
 def _has_profile(user_id: str) -> bool:

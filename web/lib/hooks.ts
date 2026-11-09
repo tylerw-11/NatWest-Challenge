@@ -27,6 +27,14 @@ export const usePactRules = () => useQuery({ queryKey: queryKeys.pactRules, quer
 
 export const usePactNote = () => useQuery({ queryKey: queryKeys.pactNote, queryFn: api.pactNote });
 
+export function useSavePactNote() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (note: PactNote) => api.saveNote(note),
+    onSuccess: (note) => qc.setQueryData(queryKeys.pactNote, note),
+  });
+}
+
 export const useParsePact = () => useMutation({ mutationFn: (text: string) => api.parsePact(text) });
 
 export function useSavePact() {

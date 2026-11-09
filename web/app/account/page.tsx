@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { SubScreen } from "@/components/Screen";
 import { Card } from "@/components/Cards";
 import { Button } from "@/components/Buttons";
 import { FallbackCard, Skeleton } from "@/components/Fallback";
 import { DownloadIcon } from "@/components/icons";
-import { useMe, usePactRules, useSettings } from "@/lib/hooks";
+import { useMe } from "@/lib/hooks";
 import { ApiError, api } from "@/lib/api";
 
 const linkBtn = "ix inline-flex min-h-11 items-center font-bold text-primary hover:text-primary-hover hover:underline";
@@ -23,10 +24,11 @@ function Row({ children, last = false }: { children: React.ReactNode; last?: boo
 
 export default function AccountPage() {
   const router = useRouter();
+  const qc = useQueryClient();
   const me = useMe();
-  const settings = useSettings();
-  const rules = usePactRules();
   const [turningOn, setTurningOn] = useState(false);
+  const [deletionScheduled, setDeletionScheduled] = useState(false);
+  const sessions = useQuery({ queryKey: ["account-sessions"], queryFn: api.accountSessions });
 
   /** Register a passkey for this device (Face ID, Touch ID, Windows Hello). */
   const turnOnFaceId = async () => {
@@ -53,16 +55,51 @@ export default function AccountPage() {
   };
   const soon = (what: string) => toast(`In the full app you can ${what} here.`);
 
-  const download = () => {
-    const blob = new Blob(
-      [JSON.stringify({ me: me.data, settings: settings.data, pact: rules.data }, null, 2)],
-      { type: "application/json" },
-    );
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = "my-pact-data.json";
-    a.click();
-    URL.revokeObjectURL(a.href);
+  const download = async () => {
+    try {
+      const data = await api.exportAccount();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "my-pact-data.json";
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message_plain : "We could not download your data. Please try again.");
+    }
+  };
+
+  const logOutSession = async (id: string, label: string) => {
+    try {
+      await api.removeSession(id);
+      await Promise.all([sessions.refetch(), me.refetch()]);
+      toast(`Logged out of ${label}.`);
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message_plain : "We could not log out that device. Please try again.");
+    }
+  };
+
+  const scheduleDeletion = async () => {
+    try {
+      await api.requestAccountDelete();
+      setDeletionScheduled(true);
+      await me.refetch();
+      toast("Your account is set to be deleted in 48 hours. You can cancel any time.");
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message_plain : "We could not schedule deletion. Please try again.");
+    }
+  };
+
+  const cancelDeletion = async () => {
+    try {
+      await api.cancelAccountDelete();
+      setDeletionScheduled(false);
+      await me.refetch();
+      toast("Account deletion cancelled.");
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message_plain : "We could not cancel deletion. Please try again.");
+    }
   };
 
   if (me.isPending)
@@ -147,11 +184,13 @@ export default function AccountPage() {
         </Card>
       )}
 
-      {devices && devices.length > 0 && (
+      {(sessions.data?.length || devices?.length) ? (
         <Card className="py-3">
           <h2 className="text-[18px] font-bold">Where you&apos;re logged in</h2>
-          {devices.map((d, i) => (
-            <Row key={d.id} last={i === devices.length - 1}>
+          {(sessions.data?.length
+            ? sessions.data.map((s) => ({ id: s.id, label: s.device_label || "Browser", last_seen: s.last_seen_at || "", current: devices?.some((d) => s.id.startsWith(d.id) && d.current) ?? false }))
+            : devices || []).map((d, i, rows) => (
+            <Row key={d.id} last={i === rows.length - 1}>
               <span className="text-[17px]">
                 {d.label}
                 {!d.current && ` · ${d.last_seen}`}
@@ -159,40 +198,52 @@ export default function AccountPage() {
               {d.current ? (
                 <span className="text-[15px] text-ink-2">{d.last_seen}</span>
               ) : (
-                <button type="button" className={linkBtn} onClick={() => toast(`Logged out of ${d.label}.`)}>
+                <button type="button" className={linkBtn} onClick={() => void logOutSession(d.id, d.label)}>
                   Log out
                 </button>
               )}
             </Row>
           ))}
         </Card>
-      )}
+      ) : null}
 
       <Card className="py-3">
         <h2 className="text-[18px] font-bold">Your data</h2>
         <Row>
-          <button type="button" onClick={download} className="ix -mx-2 flex min-h-11 flex-1 items-center justify-between rounded-xl px-2 text-[17px] hover:bg-surface-hover">
+          <button type="button" onClick={() => void download()} className="ix -mx-2 flex min-h-11 flex-1 items-center justify-between rounded-xl px-2 text-[17px] hover:bg-surface-hover">
             Download my data
             <DownloadIcon size={22} aria-hidden />
           </button>
         </Row>
         <div className="py-2">
-          <button
-            type="button"
-            onClick={() => toast("In the full app, deleting starts a 48-hour wait. You can cancel any time.")}
-            className="ix inline-flex min-h-11 items-center text-[17px] font-bold text-due hover:underline"
-          >
-            Delete my account
-          </button>
-          <p className="text-[15px] text-ink-2">Takes 48 hours. You can cancel.</p>
+          {deletionScheduled || Boolean(me.data.deletion_requested_at) ? (
+            <>
+              <p className="text-[15px] text-ink-2">Deletion is scheduled. You can cancel within 48 hours.</p>
+              <button type="button" onClick={() => void cancelDeletion()} className="ix inline-flex min-h-11 items-center font-bold text-primary hover:underline">
+                Cancel deletion
+              </button>
+            </>
+          ) : (
+            <>
+              <button type="button" onClick={() => void scheduleDeletion()} className="ix inline-flex min-h-11 items-center text-[17px] font-bold text-due hover:underline">
+                Delete my account
+              </button>
+              <p className="text-[15px] text-ink-2">Takes 48 hours. You can cancel.</p>
+            </>
+          )}
         </div>
       </Card>
 
       <Button
         variant="secondary"
         onClick={async () => {
-          await api.logout();
-          router.push("/login");
+          try {
+            await api.logout();
+            qc.clear();
+            router.push("/login");
+          } catch (e) {
+            toast(e instanceof ApiError ? e.message_plain : "We could not log you out. Please try again.");
+          }
         }}
       >
         Log out

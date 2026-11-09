@@ -15,6 +15,23 @@ DRIVERS = [
     Driver(id="quieter-week-20260316", label="Quieter week", amount_gbp=90, window={"start": date(2026, 3, 16), "end": date(2026, 3, 22)}, kind="income_dip", source_note="Gig earnings may be lower from 16 to 22 March."),
 ]
 
+DEMO_BALANCE_WAYPOINTS = (
+    (0, 180), (2, 155), (3, 460), (12, 150), (13, 35), (14, 60),
+    (16, 240), (21, 330), (24, 280), (31, 520), (44, 316), (59, 420),
+)
+
+
+def _demo_balance(day: date) -> float:
+    """Interpolate the demo's fictional balance path between known cash-flow events."""
+    offset = (day - date(2026, 3, 10)).days
+    if offset <= DEMO_BALANCE_WAYPOINTS[0][0]:
+        return float(DEMO_BALANCE_WAYPOINTS[0][1])
+    for (left_day, left_balance), (right_day, right_balance) in zip(DEMO_BALANCE_WAYPOINTS, DEMO_BALANCE_WAYPOINTS[1:]):
+        if offset <= right_day:
+            portion = (offset - left_day) / (right_day - left_day)
+            return round(left_balance + (right_balance - left_balance) * portion, 2)
+    return float(DEMO_BALANCE_WAYPOINTS[-1][1])
+
 
 def make_forecast(as_of: date = date(2026, 3, 10), threshold: float = .30, buffer_move: float = 0) -> Forecast:
     storm_date = date(2026, 3, 23)
@@ -24,11 +41,17 @@ def make_forecast(as_of: date = date(2026, 3, 10), threshold: float = .30, buffe
         p = .125 if buffer_move >= 15 and d == storm_date else (.33 if d == storm_date else (.16 if date(2026, 3, 19) <= d <= date(2026, 3, 22) else .04))
         state = "clear" if p < .10 else "cloudy" if p <= threshold else "storm"
         drivers = [x.id for x in DRIVERS] if d == storm_date else []
-        days.append(Day(date=d, p_shortfall=p, state=state, p10=-18 if d == storm_date else 14, p50=35 if d == storm_date else 180, p90=92 if d == storm_date else 340, driver_ids=drivers))
+        p50 = _demo_balance(d)
+        spread = 40 + int(i * 1.4)
+        p10 = -18 if p >= .16 else max(1, round(p50 - spread))
+        p90 = 92 if d == storm_date else round(p50 + spread)
+        if d == storm_date:
+            p50 = 35
+        days.append(Day(date=d, p_shortfall=p, state=state, p10=p10, p50=p50, p90=p90, driver_ids=drivers))
     moved = buffer_move >= 15
     # Demo figures: buffer covers 6 days (8 after the £15 move); once moved, there is nothing left to suggest.
     best_action = None if moved else {"action_id": "move_to_buffer", "amount_gbp": 15, "date": date(2026, 3, 13), "p_after": 0.125}
-    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), buffer_days=8 if moved else 6, best_action=best_action)
+    return Forecast(id=f"demo-{as_of.isoformat()}-{int(buffer_move)}", as_of=as_of, starting_balance_gbp=_demo_balance(as_of), days=days, drivers=DRIVERS, covered_until=date(2026, 3, 19), buffer_days=8 if moved else 6, best_action=best_action)
 
 
 def _add_months(day: date, months: int, anchor_day: int) -> date:

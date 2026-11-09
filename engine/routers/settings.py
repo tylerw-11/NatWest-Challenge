@@ -15,7 +15,7 @@ router = APIRouter(tags=["settings", "profile"])
 @router.get("/me")
 def me(user_id: str = Depends(current_user), pact_session: str | None = Cookie(default=None)):
     with connect() as db:
-        user = dict(db.execute("SELECT id,display_name,contact,created_at FROM users WHERE id=?", (user_id,)).fetchone())
+        user = dict(db.execute("SELECT id,display_name,contact,created_at,deletion_requested_at FROM users WHERE id=?", (user_id,)).fetchone())
         bank = db.execute("SELECT provider,consent_expires_at,status FROM bank_connections WHERE user_id=?", (user_id,)).fetchone()
     user["bank_connection"] = dict(bank) if bank else None
     user["onboarding_complete"] = True

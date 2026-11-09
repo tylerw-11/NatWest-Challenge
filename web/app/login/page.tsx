@@ -37,8 +37,14 @@ export default function LoginPage() {
 
   const demoLogin = async () => {
     setBusy(true);
-    await api.authDemo();
-    router.push("/");
+    try {
+      await api.authDemo();
+      qc.clear();
+      router.push("/");
+    } catch (e) {
+      toast(e instanceof ApiError ? e.message_plain : "We could not log you in. Please try again.");
+      setBusy(false);
+    }
   };
 
   /** Real passkey login (Face ID, Touch ID, Windows Hello). In mock mode it stays the demo login. */
